@@ -1,4 +1,4 @@
-/__pycache__/test.cpython-27-PYTEST.pyc
-/.cache/v/cache/lastfailed
+./tests/__pycache__/*
+./tests/.cache/*
 *.swp
 
