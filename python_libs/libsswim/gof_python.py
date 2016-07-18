@@ -18,8 +18,8 @@ def read_observed(obs_file):
     this as pandas data frame. Currently, only one single columns holds the data
     (the second one) and the first one is the date and index column.'''
 
-    temp = pd.read_csv(obs_file, header=None, sep='\t', names=['date', 'obs'],
-                       index_col='date', parse_dates=['date'])
+    temp = pd.read_csv(obs_file, sep='\t', index_col='date',
+                       parse_dates=['date'])
     return(temp)
 
 
