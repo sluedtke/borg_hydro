@@ -1,4 +1,8 @@
 tests/__pycache__/
 tests/.cache/
+.cache/
+
+temp.py
 *.swp
+*.pyc
 
