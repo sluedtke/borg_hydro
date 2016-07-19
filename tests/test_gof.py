@@ -10,6 +10,7 @@
 ######################################################################
 import pytest
 import pandas as pd
+import numpy as np
 from python_libs.libsswim import gof_python
 
 ######################################################################
@@ -49,3 +50,36 @@ def read_sim():
 def test_obs_sim_merge(read_obs, read_sim):
     temp = gof_python.obs_sim_merge(read_obs, read_sim)
     assert isinstance(temp, pd.DataFrame), 'Wrong data type'
+
+
+# A fixture for merging observation and simulation into one dataframe
+@pytest.fixture
+def obs_sim_merge(read_obs, read_sim):
+    temp = gof_python.obs_sim_merge(read_obs, read_sim)
+    return(temp)
+
+
+@pytest.fixture
+def obs_simple(obs_sim_merge):
+    ''' Creating 2 DataFrame with with the same entry at every timestep'''
+    # Subset using only the first 10 columns
+    obs_simple = pd.DataFrame(obs_sim_merge['obs'][0:10].copy())
+    # Set all values to one
+    obs_simple.loc[:, 'obs'] = np.array([1] * len(obs_simple))
+    return(obs_simple)
+
+
+@pytest.fixture
+def sim_simple(obs_sim_merge):
+    ''' Creating 2 DataFrame with with the same entry at every timestep'''
+    # Subset using only the first 10 columns
+    sim_simple = pd.DataFrame(obs_sim_merge['sim'][0:10].copy())
+    # Set all values to one
+    sim_simple.loc[:, 'sim'] = np.array([1] * len(sim_simple))
+    return(sim_simple)
+
+
+def test_log_rmse(obs_simple, sim_simple):
+    ''' Use the DataFrame with only ones to test'''
+    lrmse = gof_python.log_rmse(obs_simple, sim_simple)
+    assert lrmse == 0

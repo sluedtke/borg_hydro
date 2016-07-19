@@ -10,6 +10,7 @@
 ######################################################################
 
 import pandas as pd
+import numpy as np
 
 ######################################################################
 
@@ -75,3 +76,25 @@ def obs_sim_merge(pandas_obs, pandas_sim):
     temp = pd.concat([pandas_obs, pandas_sim], axis=1).dropna()
     temp.columns = ['obs', 'sim']
     return(temp)
+
+
+# -----------------------------------
+def log_rmse(pandas_obs, pandas_sim):
+    '''
+    This function computes the log-Root-Means-Square-Error (rmse) between the
+    log of the simulated and  the log of the observed time series. That is
+    defined as:
+
+    rmse = sqrt( mean( (sim - obs)^2)
+
+    Return value is a float.
+    '''
+    # Join the dataframes to get rid of NA values
+    temp = obs_sim_merge(pandas_obs, pandas_sim)
+    # Apply the log (ln) transform to both columns
+    temp = temp.apply(np.log)
+    # Squared difference
+    temp['diff'] = np.square(temp['sim'] - temp['obs'])
+    # Square root of the mean of differences
+    lrmse = np.sqrt(temp['diff'].mean())
+    return(lrmse)
