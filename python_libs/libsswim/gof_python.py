@@ -1,6 +1,4 @@
 #!/usr/bin/python
-# show commands being executed, per debug
-#
 ######################################################################
 
 #       Filename: gof_python.py
