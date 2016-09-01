@@ -17,7 +17,7 @@ from python_libs.libsswim import config
 
 def test_read_config():
     '''test '''
-    config_file = './config.json'
+    config_file = './tests/test_data/config.json'
     temp = config.user_borg_model(config_file)
     assert isinstance(temp, config.user_borg_model), 'Wrong data type'
 
@@ -25,6 +25,6 @@ def test_read_config():
 @pytest.fixture()
 def read_config():
     '''test '''
-    config_file = './config.json'
+    config_file = './tests/test_data/config.json'
     temp = config.user_borg_model(config_file)
     assert isinstance(temp, config.user_borg_model), 'Wrong data type'
