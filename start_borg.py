@@ -16,7 +16,7 @@
 # == Import global modules
 # =====================================================================
 
-from python_libs.libsswim import gof_python, config
+from swimpy import gof_python, config
 
 
 config_file = './config.json'
@@ -29,8 +29,4 @@ a.parameter_list
 if __name__ == "__main__":
     base_dir = os.path.realpath(__file__)
 # =====================================================================
-
-exe = base_dir + "start_bsub_swim"
-comp_jobs = help_dir + "compare_jobs.R"
-clean = "rm ./log/* *gof.out"
 

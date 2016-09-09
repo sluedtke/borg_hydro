@@ -6,3 +6,4 @@ temp.py
 *.swp
 *.pyc
 
+config.json
