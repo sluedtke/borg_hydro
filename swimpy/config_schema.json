@@ -52,9 +52,12 @@
         "additionalProperties": false
       },
       "minItems": 1
+    },
+    "model": {
+      "type": "string"
     }
-  }, 
-  "required": ["project_name", "project_path", "result_path", "objectives", "parameters"], 
+  },
+  "required": ["project_name", "project_path", "result_path", "objectives", "parameters", "model"], 
   "additionalProperties": false, 
   "uniqueItems": true
 }
