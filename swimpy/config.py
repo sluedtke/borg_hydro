@@ -56,11 +56,14 @@ class user_borg_model():
         self.pp = config_data['project_path']
         # address result path
         self.rp = config_data['result_path']
-        #
+        # --------------------------
         # get the parameter list and format it for borg
         self.para_names = [para['name'] for para in config_data['parameters']]
         # get parameter min and max
         parameter_min = [para['min'] for para in config_data['parameters']]
         parameter_max = [para['max'] for para in config_data['parameters']]
-        self.parameter_list = list(map(list, zip(parameter_min,
+        self.parameter_range = list(map(list, zip(parameter_min,
                                    parameter_max)))
+        # --------------------------
+        # get the objectives as a list of dicts
+        self.objectives = [objs for objs in config_data['objectives']]
