@@ -5,15 +5,23 @@
     "objectives": [
         {
             "name": "total runoff",
+            "read_module": "gof_python",
             "obs_fp": "runoff*",
+            "read_obs_function": "read_observed",
             "sim_fp": "stat_dis_out*",
-            "function": "lrmse"
+            "read_sim_function": "read_simulated",
+            "gof_module": "gof_python",
+            "gof_function": "log_rmse"
         },
         {
             "name": "base flow",
+            "read_module": "gof_python",
             "obs_fp": "baseflow*",
+            "read_obs_function": "read_observed",
             "sim_fp": "stat_bf_out*",
-            "function": "lrmse"
+            "read_sim_function": "read_simulated",
+            "gof_module": "gof_python",
+            "gof_function": "log_rmse"
         }
     ],
     "parameters":[
