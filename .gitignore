@@ -7,3 +7,8 @@ temp.py
 *.pyc
 
 config.json
+/baseflow.dat
+/fastflow.dat
+/interflow.dat
+/mc_results
+/runoff_gof.dat
