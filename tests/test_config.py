@@ -28,3 +28,10 @@ def read_config():
     config_file = './tests/test_data_config/config.json'
     temp = config.user_borg_model(config_file)
     assert isinstance(temp, config.user_borg_model), 'Wrong data type'
+
+
+def test_read_config_mo():
+    '''test '''
+    config_file = './tests/test_data_config/config_mo.json'
+    temp = config.user_borg_model(config_file)
+    assert isinstance(temp, config.user_borg_model), 'Wrong data type'
