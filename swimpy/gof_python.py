@@ -9,6 +9,7 @@
 
 import pandas as pd
 import numpy as np
+import glob
 
 ######################################################################
 
@@ -96,3 +97,54 @@ def log_rmse(pandas_obs, pandas_sim):
     # Square root of the mean of differences
     lrmse = np.sqrt(temp['diff'].mean())
     return(lrmse)
+
+
+# -----------------------------------
+def get_functions(item):
+    '''
+    A function that get the function and module names from the config and puts
+    them into a list of callable objects. We have to test at which scope each
+    variable is available. Not very nice style, but it works for now.
+
+    Return value is a list of three functions.
+    '''
+    if globals()[item['read_obs_function']]:
+        read_obs = globals()[item['read_obs_function']]
+    else:
+        read_mod = globals()[item['read_module']]
+        read_obs = getattr(read_mod, item['read_obs_function'])
+    #
+    if globals()[item['read_sim_function']]:
+        read_sim = globals()[item['read_sim_function']]
+    else:
+        read_mod = globals()[item['read_module']]
+        read_sim = getattr(read_mod, item['read_sim_function'])
+    #
+    if globals()[item['gof_function']]:
+        gof_func = globals()[item['gof_function']]
+    else:
+        gof_mod = globals()[item['gof_module']]
+        gof_func = getattr(gof_mod, item['gof_function'])
+    #
+    return([read_obs, read_sim, gof_func])
+
+
+# -----------------------------------
+def compute_gof(borg_model):
+    '''
+    For each objectives in the config the functions computes the performance as
+    specified in the config.
+
+    Returns a list with one value for each objective.
+    '''
+    temp = []
+    for item in borg_model.objectives:
+        functions = get_functions(item)
+        obs = glob.glob(item['obs_fp'])[0]
+        test_obs = functions[0](obs)
+        sim_file = str(borg_model.rp + '/' + item['sim_fp'])
+        sim = glob.glob(sim_file)[0]
+        test_sim = functions[1](sim)
+        test = functions[2](test_obs, test_sim)
+        temp.append(test)
+    return(temp)
