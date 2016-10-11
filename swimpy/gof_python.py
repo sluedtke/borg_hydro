@@ -108,25 +108,26 @@ def get_functions(item):
 
     Return value is a list of three functions.
     '''
-    if globals()[item['read_obs_function']]:
+    try:
         read_obs = globals()[item['read_obs_function']]
-    else:
+        # globals()[item['read_obs_function']]
+    except KeyError:
         read_mod = globals()[item['read_module']]
         read_obs = getattr(read_mod, item['read_obs_function'])
     #
-    if globals()[item['read_sim_function']]:
+    try:
         read_sim = globals()[item['read_sim_function']]
-    else:
+    except KeyError:
         read_mod = globals()[item['read_module']]
         read_sim = getattr(read_mod, item['read_sim_function'])
     #
-    if globals()[item['gof_function']]:
+    try:
         gof_func = globals()[item['gof_function']]
-    else:
+    except KeyError:
         gof_mod = globals()[item['gof_module']]
         gof_func = getattr(gof_mod, item['gof_function'])
     #
-    return([read_obs, read_sim, gof_func])
+    return({"read_obs": read_obs, "read_sim": read_sim, "gof_func": gof_func})
 
 
 # -----------------------------------
@@ -139,12 +140,17 @@ def compute_gof(borg_model):
     '''
     temp = []
     for item in borg_model.objectives:
+        # call the function that makes concatenates the module and functions to
+        # something that can be applied
         functions = get_functions(item)
+        # call the USER function to read the observations
         obs = glob.glob(item['obs_fp'])[0]
-        test_obs = functions[0](obs)
+        test_obs = functions['read_obs'](obs)
+        # call the USER function to read the simulations
         sim_file = str(borg_model.rp + '/' + item['sim_fp'])
         sim = glob.glob(sim_file)[0]
-        test_sim = functions[1](sim)
-        test = functions[2](test_obs, test_sim)
+        test_sim = functions['read_sim'](sim)
+        # call the USER function to compute the performance
+        test = functions['gof_func'](test_obs, test_sim)
         temp.append(test)
     return(temp)

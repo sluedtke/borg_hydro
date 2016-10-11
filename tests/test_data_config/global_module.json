@@ -1,0 +1,25 @@
+{
+    "project_name": "swim", 
+    "project_path": "./",
+    "result_path": "./", 
+    "objectives": [
+        {
+            "name": "total runoff",
+            "read_module": "pd",
+            "obs_fp": "obs_csv*",
+            "read_obs_function": "read_csv",
+            "sim_fp": "sim_csv*",
+            "read_sim_function": "read_csv",
+            "gof_module": "gof_python",
+            "gof_function": "log_rmse"
+        }
+    ],
+    "parameters":[
+        {
+            "name": "abf0",
+            "min": 0.00001,
+            "max": 3
+        }
+    ],
+    "model": "swim_exe"
+}

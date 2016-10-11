@@ -85,7 +85,8 @@ def test_log_rmse(obs_simple, sim_simple):
     lrmse = gof_python.log_rmse(obs_simple, sim_simple)
     assert lrmse == 0
 
-# Read the configuration as a fixture that is used to compute the gof 
+
+# Read the configuration as a fixture that is used to compute the gof
 @pytest.fixture()
 def config_data():
     '''test '''
@@ -94,7 +95,7 @@ def config_data():
     return(temp)
 
 
-# Read the configuration as a fixture that is used to compute the gof 
+# Read the configuration as a fixture that is used to compute the gof
 @pytest.fixture()
 def config_mo_data():
     '''test '''
@@ -116,25 +117,7 @@ def test_compute_gof_mo(config_mo_data):
     assert (len(temp) == 4)
 
 
-# test the get_functions function- that one is crucial and quite tricky because
-# we try to catch module and function name depending on the scope.
-def test_get_function(config_data):
-    for item in config_data.objectives:
-        temp = gof_python.get_functions(item)
-        assert (len(temp) == 3)
-        for func in temp:
-            assert callable(func), 'The function is not callable'
-
-
-def test_get_function_mo(config_mo_data):
-    for item in config_mo_data.objectives:
-        temp = gof_python.get_functions(item)
-        assert (len(temp) == 3)
-        for func in temp:
-            assert callable(func), 'The function is not callable'
-
-
 def test_compute_gof_res(config_data, config_mo_data):
     temp = gof_python.compute_gof(config_data)
-    assert temp == [0.72450915761519741, 1.2196478869306084], 'Results do not \
-    match'
+    assert temp == [0.72450915761519741, 1.2196478869306084], \
+           'Results do not match'
