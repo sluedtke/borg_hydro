@@ -12,7 +12,7 @@
 import pytest
 import pandas as pd
 import numpy as np
-from swimpy import gof_python, config
+from swimpy import gof_python
 
 ######################################################################
 
@@ -86,38 +86,20 @@ def test_log_rmse(obs_simple, sim_simple):
     assert lrmse == 0
 
 
-# Read the configuration as a fixture that is used to compute the gof
-@pytest.fixture()
-def config_data():
-    '''test '''
-    config_file = './tests/test_data_config/config.json'
-    temp = config.user_borg_model(config_file)
-    return(temp)
-
-
-# Read the configuration as a fixture that is used to compute the gof
-@pytest.fixture()
-def config_mo_data():
-    '''test '''
-    config_file = './tests/test_data_config/config_mo.json'
-    temp = config.user_borg_model(config_file)
-    return(temp)
-
-
 # Test the  computation of the performance
 # This is just  wraopper function that uses only arguments from the
 # configuration file to compute the performance measure for each objective.
-def test_compute_gof(config_data):
-    temp = gof_python.compute_gof(config_data)
+def test_compute_gof(config_obj):
+    temp = gof_python.compute_gof(config_obj)
     assert (len(temp) == 2)
 
 
-def test_compute_gof_mo(config_mo_data):
-    temp = gof_python.compute_gof(config_mo_data)
+def test_compute_gof_mo(config_mo_obj):
+    temp = gof_python.compute_gof(config_mo_obj)
     assert (len(temp) == 4)
 
 
-def test_compute_gof_res(config_data, config_mo_data):
-    temp = gof_python.compute_gof(config_data)
+def test_compute_gof_res(config_obj):
+    temp = gof_python.compute_gof(config_obj)
     assert temp == [0.72450915761519741, 1.2196478869306084], \
-           'Results do not match'
+            'Results do not match'

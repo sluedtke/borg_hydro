@@ -131,7 +131,7 @@ def get_functions(item):
 
 
 # -----------------------------------
-def compute_gof(borg_model):
+def compute_gof(swim_objectives):
     '''
     For each objectives in the config the functions computes the performance as
     specified in the config.
@@ -139,17 +139,16 @@ def compute_gof(borg_model):
     Returns a list with one value for each objective.
     '''
     temp = []
-    for item in borg_model.objectives:
+    for item in swim_objectives.objectives:
         # call the function that makes concatenates the module and functions to
         # something that can be applied
         functions = get_functions(item)
         # call the USER function to read the observations
-        obs = glob.glob(item['obs_fp'])[0]
-        test_obs = functions['read_obs'](obs)
+        obs_file = glob.glob(item['obs_fp'])[0]
+        test_obs = functions['read_obs'](obs_file)
         # call the USER function to read the simulations
-        sim_file = str(borg_model.rp + '/' + item['sim_fp'])
-        sim = glob.glob(sim_file)[0]
-        test_sim = functions['read_sim'](sim)
+        sim_file = glob.glob(item['sim_fp'])[0]
+        test_sim = functions['read_sim'](sim_file)
         # call the USER function to compute the performance
         test = functions['gof_func'](test_obs, test_sim)
         temp.append(test)

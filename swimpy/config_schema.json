@@ -1,14 +1,20 @@
 {
   "type": "object",
   "properties": {
-    "project_name": {
-      "type": "string"
-    },
-    "project_path": {
-      "type": "string"
-    },
-    "result_path": {
-      "type": "string"
+    "general": {
+      "type": "object",
+      "properties": {
+        "project_name": {
+          "type": "string"
+        },
+        "project_path": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
+      },
+      "required": ["project_name", "project_path", "model"] 
     },
     "objectives": {
       "type": "array",
@@ -46,30 +52,32 @@
       "minItems": 1
     },
     "parameters": {
-      "type": "array",
-      "items": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "min": {
-            "type": "number"
-          },
-          "max": {
-            "type": "number"
-          }
-        },
-        "required": ["name", "min", "max"],
-        "additionalProperties": false
-      },
-      "minItems": 1
-    },
-    "model": {
-      "type": "string"
+            "list": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "min": {
+                            "type": "number"
+                        },
+                        "max": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["name", "min", "max"],
+                    "additionalProperties": false
+                },
+                "minItems": 1
+            }
+        }
     }
   },
-  "required": ["project_name", "project_path", "result_path", "objectives", "parameters", "model"], 
+  "required": ["general", "objectives", "parameters"], 
   "additionalProperties": false, 
   "uniqueItems": true
 }

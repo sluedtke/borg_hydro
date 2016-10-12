@@ -38,10 +38,9 @@ def validate_config(model_config):
 
 
 # --------------------------
-class user_borg_model():
+class swim_setup():
     '''
-    A class that holds all the configs given by the json file. Not sure whether
-    that is all a bit overkill, lets see
+    A class that holds all the general configs given by the json file.
     '''
     def __init__(self, config_file):
         ''' Initialization of the model components.'''
@@ -50,20 +49,48 @@ class user_borg_model():
         # Validate the json schema. NOTE: the function only raises an error if
         # the validation fails.
         validate_config(config_data)
+        # get the first slot that hold general setup data
+        general = config_data['general']
         # address project name
-        self.pn = config_data['project_name']
+        self.pn = general['project_name']
         # address project path
-        self.pp = config_data['project_path']
-        # address result path
-        self.rp = config_data['result_path']
+        self.pp = general['project_path']
+
+
+# --------------------------
+class swim_parameter():
+    '''
+    A class that holds all the parameter properties given by the json file.
+    '''
+    def __init__(self, config_file):
+        ''' Initialization of the model components.'''
+        # Read json file
+        config_data = read_json_file(config_file)
+        # Validate the json schema. NOTE: the function only raises an error if
+        # the validation fails.
+        validate_config(config_data)
+        parameter = config_data['parameters']
         # --------------------------
         # get the parameter list and format it for borg
-        self.para_names = [para['name'] for para in config_data['parameters']]
+        self.para_names = [para['name'] for para in parameter['list']]
         # get parameter min and max
-        parameter_min = [para['min'] for para in config_data['parameters']]
-        parameter_max = [para['max'] for para in config_data['parameters']]
-        self.parameter_range = list(map(list, zip(parameter_min,
-                                   parameter_max)))
+        parameter_min = [para['min'] for para in parameter['list']]
+        parameter_max = [para['max'] for para in parameter['list']]
+        self.para_range = list(map(list, zip(parameter_min, parameter_max)))
+
+
+class swim_objectives():
+    '''
+    A class that holds all the properties of the objectives given by the json
+    file.
+    '''
+    def __init__(self, config_file):
+        ''' Initialization of the model components.'''
+        # Read json file
+        config_data = read_json_file(config_file)
+        # Validate the json schema. NOTE: the function only raises an error if
+        # the validation fails.
+        validate_config(config_data)
         # --------------------------
         # get the objectives as a list of dicts
-        self.objectives = [objs for objs in config_data['objectives']]
+        self.objectives = list(objs for objs in config_data['objectives'])

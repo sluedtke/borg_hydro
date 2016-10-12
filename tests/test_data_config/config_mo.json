@@ -1,14 +1,16 @@
 {
+    "general": {
     "project_name": "swim", 
     "project_path": "./",
-    "result_path": "./mc_results", 
+    "model": "swim_exe"
+    },
     "objectives": [
         {
             "name": "total runoff",
             "read_module": "gof_python",
             "obs_fp": "runoff*",
             "read_obs_function": "read_observed",
-            "sim_fp": "stat_dis_out*",
+            "sim_fp": "./mc_results/stat_dis_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -18,7 +20,7 @@
             "read_module": "gof_python",
             "obs_fp": "baseflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "stat_bf_out*",
+            "sim_fp": "./mc_results/stat_bf_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -28,7 +30,7 @@
             "read_module": "gof_python",
             "obs_fp": "interflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "stat_if_out*",
+            "sim_fp": "./mc_results/stat_if_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -38,18 +40,19 @@
             "read_module": "gof_python",
             "obs_fp": "fastflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "stat_ff_out*",
+            "sim_fp": "./mc_results/stat_ff_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
         }
     ],
-    "parameters":[
-        {
-            "name": "abf0",
-            "min": 0.00001,
-            "max": 3
-        }
-    ],
-    "model": "swim_exe"
+    "parameters": {
+        "list": [
+            {
+                "name": "abf0",
+                "min": 0.00001,
+                "max": 3
+            }
+        ]
+    }
 }

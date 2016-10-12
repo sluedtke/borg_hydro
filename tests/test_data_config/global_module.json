@@ -1,7 +1,9 @@
 {
+    "general": {
     "project_name": "swim", 
     "project_path": "./",
-    "result_path": "./", 
+    "model": "swim_exe"
+    },
     "objectives": [
         {
             "name": "total runoff",
@@ -14,12 +16,13 @@
             "gof_function": "log_rmse"
         }
     ],
-    "parameters":[
-        {
-            "name": "abf0",
-            "min": 0.00001,
-            "max": 3
-        }
-    ],
-    "model": "swim_exe"
+    "parameters": {
+        "list": [
+            {
+                "name": "abf0",
+                "min": 0.00001,
+                "max": 3
+            }
+        ]
+    }
 }
