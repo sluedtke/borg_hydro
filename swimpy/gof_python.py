@@ -100,6 +100,33 @@ def log_rmse(pandas_obs, pandas_sim):
 
 
 # -----------------------------------
+def search_function(func, mod):
+    '''
+    I do not like this one :-(. It takes the given module and the function
+    string and build and callable object. If the module is given in several
+    parts, e.g. "part1.part2", we need to call *getattr* several times and
+    using the output from the previous evaluation. I am missing the correct
+    word right now. 
+
+    >>> search_function(func='equals',  mod='pd.DataFrame')
+    <function pandas.core.generic.NDFrame.equals>
+    '''
+
+    temp = mod.split('.')
+    temp.append(func)
+    mod = temp[0]
+    exe = globals()[mod]
+    for i in range(1, len(temp)):
+        exe = getattr(exe, temp[i])
+    try:
+        callable(exe)
+    except NameError:
+        print('The given module and function can not be found. Make sure the\
+               base module is imorted')
+    return(exe)
+
+
+# -----------------------------------
 def get_functions(item):
     '''
     A function that get the function and module names from the config and puts
@@ -108,30 +135,35 @@ def get_functions(item):
 
     Return value is a list of three functions.
     '''
-    try:
-        read_obs = globals()[item['read_obs_function']]
-        # globals()[item['read_obs_function']]
-    except KeyError:
-        read_mod = globals()[item['read_module']]
-        read_obs = getattr(read_mod, item['read_obs_function'])
-    #
-    try:
-        read_sim = globals()[item['read_sim_function']]
-    except KeyError:
-        read_mod = globals()[item['read_module']]
-        read_sim = getattr(read_mod, item['read_sim_function'])
-    #
-    try:
-        gof_func = globals()[item['gof_function']]
-    except KeyError:
-        gof_mod = globals()[item['gof_module']]
-        gof_func = getattr(gof_mod, item['gof_function'])
-    #
-    return({"read_obs": read_obs, "read_sim": read_sim, "gof_func": gof_func})
+    # Create a dictionary that is later extended by the callable ojbect
+    input_dict = {'read_obs':
+                  {'mod': item['read_module'], 'func': item['read_obs_function']}, 
+                  'read_sim':
+                  {'mod': item['read_module'], 'func': item['read_sim_function']},
+                  'gof_func':
+                  {'mod': item['gof_module'], 'func': item['gof_function']}}
+
+    for i in input_dict.keys():
+        func = input_dict[i]['func']
+        mod = input_dict[i]['mod']
+        # check whether the function is already accessible in the current
+        # namespace
+        try:
+            exe = globals()[func]
+        # if not, call the function that splits the module and iterates of each
+        # component until it reaches the function *func*
+        except KeyError:
+            exe = search_function(func, mod)
+        # put the result to the current dict entry with the key 'exe'.
+        input_dict[i]['exe'] = exe
+    # return the whole dictionary
+    # TODO: we should call that during the initialization when we create the
+    # 'swim_objectives' object
+    return(input_dict)
 
 
 # -----------------------------------
-def compute_gof(swim_objectives):
+def compute_gof(swim_setup, swim_objectives):
     '''
     For each objectives in the config the functions computes the performance as
     specified in the config.
@@ -144,12 +176,12 @@ def compute_gof(swim_objectives):
         # something that can be applied
         functions = get_functions(item)
         # call the USER function to read the observations
-        obs_file = glob.glob(item['obs_fp'])[0]
-        test_obs = functions['read_obs'](obs_file)
+        obs_file = glob.glob(str(swim_setup.pp) + '/' + item['obs_fp'])[0]
+        test_obs = functions['read_obs']['exe'](obs_file)
         # call the USER function to read the simulations
-        sim_file = glob.glob(item['sim_fp'])[0]
-        test_sim = functions['read_sim'](sim_file)
+        sim_file = glob.glob(str(swim_setup.pp) + '/' + item['sim_fp'])[0]
+        test_sim = functions['read_sim']['exe'](sim_file)
         # call the USER function to compute the performance
-        test = functions['gof_func'](test_obs, test_sim)
+        test = functions['gof_func']['exe'](test_obs, test_sim)
         temp.append(test)
     return(temp)

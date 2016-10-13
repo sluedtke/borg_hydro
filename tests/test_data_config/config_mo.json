@@ -1,8 +1,8 @@
 {
     "general": {
-    "project_name": "swim", 
-    "project_path": "./",
-    "model": "swim_exe"
+        "project_name": "swim", 
+        "project_path": "./tests/test_data_gof/",
+        "model": "swim_exe"
     },
     "objectives": [
         {
@@ -10,7 +10,7 @@
             "read_module": "gof_python",
             "obs_fp": "runoff*",
             "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_dis_out*",
+            "sim_fp": "/mc_results/stat_dis_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -20,7 +20,7 @@
             "read_module": "gof_python",
             "obs_fp": "baseflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_bf_out*",
+            "sim_fp": "/mc_results/stat_bf_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -30,7 +30,7 @@
             "read_module": "gof_python",
             "obs_fp": "interflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_if_out*",
+            "sim_fp": "/mc_results/stat_if_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"
@@ -40,7 +40,7 @@
             "read_module": "gof_python",
             "obs_fp": "fastflow*",
             "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_ff_out*",
+            "sim_fp": "/mc_results/stat_ff_out*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"

@@ -87,19 +87,52 @@ def test_log_rmse(obs_simple, sim_simple):
 
 
 # Test the  computation of the performance
-# This is just  wraopper function that uses only arguments from the
+# This is just  wrapper function that uses only arguments from the
 # configuration file to compute the performance measure for each objective.
-def test_compute_gof(config_obj):
-    temp = gof_python.compute_gof(config_obj)
+def test_compute_gof(config_setup, config_obj):
+    temp = gof_python.compute_gof(config_setup, config_obj)
     assert (len(temp) == 2)
 
 
-def test_compute_gof_mo(config_mo_obj):
-    temp = gof_python.compute_gof(config_mo_obj)
+def test_compute_gof_mo(config_mo_setup, config_mo_obj):
+    temp = gof_python.compute_gof(config_mo_setup, config_mo_obj)
     assert (len(temp) == 4)
 
 
-def test_compute_gof_res(config_obj):
-    temp = gof_python.compute_gof(config_obj)
+def test_compute_gof_res(config_setup, config_obj):
+    temp = gof_python.compute_gof(config_setup, config_obj)
     assert temp == [0.72450915761519741, 1.2196478869306084], \
             'Results do not match'
+
+
+def test_compute_gof_global_module(global_module_obj, global_module_setup):
+    temp = gof_python.compute_gof(global_module_setup, global_module_obj)
+    assert temp[0] == True
+
+
+######################################################################
+# test the get_functions function- that one is crucial and quite tricky because
+# we try to catch module and function name depending on the scope.
+def test_get_function(config_obj):
+    for item in config_obj.objectives:
+        temp = gof_python.get_functions(item)
+        assert (len(temp) == 3)
+        for func in list(temp.values()):
+            assert callable(func['exe']), 'The function is not callable'
+
+
+def test_get_function_mo(config_mo_obj):
+    for item in config_mo_obj.objectives:
+        temp = gof_python.get_functions(item)
+        assert (len(temp) == 3)
+        for func in list(temp.values()):
+            assert callable(func['exe']), 'The function is not callable'
+
+
+def test_get_function_global(global_module_obj):
+    for item in global_module_obj.objectives:
+        print(item)
+        temp = gof_python.get_functions(item)
+        assert (len(temp) == 3)
+        for func in list(temp.values()):
+            assert callable(func['exe']), 'The function is not callable'

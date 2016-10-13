@@ -1,63 +1,63 @@
 {   
-    "general": {
-        "project_name": "swim", 
-        "project_path": "./",
-        "model": "swim_exe"
+  "general": {
+    "project_name": "swim", 
+    "project_path": "./tests/test_data_gof/",
+    "model": "swim_exe"
+  },
+  "objectives": [
+    {
+      "name": "total runoff",
+      "read_module": "gof_python",
+      "obs_fp": "runoff*",
+      "read_obs_function": "read_observed",
+      "sim_fp": "/mc_results/stat_dis_out*",
+      "read_sim_function": "read_simulated",
+      "gof_module": "gof_python",
+      "gof_function": "log_rmse"
     },
-    "objectives": [
-        {
-            "name": "total runoff",
-            "read_module": "gof_python",
-            "obs_fp": "runoff*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_dis_out*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        },
-        {
-            "name": "base flow",
-            "read_module": "gof_python",
-            "obs_fp": "baseflow*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "./mc_results/stat_bf_out*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        }
-    ],
-    "parameters": {
-        "list": [
-            {
-                "name": "abf0",
-                "min": 0.00001,
-                "max": 3
-            },
-            {
-                "name": "thc",
-                "min": 0.1,
-                "max": 1.2
-            },
-            {
-                "name": "bff",
-                "min": 0.00001,
-                "max": 2
-            },
-            {
-                "name": "del0",
-                "min": 1,
-                "max": 60
-            },
-            {
-                "name": "roc",
-                "min": 0.1,
-                "max": 200
-            },
-            {
-                "name": "sccor",
-                "min": 0.1,
-                "max": 4
-            }
-        ]
+    {
+      "name": "base flow",
+      "read_module": "gof_python",
+      "obs_fp": "baseflow*",
+      "read_obs_function": "read_observed",
+      "sim_fp": "/mc_results/stat_bf_out*",
+      "read_sim_function": "read_simulated",
+      "gof_module": "gof_python",
+      "gof_function": "log_rmse"
     }
+  ],
+  "parameters": {
+    "list": [
+      {
+        "name": "abf0",
+        "min": 0.00001,
+        "max": 3
+      },
+      {
+        "name": "thc",
+        "min": 0.1,
+        "max": 1.2
+      },
+      {
+        "name": "bff",
+        "min": 0.00001,
+        "max": 2
+      },
+      {
+        "name": "del0",
+        "min": 1,
+        "max": 60
+      },
+      {
+        "name": "roc",
+        "min": 0.1,
+        "max": 200
+      },
+      {
+        "name": "sccor",
+        "min": 0.1,
+        "max": 4
+      }
+    ]
+  }
 }

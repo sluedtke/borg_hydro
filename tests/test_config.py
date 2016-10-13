@@ -78,31 +78,3 @@ def test_parse_objectives(config_mo_obj, config_obj, global_module_obj):
             'Wrong number of objectives'
     assert (len(global_module_obj.objectives) == 1),\
             'Wrong number of objectives'
-
-
-######################################################################
-# test the get_functions function- that one is crucial and quite tricky because
-# we try to catch module and function name depending on the scope.
-def test_get_function(config_obj):
-    for item in config_obj.objectives:
-        temp = gof_python.get_functions(item)
-        assert (len(temp) == 3)
-        for func in list(temp.values()):
-            assert callable(func), 'The function is not callable'
-
-
-def test_get_function_mo(config_mo_obj):
-    for item in config_mo_obj.objectives:
-        temp = gof_python.get_functions(item)
-        assert (len(temp) == 3)
-        for func in list(temp.values()):
-            assert callable(func), 'The function is not callable'
-
-
-def test_get_function_global(global_module_obj):
-    for item in global_module_obj.objectives:
-        print(item)
-        temp = gof_python.get_functions(item)
-        assert (len(temp) == 3)
-        for func in list(temp.values()):
-            assert callable(func), 'The function is not callable'
