@@ -20,8 +20,6 @@ from swimpy import gof_python, config
 
 
 config_file = './config.json'
-a = config.user_borg_model(config_file)
-a.parameter_list
 
 # =====================================================================
 # Defining some general points  (dirs .. )

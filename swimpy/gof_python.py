@@ -108,8 +108,9 @@ def search_function(func, mod):
     using the output from the previous evaluation. I am missing the correct
     word right now. 
 
-    >>> search_function(func='equals',  mod='pd.DataFrame')
-    <function pandas.core.generic.NDFrame.equals>
+    >>> a = search_function(func='equals', mod='pd.DataFrame')
+    >>> a.__module__ + '.' + a.__name__
+    'pandas.core.generic.equals'
     '''
 
     temp = mod.split('.')
