@@ -4,18 +4,20 @@
     "project_path": "./tests/test_data_gof/",
     "model": "swim_exe"
     },
-    "objectives": [
-        {
-            "name": "total runoff",
-            "read_module": "pd",
-            "obs_fp": "obs_csv*",
-            "read_obs_function": "read_csv",
-            "sim_fp": "sim_csv*",
-            "read_sim_function": "read_csv",
-            "gof_module": "pd.DataFrame",
-            "gof_function": "equals"
-        }
-    ],
+    "objectives": {
+        "list": [
+            {
+                "name": "total runoff",
+                "read_module": "pd",
+                "obs_fp": "obs_csv*",
+                "read_obs_function": "read_csv",
+                "sim_fp": "sim_csv*",
+                "read_sim_function": "read_csv",
+                "gof_module": "pd.DataFrame",
+                "gof_function": "equals"
+            }
+        ]
+    },
     "parameters": {
         "list": [
             {
@@ -23,6 +25,9 @@
                 "min": 0.00001,
                 "max": 3
             }
-        ]
+        ], 
+    "write_function": "write_para",
+    "write_module": "config",
+    "parameter_file": "parameter.dat"
     }
 }

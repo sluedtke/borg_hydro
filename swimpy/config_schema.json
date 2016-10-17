@@ -17,64 +17,80 @@
       "required": ["project_name", "project_path", "model"] 
     },
     "objectives": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }, 
-          "read_module": {
-            "type": "string"
-          }, 
-          "obs_fp": {
-            "type": "string"
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }, 
+              "read_module": {
+                "type": "string"
+              }, 
+              "obs_fp": {
+                "type": "string"
+              },
+              "read_obs_function": {
+                "type": "string"
+              },
+              "sim_fp": {
+                "type": "string"
+              },
+              "read_sim_function": {
+                "type": "string"
+              },
+              "gof_module": {
+                "type": "string"
+              },
+              "gof_function": {
+                "type": "string"
+              } 
+            },
+            "required": ["name", "read_module", "obs_fp", "read_obs_function", "sim_fp", "read_sim_function", "gof_module", "gof_function"], 
+            "additionalProperties": false
           },
-          "read_obs_function": {
-            "type": "string"
-          },
-          "sim_fp": {
-            "type": "string"
-          },
-          "read_sim_function": {
-            "type": "string"
-          },
-          "gof_module": {
-            "type": "string"
-          },
-          "gof_function": {
-            "type": "string"
-          } 
-        },
-        "required": ["name", "read_module", "obs_fp", "read_obs_function", "sim_fp", "read_sim_function", "gof_module", "gof_function"], 
-        "additionalProperties": false
-      },
-      "minItems": 1
+          "minItems": 1
+        }
+      }
     },
     "parameters": {
-        "type": "object",
-        "properties": {
-            "list": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "min": {
-                            "type": "number"
-                        },
-                        "max": {
-                            "type": "number"
-                        }
-                    },
-                    "required": ["name", "min", "max"],
-                    "additionalProperties": false
-                },
-                "minItems": 1
-            }
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            },
+            "required": ["name", "min", "max"],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "write_module": {
+          "type": "string"
+        },
+        "write_function": {
+          "type": "string"
+        },
+        "parameter_file": {
+          "type": "string"
         }
+      },
+      "required": ["list", "write_function", "parameter_file"],
+      "additionalProperties": true
     }
   },
   "required": ["general", "objectives", "parameters"], 

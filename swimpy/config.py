@@ -93,4 +93,5 @@ class swim_objectives():
         validate_config(config_data)
         # --------------------------
         # get the objectives as a list of dicts
-        self.objectives = list(objs for objs in config_data['objectives'])
+        self.objectives = list(objs for objs in
+                               config_data['objectives']['list'])

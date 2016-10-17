@@ -4,18 +4,20 @@
     "project_path": "./tests/test_data_gof/",
     "model": "swim_exe"
   },
-  "objectives": [
-    {
-      "name": "total runoff",
-      "read_module": "gof_python",
-      "obs_fp": "runoff*multi*",
-      "read_obs_function": "read_observed",
-      "sim_fp": "/mc_results/stat_dis_out*multi*",
-      "read_sim_function": "read_simulated",
-      "gof_module": "gof_python",
-      "gof_function": "log_rmse"
-    }
-  ],
+  "objectives": {
+      "list": [
+          {
+              "name": "total runoff",
+              "read_module": "gof_python",
+              "obs_fp": "runoff*multi*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "/mc_results/stat_dis_out*multi*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "log_rmse"
+          }
+      ]
+  },
   "parameters": {
     "list": [
       {
@@ -48,6 +50,9 @@
         "min": 0.1,
         "max": 4
       }
-    ]
+    ], 
+    "write_function": "write_para",
+    "write_module": "config",
+    "parameter_file": "parameter.dat"
   }
 }

@@ -47,7 +47,7 @@ def test_config_global_module():
     assert isinstance(temp, config.swim_objectives), 'Wrong data type'
 
 
-def test_multi_station_module():
+def test_read_multi_station():
     '''test '''
     config_file = './tests/test_data_config/multi_station.json'
     temp = config.swim_setup(config_file)

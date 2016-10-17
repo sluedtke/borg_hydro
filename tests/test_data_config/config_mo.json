@@ -4,48 +4,50 @@
         "project_path": "./tests/test_data_gof/",
         "model": "swim_exe"
     },
-    "objectives": [
-        {
-            "name": "total runoff",
-            "read_module": "gof_python",
-            "obs_fp": "runoff_gof.*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "/mc_results/stat_dis_out_0001*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        },
-        {
-            "name": "base flow",
-            "read_module": "gof_python",
-            "obs_fp": "baseflow*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "/mc_results/stat_bf_out*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        },
-        {
-            "name": "inter floe",
-            "read_module": "gof_python",
-            "obs_fp": "interflow*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "/mc_results/stat_if_out*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        },
-        {
-            "name": "fast flow",
-            "read_module": "gof_python",
-            "obs_fp": "fastflow*",
-            "read_obs_function": "read_observed",
-            "sim_fp": "/mc_results/stat_ff_out*",
-            "read_sim_function": "read_simulated",
-            "gof_module": "gof_python",
-            "gof_function": "log_rmse"
-        }
-    ],
+    "objectives": {
+        "list": [
+            {
+                "name": "total runoff",
+                "read_module": "gof_python",
+                "obs_fp": "runoff_gof.*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/stat_dis_out_0001*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            },
+            {
+                "name": "base flow",
+                "read_module": "gof_python",
+                "obs_fp": "baseflow*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/stat_bf_out*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            },
+            {
+                "name": "inter floe",
+                "read_module": "gof_python",
+                "obs_fp": "interflow*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/stat_if_out*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            },
+            {
+                "name": "fast flow",
+                "read_module": "gof_python",
+                "obs_fp": "fastflow*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/stat_ff_out*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            }
+        ]
+    },
     "parameters": {
         "list": [
             {
@@ -53,6 +55,9 @@
                 "min": 0.00001,
                 "max": 3
             }
-        ]
+        ], 
+    "write_function": "write_para",
+    "write_module": "config",
+    "parameter_file": "parameter.dat"
     }
 }
