@@ -25,7 +25,8 @@ def read_observed(obs_file):
     '''
 
     temp = pd.read_csv(obs_file, sep='\t', index_col='date',
-                       parse_dates=['date'])
+                       parse_dates=['date'],
+                       na_values=[-9999, -999, -99])
     return(temp)
 
 
@@ -43,7 +44,8 @@ def read_simulated(simu_file):
 
     temp = pd.read_csv(simu_file, sep='\t', index_col='date',
                        parse_dates={'date': ['YEAR', 'DAY']},
-                       date_parser=dateparse)
+                       date_parser=dateparse,
+                       na_values=[-9999, -999, -99])
     return(temp)
 
 
@@ -72,13 +74,20 @@ def obs_sim_merge(pandas_obs, pandas_sim):
 
     Return value is a pandas dataframe
     '''
-    temp = pd.concat([pandas_obs, pandas_sim], axis=1).dropna()
-    temp.columns = ['obs', 'sim']
+    # Melt both data frames into a long format
+    temp_obs = pandas_obs.reset_index()
+    temp_obs = pd.melt(temp_obs, id_vars=['date'], var_name='station',
+                       value_name='obs')
+    temp_sim = pandas_sim.reset_index()
+    temp_sim = pd.melt(temp_sim, id_vars=['date'], var_name='station',
+                       value_name='sim')
+    # Merge them based on the index
+    temp = pd.merge(left=temp_obs, right=temp_sim).dropna()
     return(temp)
 
 
 # -----------------------------------
-def log_rmse(pandas_obs, pandas_sim):
+def log_rmse(temp_obs, temp_sim):
     '''
     This function computes the log-Root-Means-Square-Error (rmse) between the
     log of the simulated and  the log of the observed time series. That is
@@ -88,15 +97,21 @@ def log_rmse(pandas_obs, pandas_sim):
 
     Return value is a float.
     '''
+    mp = obs_sim_merge(temp_obs, temp_sim)
+    mp = mp.set_index(['date'])
     # Join the dataframes to get rid of NA values
-    temp = obs_sim_merge(pandas_obs, pandas_sim)
     # Apply the log (ln) transform to both columns
-    temp = temp.apply(np.log)
+    mp['sim'] = np.log(mp['sim'])
+    mp['obs'] = np.log(mp['obs'])
     # Squared difference
-    temp['diff'] = np.square(temp['sim'] - temp['obs'])
+    mp['obj'] = np.square(mp['sim'] - mp['obs'])
+    # mean
+    temp = mp.groupby(['station']).aggregate({'obj': np.mean})
     # Square root of the mean of differences
-    lrmse = np.sqrt(temp['diff'].mean())
-    return(lrmse)
+    temp = pd.DataFrame(np.sqrt(temp['obj']))
+    result = np.mean(temp['obj'])
+    print(result)
+    return(result)
 
 
 # -----------------------------------
@@ -138,11 +153,14 @@ def get_functions(item):
     '''
     # Create a dictionary that is later extended by the callable ojbect
     input_dict = {'read_obs':
-                  {'mod': item['read_module'], 'func': item['read_obs_function']}, 
+                      {'mod': item['read_module'],
+                      'func': item['read_obs_function']}, 
                   'read_sim':
-                  {'mod': item['read_module'], 'func': item['read_sim_function']},
+                      {'mod': item['read_module'],
+                      'func': item['read_sim_function']},
                   'gof_func':
-                  {'mod': item['gof_module'], 'func': item['gof_function']}}
+                      {'mod': item['gof_module'],
+                      'func': item['gof_function']}}
 
     for i in input_dict.keys():
         func = input_dict[i]['func']
@@ -171,18 +189,20 @@ def compute_gof(swim_setup, swim_objectives):
 
     Returns a list with one value for each objective.
     '''
-    temp = []
+    result_list = []
     for item in swim_objectives.objectives:
         # call the function that makes concatenates the module and functions to
         # something that can be applied
         functions = get_functions(item)
         # call the USER function to read the observations
         obs_file = glob.glob(str(swim_setup.pp) + '/' + item['obs_fp'])[0]
-        test_obs = functions['read_obs']['exe'](obs_file)
+        temp_obs = functions['read_obs']['exe'](obs_file)
         # call the USER function to read the simulations
         sim_file = glob.glob(str(swim_setup.pp) + '/' + item['sim_fp'])[0]
-        test_sim = functions['read_sim']['exe'](sim_file)
+        temp_sim = functions['read_sim']['exe'](sim_file)
         # call the USER function to compute the performance
-        test = functions['gof_func']['exe'](test_obs, test_sim)
-        temp.append(test)
-    return(temp)
+        result = functions['gof_func']['exe'](temp_obs, temp_sim)
+        # In case we have multiple  station, apply a function to aggregate them
+        # And append to the list that is returned
+        result_list.append(result)
+    return(result_list)

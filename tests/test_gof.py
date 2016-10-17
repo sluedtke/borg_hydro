@@ -10,8 +10,8 @@
 ######################################################################
 
 import pytest
+import datetime
 import pandas as pd
-import numpy as np
 from swimpy import gof_python
 
 ######################################################################
@@ -50,34 +50,40 @@ def read_sim():
 # Merging observation and simulation into one datafram
 def test_obs_sim_merge(read_obs, read_sim):
     temp = gof_python.obs_sim_merge(read_obs, read_sim)
+    print(temp)
     assert isinstance(temp, pd.DataFrame), 'Wrong data type'
 
 
-# A fixture for merging observation and simulation into one dataframe
 @pytest.fixture
-def obs_sim_merge(read_obs, read_sim):
-    temp = gof_python.obs_sim_merge(read_obs, read_sim)
-    return(temp)
-
-
-@pytest.fixture
-def obs_simple(obs_sim_merge):
+def obs_simple():
     ''' Creating 2 DataFrame with with the same entry at every timestep'''
-    # Subset using only the first 10 columns
-    obs_simple = pd.DataFrame(obs_sim_merge['obs'][0:10].copy())
-    # Set all values to one
-    obs_simple.loc[:, 'obs'] = np.array([1] * len(obs_simple))
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
+                         freq='D')
+    columns = ['X10', 'station']
+    obs_simple = pd.DataFrame(columns=columns)
+    obs_simple['date'] = date
+    obs_simple = obs_simple.fillna(1)
     return(obs_simple)
 
 
 @pytest.fixture
-def sim_simple(obs_sim_merge):
+def sim_simple():
     ''' Creating 2 DataFrame with with the same entry at every timestep'''
-    # Subset using only the first 10 columns
-    sim_simple = pd.DataFrame(obs_sim_merge['sim'][0:10].copy())
-    # Set all values to one
-    sim_simple.loc[:, 'sim'] = np.array([1] * len(sim_simple))
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
+                         freq='D')
+    columns = ['X10', 'station']
+    sim_simple = pd.DataFrame(columns=columns)
+    sim_simple['date'] = date
+    sim_simple = sim_simple.fillna(1)
     return(sim_simple)
+
+
+@pytest.fixture
+def obs_sim_merge(obs_simple, sim_simple):
+    temp = gof_python.obs_sim_merge(obs_simple, sim_simple)
+    return(temp)
 
 
 def test_log_rmse(obs_simple, sim_simple):
@@ -101,13 +107,19 @@ def test_compute_gof_mo(config_mo_setup, config_mo_obj):
 
 def test_compute_gof_res(config_setup, config_obj):
     temp = gof_python.compute_gof(config_setup, config_obj)
-    assert temp == [0.72450915761519741, 1.2196478869306084], \
-            'Results do not match'
+    assert temp == pytest.approx(
+        [0.72450915761519741, 1.2196478869306084]), 'Results do not match'
 
 
 def test_compute_gof_global_module(global_module_obj, global_module_setup):
-    temp = gof_python.compute_gof(global_module_setup, global_module_obj)
-    assert temp[0] == True
+    temp = gof_python.compute_gof(
+            global_module_setup, global_module_obj)
+    assert temp[0], True
+
+
+def test_compute_gof_multi_station(multi_station_obj, multi_station_setup):
+    temp = gof_python.compute_gof(multi_station_setup, multi_station_obj)
+    assert temp == pytest.approx(0.724966)
 
 
 ######################################################################
@@ -131,6 +143,15 @@ def test_get_function_mo(config_mo_obj):
 
 def test_get_function_global(global_module_obj):
     for item in global_module_obj.objectives:
+        print(item)
+        temp = gof_python.get_functions(item)
+        assert (len(temp) == 3)
+        for func in list(temp.values()):
+            assert callable(func['exe']), 'The function is not callable'
+
+
+def test_get_function_multi(multi_station_obj):
+    for item in multi_station_obj.objectives:
         print(item)
         temp = gof_python.get_functions(item)
         assert (len(temp) == 3)

@@ -8,9 +8,9 @@
         {
             "name": "total runoff",
             "read_module": "gof_python",
-            "obs_fp": "runoff*",
+            "obs_fp": "runoff_gof.*",
             "read_obs_function": "read_observed",
-            "sim_fp": "/mc_results/stat_dis_out*",
+            "sim_fp": "/mc_results/stat_dis_out_0001*",
             "read_sim_function": "read_simulated",
             "gof_module": "gof_python",
             "gof_function": "log_rmse"

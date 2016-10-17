@@ -1,3 +1,3 @@
 .PHONY : run_tests
 run_tests:
-	python3 -m pytest --doctest-modules ./
+	python3 -m pytest --doctest-modules -v ./

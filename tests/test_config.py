@@ -9,7 +9,7 @@
 
 ######################################################################
 
-from swimpy import gof_python, config
+from swimpy import config
 
 ######################################################################
 
@@ -40,6 +40,16 @@ def test_read_config_mo():
 def test_config_global_module():
     '''test '''
     config_file = './tests/test_data_config/global_module.json'
+    temp = config.swim_setup(config_file)
+    temp = config.swim_parameter(config_file)
+    assert isinstance(temp, config.swim_parameter), 'Wrong data type'
+    temp = config.swim_objectives(config_file)
+    assert isinstance(temp, config.swim_objectives), 'Wrong data type'
+
+
+def test_multi_station_module():
+    '''test '''
+    config_file = './tests/test_data_config/multi_station.json'
     temp = config.swim_setup(config_file)
     temp = config.swim_parameter(config_file)
     assert isinstance(temp, config.swim_parameter), 'Wrong data type'
