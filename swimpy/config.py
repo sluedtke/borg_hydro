@@ -78,6 +78,7 @@ class swim_parameter():
         parameter_max = [para['max'] for para in parameter['list']]
         self.para_range = list(map(list, zip(parameter_min, parameter_max)))
         self.npreg = parameter['parameter_region_id']
+        self.parameter_file = parameter['parameter_file']
 
 
 class swim_objectives():

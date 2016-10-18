@@ -8,6 +8,7 @@
 ######################################################################
 
 import pandas as pd
+import numpy as np
 import glob
 from . import gof_python
 
@@ -157,3 +158,17 @@ def compute_gof(swim_setup, swim_objectives):
         # And append to the list that is returned
         result_list.append(result)
     return(result_list)
+
+
+def write_parameter_file(para_list, swim_config, swim_para):
+    '''
+    This function takes a list of parameters and writes them to a file given
+    via the swim_parameter class.
+    '''
+    # Convert to numpy array
+    regpar = np.asarray(para_list)
+    # reshape
+    regpar = np.ndarray.reshape(regpar, (-1, swim_para.npreg)).T
+    # write fixed format style
+    para_file = swim_config.pp + '/' + swim_para.parameter_file
+    np.savetxt(para_file, regpar, fmt='%.4f')

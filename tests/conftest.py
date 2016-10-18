@@ -17,7 +17,7 @@ from swimpy import config, utils
 ######################################################################
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def read_obs():
     ''' Just a fixture to read the files for further testing'''
     obs_file = r'./tests/test_data_gof/runoff_gof.dat'
@@ -25,7 +25,7 @@ def read_obs():
     return(obs)
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def read_sim():
     ''' Just a fixture to read the files for further testing'''
     sim_file = r'./tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
@@ -129,7 +129,7 @@ def multi_station_setup():
     return(temp)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def obs_simple():
     ''' Creating 2 DataFrame with with the same entry at every timestep'''
     todays_date = datetime.datetime.now().date()
@@ -142,7 +142,7 @@ def obs_simple():
     return(obs_simple)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def sim_simple():
     ''' Creating 2 DataFrame with with the same entry at every timestep'''
     todays_date = datetime.datetime.now().date()
@@ -155,7 +155,16 @@ def sim_simple():
     return(sim_simple)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def obs_sim_merge(obs_simple, sim_simple):
     temp = utils.obs_sim_merge(obs_simple, sim_simple)
     return(temp)
+
+
+@pytest.fixture(scope="session")
+def read_para_example():
+    ''' Just a fixture to read the files for further testing'''
+    temp = r'./tests/test_data_gof/regpar0001.dat'
+    para = pd.read_csv(temp, sep=" ")
+    para_list = list(map(float, list(para)))
+    return(para_list)

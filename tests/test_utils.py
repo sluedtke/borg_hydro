@@ -10,6 +10,7 @@
 ######################################################################
 
 import pytest
+import filecmp
 import pandas as pd
 from swimpy import utils
 
@@ -65,3 +66,15 @@ def test_get_function_multi(multi_station_obj):
         assert (len(temp) == 3)
         for func in list(temp.values()):
             assert callable(func['exe']), 'The function is not callable'
+
+
+######################################################################
+# Writing parameter files ...
+def test_write_para(read_para_example, config_setup, config_para):
+    # write the parameters to a file
+    utils.write_parameter_file(read_para_example, config_setup, config_para)
+    # concat the strings and compare the files
+    para_file = config_setup.pp + '/' + config_para.parameter_file
+    compare = filecmp.cmp(para_file,
+                          './tests/test_data_gof/regpar0001.dat')
+    assert (compare), 'Files do not match'
