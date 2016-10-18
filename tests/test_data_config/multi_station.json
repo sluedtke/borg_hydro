@@ -8,7 +8,7 @@
       "list": [
           {
               "name": "total runoff",
-              "read_module": "gof_python",
+              "read_module": "utils",
               "obs_fp": "runoff*multi*",
               "read_obs_function": "read_observed",
               "sim_fp": "/mc_results/stat_dis_out*multi*",

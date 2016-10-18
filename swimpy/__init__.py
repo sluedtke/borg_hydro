@@ -1,7 +1,3 @@
-from swimpy.gof_python import (
-        read_observed,
-        read_simulated,
-        window_ts,
-        obs_sim_merge,
-        log_rmse
-)
+import swimpy.config as config
+import swimpy.utils as utils
+import swimpy.gof_python as gof_python

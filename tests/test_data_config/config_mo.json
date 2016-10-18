@@ -8,7 +8,7 @@
         "list": [
             {
                 "name": "total runoff",
-                "read_module": "gof_python",
+                "read_module": "utils",
                 "obs_fp": "runoff_gof.*",
                 "read_obs_function": "read_observed",
                 "sim_fp": "/mc_results/stat_dis_out_0001*",
@@ -18,7 +18,7 @@
             },
             {
                 "name": "base flow",
-                "read_module": "gof_python",
+                "read_module": "utils",
                 "obs_fp": "baseflow*",
                 "read_obs_function": "read_observed",
                 "sim_fp": "/mc_results/stat_bf_out*",
@@ -28,7 +28,7 @@
             },
             {
                 "name": "inter floe",
-                "read_module": "gof_python",
+                "read_module": "utils",
                 "obs_fp": "interflow*",
                 "read_obs_function": "read_observed",
                 "sim_fp": "/mc_results/stat_if_out*",
@@ -38,7 +38,7 @@
             },
             {
                 "name": "fast flow",
-                "read_module": "gof_python",
+                "read_module": "utils",
                 "obs_fp": "fastflow*",
                 "read_obs_function": "read_observed",
                 "sim_fp": "/mc_results/stat_ff_out*",
