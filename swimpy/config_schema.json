@@ -87,6 +87,9 @@
         },
         "parameter_file": {
           "type": "string"
+        },
+        "parameter_region_id": {
+          "type": "number"
         }
       },
       "required": ["list", "write_function", "parameter_file"],
