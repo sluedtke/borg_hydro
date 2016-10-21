@@ -1,25 +1,20 @@
 #!/usr/bin/python
 # #####################################################################
 
-#       Filename: config.py
+#       Filename: start_borg.py
 
 #       Author: Stefan Luedtke
 
-# ############################   	PURPOSE		######################
-# Set all the parts that we do have to change between the different model
-# version we have to run. The aim is, to have one config file that defines the
-# paths, ... so that all the other python files do not have to be changed as
-# long as the model stays the same.
 # #####################################################################
 
 # =====================================================================
 # == Import global modules
 # =====================================================================
 
-from swimpy import gof_python, config
-
-
-config_file = './config.json'
+from swimpy import gof_python, config, utils
+import glob
+import pandas as pd
+import numpy as np
 
 # =====================================================================
 # Defining some general points  (dirs .. )
@@ -27,4 +22,34 @@ config_file = './config.json'
 if __name__ == "__main__":
     base_dir = os.path.realpath(__file__)
 # =====================================================================
+
+config_file = "./tests/test_data_config/multi_station.json"
+a = config.swim_setup(config_file)
+b = config.swim_objectives(config_file)
+c = config.swim_parameter(config_file)
+t = utils.compute_gof(a, b)
+
+item = b.objectives[0]
+# call the function that makes concatenates the module and functions to
+# something that can be applied
+functions = utils.get_functions(item)
+# call the USER function to read the observations
+obs_file = glob.glob(str(a.pp) + '/' + item['obs_fp'])[0]
+test_obs = functions['read_obs']['exe'](obs_file)
+# call the USER function to read the simulations
+sim_file = glob.glob(str(a.pp) + '/' + item['sim_fp'])[0]
+test_sim = functions['read_sim']['exe'](sim_file)
+
+
+temp = gof_python.obs_sim_merge(test_obs, test_sim)
+result = functions['gof_func']['exe'](test_obs, test_sim)
+
+config_file = "./tests/test_data_config/config_mo.json"
+a = config.swim_setup(config_file)
+
+
+config_file = "./tests/test_data_config/config.json"
+a = config.swim_setup(config_file)
+b = config.swim_objectives(config_file)
+utils.compute_gof(a, b)
 

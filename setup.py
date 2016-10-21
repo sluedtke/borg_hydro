@@ -11,6 +11,5 @@ setup(
     version='0.0.1',
     author='Stefan Lüdtke',
     url='https://git.gfz-potsdam.de:sluedtke/borg_hydro.git',
-    license=license,
-    packages=find_packages(exclude=('examples'))
+    license=license
 )
