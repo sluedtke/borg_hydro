@@ -31,7 +31,7 @@ def validate_config(model_config):
     # Read the schema that is stored in this directory. This will be used to
     # validate the user given configuration.
     schema_file = pkg_resources.resource_filename(__name__,
-                                                  './config_schema.json')
+                                                  'config_schema.json')
     config_schema = read_json_file(schema_file)
     # Validate with the user configuration given
     jsonschema.validate(model_config, config_schema)
