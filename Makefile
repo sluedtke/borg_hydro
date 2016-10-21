@@ -1,7 +1,10 @@
-.PHONY : run_all_tests
-run__all_tests:
-	python3 -m pytest --doctest-modules --ignore=setup.py -v ./
+test_with_doctest:
+	python3 -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
 
-.PHONY : run_all_tests
-run_tests:
-	python3 -m pytest  -v ./
+test_no_doctest:
+	python3 -m pytest  -v --ignore=setup.py ./borg_hydro/
+
+clean:
+	find . -type d -name '__pycache__' | xargs rm -r
+
+.PHONY : test_no_doctest test_with_doctest clean

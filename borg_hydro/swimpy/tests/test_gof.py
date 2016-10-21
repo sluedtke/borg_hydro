@@ -9,7 +9,7 @@
 
 ######################################################################
 
-from swimpy import gof_python
+from borg_hydro.swimpy import gof_python
 import pandas as pd
 
 ######################################################################

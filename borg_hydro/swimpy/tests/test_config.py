@@ -9,7 +9,7 @@
 
 ######################################################################
 
-from swimpy import config
+from borg_hydro.swimpy import config
 
 
 ######################################################################
@@ -18,7 +18,7 @@ from swimpy import config
 # Class tests ...
 def test_read_config():
     '''test '''
-    config_file = './tests/test_data_config/config.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config.json'
     temp = config.swim_setup(config_file)
     assert isinstance(temp, config.swim_setup), 'Wrong data type'
     temp = config.swim_parameter(config_file)
@@ -29,7 +29,7 @@ def test_read_config():
 
 def test_read_config_mo():
     '''test '''
-    config_file = './tests/test_data_config/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_mo.json'
     temp = config.swim_setup(config_file)
     assert isinstance(temp, config.swim_setup), 'Wrong data type'
     temp = config.swim_parameter(config_file)
@@ -40,7 +40,7 @@ def test_read_config_mo():
 
 def test_config_global_module():
     '''test '''
-    config_file = './tests/test_data_config/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/global_module.json'
     temp = config.swim_setup(config_file)
     temp = config.swim_parameter(config_file)
     assert isinstance(temp, config.swim_parameter), 'Wrong data type'
@@ -50,7 +50,7 @@ def test_config_global_module():
 
 def test_read_multi_station():
     '''test '''
-    config_file = './tests/test_data_config/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
     temp = config.swim_setup(config_file)
     temp = config.swim_parameter(config_file)
     assert isinstance(temp, config.swim_parameter), 'Wrong data type'

@@ -9,24 +9,23 @@
 
 ######################################################################
 
-import pytest
 import filecmp
 import pandas as pd
-from swimpy import utils
+from borg_hydro.swimpy import utils
 
 ######################################################################
 
 
 # Testing the path for the observed file
 def test_obs():
-    obs_file = r'./tests/test_data_gof/runoff_gof.dat'
+    obs_file = r'./borg_hydro/swimpy/tests/test_data_gof/runoff_gof.dat'
     obs = utils.read_observed(obs_file)
     assert isinstance(obs, pd.DataFrame), 'Wrong data type'
 
 
 # Testing the path for the simulated file
 def test_sim():
-    sim_file = r'./tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
+    sim_file = r'./borg_hydro/swimpy/tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
     sim = utils.read_simulated(sim_file)
     assert isinstance(sim, pd.DataFrame), 'Wrong data type'
 
@@ -76,5 +75,5 @@ def test_write_para(read_para_example, config_setup, config_para):
     # concat the strings and compare the files
     para_file = config_setup.pp + '/' + config_para.parameter_file
     compare = filecmp.cmp(para_file,
-                          './tests/test_data_gof/regpar0001.dat')
+                          './borg_hydro/swimpy/tests/test_data_gof/regpar0001.dat')
     assert (compare), 'Files do not match'

@@ -12,15 +12,17 @@
 import pytest
 import datetime
 import pandas as pd
-from swimpy import config, utils
+import os
+from borg_hydro.swimpy import config, utils
 
 ######################################################################
 
+print(os.listdir())
 
 @pytest.fixture(scope="session")
 def read_obs():
     ''' Just a fixture to read the files for further testing'''
-    obs_file = r'./tests/test_data_gof/runoff_gof.dat'
+    obs_file = r'./borg_hydro/swimpy/tests/test_data_gof/runoff_gof.dat'
     obs = utils.read_observed(obs_file)
     return(obs)
 
@@ -28,7 +30,7 @@ def read_obs():
 @pytest.fixture(scope="session")
 def read_sim():
     ''' Just a fixture to read the files for further testing'''
-    sim_file = r'./tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
+    sim_file = r'./borg_hydro/swimpy/tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
     sim = utils.read_simulated(sim_file)
     return(sim)
 
@@ -36,7 +38,7 @@ def read_sim():
 @pytest.fixture(scope="session")
 def config_setup():
     '''test '''
-    config_file = './tests/test_data_config/config.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -44,7 +46,7 @@ def config_setup():
 @pytest.fixture(scope="session")
 def config_para():
     '''test '''
-    config_file = './tests/test_data_config/config.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config.json'
     temp = config.swim_parameter(config_file)
     return(temp)
 
@@ -52,7 +54,7 @@ def config_para():
 @pytest.fixture(scope="session")
 def config_obj():
     '''test '''
-    config_file = './tests/test_data_config/config.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config.json'
     temp = config.swim_objectives(config_file)
     return(temp)
 
@@ -60,7 +62,7 @@ def config_obj():
 @pytest.fixture(scope="session")
 def config_mo_setup():
     '''test '''
-    config_file = './tests/test_data_config/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_mo.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -68,7 +70,7 @@ def config_mo_setup():
 @pytest.fixture(scope="session")
 def config_mo_para():
     '''test '''
-    config_file = './tests/test_data_config/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_mo.json'
     temp = config.swim_parameter(config_file)
     return(temp)
 
@@ -76,7 +78,7 @@ def config_mo_para():
 @pytest.fixture(scope="session")
 def config_mo_obj():
     '''test '''
-    config_file = './tests/test_data_config/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_mo.json'
     temp = config.swim_objectives(config_file)
     return(temp)
 
@@ -84,7 +86,7 @@ def config_mo_obj():
 @pytest.fixture(scope="session")
 def global_module_para():
     '''test '''
-    config_file = './tests/test_data_config/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/global_module.json'
     temp = config.swim_parameter(config_file)
     return(temp)
 
@@ -92,7 +94,7 @@ def global_module_para():
 @pytest.fixture(scope="session")
 def global_module_obj():
     '''test '''
-    config_file = './tests/test_data_config/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/global_module.json'
     temp = config.swim_objectives(config_file)
     return(temp)
 
@@ -100,7 +102,7 @@ def global_module_obj():
 @pytest.fixture(scope="session")
 def global_module_setup():
     '''test '''
-    config_file = './tests/test_data_config/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/global_module.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -108,7 +110,7 @@ def global_module_setup():
 @pytest.fixture(scope="session")
 def multi_station_para():
     '''test '''
-    config_file = './tests/test_data_config/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
     temp = config.swim_parameter(config_file)
     return(temp)
 
@@ -116,7 +118,7 @@ def multi_station_para():
 @pytest.fixture(scope="session")
 def multi_station_obj():
     '''test '''
-    config_file = './tests/test_data_config/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
     temp = config.swim_objectives(config_file)
     return(temp)
 
@@ -124,7 +126,7 @@ def multi_station_obj():
 @pytest.fixture(scope="session")
 def multi_station_setup():
     '''test '''
-    config_file = './tests/test_data_config/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -164,7 +166,7 @@ def obs_sim_merge(obs_simple, sim_simple):
 @pytest.fixture(scope="session")
 def read_para_example():
     ''' Just a fixture to read the files for further testing'''
-    temp = r'./tests/test_data_gof/regpar0001.dat'
+    temp = r'./borg_hydro/swimpy/tests/test_data_gof/regpar0001.dat'
     para = pd.read_csv(temp, sep=" ")
     para_list = list(map(float, list(para)))
     return(para_list)

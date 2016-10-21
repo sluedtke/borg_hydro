@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+from distutils.core import setup
 
 
 with open('LICENSE') as f:
@@ -11,5 +11,7 @@ setup(
     version='0.0.1',
     author='Stefan Lüdtke',
     url='https://git.gfz-potsdam.de:sluedtke/borg_hydro.git',
+    packages=['swimpy'],
+    py_modules=['config', 'utils', 'gof_python'],
     license=license
 )
