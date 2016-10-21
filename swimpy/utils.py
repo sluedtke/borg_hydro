@@ -123,7 +123,6 @@ def get_functions(item):
         # if not, call the function that splits the module and iterates of each
         # component until it reaches the function *func*
         except KeyError:
-            print(globals().keys())
             exe = search_function(func, mod)
         # put the result to the current dict entry with the key 'exe'.
         input_dict[i]['exe'] = exe
