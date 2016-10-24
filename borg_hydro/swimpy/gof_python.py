@@ -26,6 +26,11 @@ def log_rmse(temp_obs, temp_sim):
     '''
     mp = obs_sim_merge(temp_obs, temp_sim)
     mp = mp.set_index(['date'])
+
+    # replace all zeros with NaN
+    mp['sim'] = mp['sim'].replace(0, np.nan)
+    mp['obs'] = mp['obs'].replace(0, np.nan)
+
     # Join the dataframes to get rid of NA values
     # Apply the log (ln) transform to both columns
     mp['sim'] = np.log(mp['sim'])

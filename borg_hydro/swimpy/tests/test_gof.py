@@ -26,3 +26,9 @@ def test_log_rmse(obs_simple, sim_simple):
     ''' Use the DataFrame with only ones to test'''
     lrmse = gof_python.log_rmse(obs_simple, sim_simple)
     assert lrmse == 0
+
+
+def test_log_rmse_some_zeros(obs_some_zeros, sim_some_zeros):
+    ''' Use the DataFrame with only ones to test'''
+    lrmse = gof_python.log_rmse(obs_some_zeros, sim_some_zeros)
+    assert lrmse == 0

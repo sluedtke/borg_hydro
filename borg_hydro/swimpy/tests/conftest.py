@@ -137,10 +137,11 @@ def obs_simple():
     todays_date = datetime.datetime.now().date()
     date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
                          freq='D')
-    columns = ['X10', 'station']
+    columns = ['X10']
     obs_simple = pd.DataFrame(columns=columns)
     obs_simple['date'] = date
     obs_simple = obs_simple.fillna(1)
+    obs_simple = obs_simple.set_index(['date'])
     return(obs_simple)
 
 
@@ -150,11 +151,32 @@ def sim_simple():
     todays_date = datetime.datetime.now().date()
     date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
                          freq='D')
-    columns = ['X10', 'station']
+    columns = ['X10']
     sim_simple = pd.DataFrame(columns=columns)
     sim_simple['date'] = date
     sim_simple = sim_simple.fillna(1)
+    sim_simple = sim_simple.set_index(['date'])
     return(sim_simple)
+
+
+@pytest.fixture(scope="session")
+def obs_some_zeros(obs_simple):
+    '''
+    Create a dataframe that has some zeros for testing log rmse.
+    '''
+    obs_temp = obs_simple.copy(deep=True)
+    obs_temp.iloc[3:4, obs_temp.columns.get_loc('X10')] = 0
+    return(obs_temp)
+
+
+@pytest.fixture(scope="session")
+def sim_some_zeros(sim_simple):
+    '''
+    Create a dataframe that has some zeros for testing log rmse.
+    '''
+    sim_temp = sim_simple.copy(deep=True)
+    sim_temp.iloc[0:3, sim_temp.columns.get_loc('X10')] = 0
+    return(sim_temp)
 
 
 @pytest.fixture(scope="session")
