@@ -43,7 +43,8 @@ def read_simulated(simu_file):
 
     dateparse = lambda y, d: pd.datetime.strptime(''.join([y, d]), '%Y%j')
 
-    temp = pd.read_csv(simu_file, sep='\t', index_col='date',
+    temp = pd.read_csv(simu_file, index_col='date',
+                       delim_whitespace=True,
                        parse_dates={'date': ['YEAR', 'DAY']},
                        date_parser=dateparse,
                        na_values=[-9999, -999, -99])
