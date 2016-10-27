@@ -55,6 +55,8 @@ class swim_setup():
         self.pn = general['project_name']
         # address project path
         self.pp = general['project_path']
+        # the string that specifies the model - most likely a python function
+        self.model = general['model']
 
 
 # --------------------------
