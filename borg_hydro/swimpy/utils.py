@@ -10,6 +10,7 @@
 import pandas as pd
 import numpy as np
 import glob
+import datetime
 from . import gof_python
 
 ######################################################################
@@ -52,17 +53,59 @@ def read_simulated(simu_file):
 
 
 # ---------------------------------------------
-def window_ts(pandas_df, start_date, end_date):
+def convert_dates(date_var):
+    # Break if start and end date are the same (or if nothing is given)
+    date_var = str(date_var)
+    try:
+        date_var = datetime.datetime.strptime(date_var, "%Y-%m-%d").date()
+    except ValueError:
+        "The provided date string is not given in a standard format"
+        raise
+    return(date_var)
+
+
+# ---------------------------------------------
+def set_truncation_dates(*args):
+    source_start, source_end = args[0], args[1]
+    start_date, end_date = args[2], args[3]
+    # do nothing if both values are None
+    if (start_date is None) & (end_date is None):
+        temp_start = source_start
+        temp_end = source_end
+    # truncate to max(start_date, source_start) if end date is None. We use max
+    # because we want to be bigger than the start date of the series
+    elif end_date is None:
+        temp_start = max(source_start, convert_dates(start_date))
+        temp_end = source_end
+    # truncate to min(end_date, source_end) if start date is None. We use min
+    # because we want to be smaller than the end date of the series
+    elif start_date is None:
+        temp_start = source_start
+        temp_end = min(source_end, convert_dates(end_date))
+    # if both or known and start is smaller than end truncate in between
+    elif convert_dates(start_date) < convert_dates(end_date):
+        temp_start = max(source_start, convert_dates(start_date))
+        temp_end = min(source_end, convert_dates(end_date))
+    elif convert_dates(start_date) >= convert_dates(end_date):
+        raise SystemExit("Start date can not be bigger or equal to end date")
+    return([temp_start, temp_end])
+
+
+# ---------------------------------------------
+def window_ts(pandas_df, start_date=None, end_date=None):
     '''
     This function takes a pandas dataframe, a start and an end date and
     returns the df starting with start_date and ending with end_date.
 
     Return value is a pandas dataframe
     '''
-    # Create an index with the new date range
-    temp_index = pd.date_range(start=start_date, end=end_date)
-    # Use that index to clip the input data frame
-    pandas_df = pandas_df.loc[temp_index]
+    # import pdb; pdb.set_trace()
+    source_start = pandas_df.index.min().date()
+    source_end = pandas_df.index.max().date()
+    args = [source_start, source_end, start_date, end_date]
+    temp_start, temp_end = set_truncation_dates(*args)
+    # NOTE: the word truncate does not mean include 
+    pandas_df = pandas_df.truncate(before=temp_start, after=temp_end)
     return(pandas_df)
 
 
@@ -160,6 +203,7 @@ def compute_gof(swim_setup, swim_objectives):
     return(result_list)
 
 
+# -----------------------------------
 def write_parameter_file(para_list, swim_config, swim_para):
     '''
     This function takes a list of parameters and writes them to a file given

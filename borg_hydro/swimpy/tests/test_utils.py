@@ -9,14 +9,17 @@
 
 ######################################################################
 
+import pytest
 import filecmp
 import pandas as pd
+import datetime
 from borg_hydro.swimpy import utils
 
 ######################################################################
 
 
 # Testing the path for the observed file
+
 def test_obs():
     obs_file = r'./borg_hydro/swimpy/tests/test_data_gof/runoff_gof.dat'
     obs = utils.read_observed(obs_file)
@@ -33,6 +36,7 @@ def test_sim():
 ######################################################################
 # test the get_functions function- that one is crucial and quite tricky because
 # we try to catch module and function name depending on the scope.
+
 def test_get_function(config_obj):
     for item in config_obj.objectives:
         temp = utils.get_functions(item)
@@ -69,6 +73,7 @@ def test_get_function_multi(multi_station_obj):
 
 ######################################################################
 # Writing parameter files ...
+
 def test_write_para(read_para_example, config_setup, config_para):
     # write the parameters to a file
     utils.write_parameter_file(read_para_example, config_setup, config_para)
@@ -77,3 +82,46 @@ def test_write_para(read_para_example, config_setup, config_para):
     compare = filecmp.cmp(para_file,
                           './borg_hydro/swimpy/tests/test_data_gof/regpar0001.dat')
     assert (compare), 'Files do not match'
+
+
+######################################################################
+# Test the the window_ts function that cuts a dataframe to start and end dates
+
+def test_window_ts(sim_simple):
+    todays_date = datetime.datetime.now().date()
+    start_date = todays_date + datetime.timedelta(days=1)
+    end_date = todays_date + datetime.timedelta(days=4)
+    temp = utils.window_ts(sim_simple, start_date=start_date,
+                           end_date=end_date)
+    assert(len(temp) == 3)
+
+
+def test_check_window_dates_format_start_date(sim_simple):
+    with pytest.raises(Exception):
+        utils.convert_dates(sim_simple, start_date=4)
+
+
+def test_check_window_dates_format_end_date(sim_simple):
+    with pytest.raises(Exception):
+        utils.convert_dates(sim_simple, end_date=4)
+
+
+def test_check_window_dates_equal_nothing(sim_simple):
+    temp = utils.window_ts(sim_simple)
+    assert (pd.DataFrame.equals(temp, sim_simple))
+
+
+def test_check_window_dates_equal_string(sim_simple):
+    todays_date = datetime.datetime.now().date()
+    start_date = str(todays_date + datetime.timedelta(days=2))
+    end_date = str(todays_date + datetime.timedelta(days=2))
+    with pytest.raises(SystemExit):
+        utils.window_ts(sim_simple, start_date, end_date)
+
+
+def test_check_window_dates_smaller_end_date(sim_simple):
+    todays_date = datetime.datetime.now().date()
+    start_date = str(todays_date + datetime.timedelta(days=4))
+    end_date = str(todays_date + datetime.timedelta(days=2))
+    with pytest.raises(SystemExit):
+        utils.window_ts(sim_simple, start_date, end_date)
