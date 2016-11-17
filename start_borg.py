@@ -11,7 +11,7 @@
 # == Import global modules
 # =====================================================================
 
-from swimpy import gof_python, config, utils
+from borg_hydro.swimpy import gof_python, config, utils
 import glob
 import pandas as pd
 import numpy as np
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     base_dir = os.path.realpath(__file__)
 # =====================================================================
 
-config_file = "./tests/test_data_config/multi_station.json"
+config_file = "./borg_hydro/swimpy/tests/test_data_config/multi_station.json"
 a = config.swim_setup(config_file)
 b = config.swim_objectives(config_file)
 c = config.swim_parameter(config_file)
@@ -44,11 +44,11 @@ test_sim = functions['read_sim']['exe'](sim_file)
 temp = gof_python.obs_sim_merge(test_obs, test_sim)
 result = functions['gof_func']['exe'](test_obs, test_sim)
 
-config_file = "./tests/test_data_config/config_mo.json"
+config_file = "./borg_hydro/swimpy/tests/test_data_config/config_mo.json"
 a = config.swim_setup(config_file)
 
 
-config_file = "./tests/test_data_config/config.json"
+config_file = "./borg_hydro/swimpy/tests/test_data_config/config.json"
 a = config.swim_setup(config_file)
 b = config.swim_objectives(config_file)
 utils.compute_gof(a, b)
