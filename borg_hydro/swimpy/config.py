@@ -99,3 +99,15 @@ class swim_objectives():
         # get the objectives as a list of dicts
         self.objectives = list(objs for objs in
                                config_data['objectives']['list'])
+        # --------------------------
+        # get the evaluation period if provided
+        try:
+            temp = config_data['objectives']['evaluation_period']
+            self.start = temp['start_date']
+            self.end = temp['end_date']
+            self.format = temp['format']
+        except KeyError:
+            print("\n----------------------------------------------\n")
+            print("No start and end date are given, the entire simulation\
+                    period will be evaluated")
+            print("\n----------------------------------------------\n")

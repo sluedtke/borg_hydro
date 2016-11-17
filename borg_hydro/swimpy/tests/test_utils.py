@@ -12,6 +12,7 @@
 import pytest
 import filecmp
 import pandas as pd
+import numpy as np
 import datetime
 from borg_hydro.swimpy import utils
 
@@ -72,6 +73,19 @@ def test_get_function_multi(multi_station_obj):
 
 
 ######################################################################
+# Test compute_gof function
+
+def test_compute_gof(config_setup, config_obj):
+    temp = utils.compute_gof(config_setup, config_obj)
+    assert (temp == [0.72450915761519752, 1.2196478869306084])
+
+
+def test_compute_no_error(no_error_setup, no_error_obj):
+    temp = utils.compute_gof(no_error_setup, no_error_obj)
+    assert (temp == [0, 0])
+
+
+######################################################################
 # Writing parameter files ...
 
 def test_write_para(read_para_example, config_setup, config_para):
@@ -85,7 +99,7 @@ def test_write_para(read_para_example, config_setup, config_para):
 
 
 ######################################################################
-# Test the the window_ts function that cuts a dataframe to start and end dates
+# Test the window_ts function that cuts a dataframe to start and end dates
 
 def test_window_ts(sim_simple):
     todays_date = datetime.datetime.now().date()
@@ -94,6 +108,12 @@ def test_window_ts(sim_simple):
     temp = utils.window_ts(sim_simple, start_date=start_date,
                            end_date=end_date)
     assert(len(temp) == 3)
+
+
+def test_window_ts_no_overlap(no_error_setup, no_error_obj):
+    no_error_obj.end = '1990-01-11'
+    temp = utils.compute_gof(no_error_setup, no_error_obj)
+    assert (np.isnan(temp[1]))
 
 
 def test_check_window_dates_format_start_date(sim_simple):

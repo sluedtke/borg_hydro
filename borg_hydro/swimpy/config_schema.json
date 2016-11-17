@@ -54,6 +54,14 @@
           },
           "minItems": 1
         }
+      },
+      "evaluation_period": {
+        "type": "object",
+        "properties": {
+          "start_date": "string", 
+          "end_date": "string", 
+          "date_format": "string"
+        }
       }
     },
     "parameters": {

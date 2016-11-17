@@ -1,0 +1,49 @@
+{
+    "general": {
+        "project_name": "swim", 
+        "project_path": "./borg_hydro/swimpy/tests/test_data_gof/",
+        "model": "swim_exe"
+    },
+    "objectives": {
+        "list": [
+            {
+                "name": "total runoff",
+                "read_module": "utils",
+                "obs_fp": "obs_multi_1*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/res_multi_1*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            },
+            {
+                "name": "fast flow",
+                "read_module": "utils",
+                "obs_fp": "obs_multi_2*",
+                "read_obs_function": "read_observed",
+                "sim_fp": "/mc_results/res_multi_2*",
+                "read_sim_function": "read_simulated",
+                "gof_module": "gof_python",
+                "gof_function": "log_rmse"
+            }
+        ],
+        "evaluation_period": {
+          "start_date": "1990-01-01",
+          "end_date": "1990-01-14",
+          "date_format": "%y-%m-%d"
+        }
+    },
+    "parameters": {
+        "list": [
+            {
+                "name": "abf0",
+                "min": 0.00001,
+                "max": 3
+            }
+        ], 
+    "write_function": "write_para",
+    "write_module": "config",
+    "parameter_file": "parameter.dat",
+    "parameter_region_id": 1
+    }
+}

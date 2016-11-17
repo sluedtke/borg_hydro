@@ -12,12 +12,10 @@
 import pytest
 import datetime
 import pandas as pd
-import os
 from borg_hydro.swimpy import config, utils
 
 ######################################################################
 
-print(os.listdir())
 
 @pytest.fixture(scope="session")
 def read_obs():
@@ -127,6 +125,30 @@ def multi_station_obj():
 def multi_station_setup():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
+    temp = config.swim_setup(config_file)
+    return(temp)
+
+# config that has date with no errors
+@pytest.fixture(scope="session")
+def no_error_para():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_no_error.json'
+    temp = config.swim_parameter(config_file)
+    return(temp)
+
+
+@pytest.fixture(scope="session")
+def no_error_obj():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_no_error.json'
+    temp = config.swim_objectives(config_file)
+    return(temp)
+
+
+@pytest.fixture(scope="session")
+def no_error_setup():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/test_data_config/config_no_error.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
