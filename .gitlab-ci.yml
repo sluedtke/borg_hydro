@@ -1,9 +1,5 @@
-language: python
-python:
-  - "3.5"
-# command to install dependencies
-install:
-  - pip install .
-  # - pip install -r requirements.txt
-# command to run tests
-script: python -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
+test:
+  script:
+  - apt-get update -qy
+  - apt-get install -y python-dev python-pip
+  - python -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
