@@ -6,4 +6,4 @@ install:
   - pip install .
   # - pip install -r requirements.txt
 # command to run tests
-script: make
+script: python -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
