@@ -72,17 +72,17 @@ def set_truncation_dates(*args):
     if (start_date is None) & (end_date is None):
         temp_start = source_start
         temp_end = source_end
-    # truncate to max(start_date, source_start) if end date is None. We use max
+    # use max(start_date, source_start) if end date is None. We use max
     # because we want to be bigger than the start date of the series
     elif end_date is None:
         temp_start = max(source_start, convert_dates(start_date))
         temp_end = source_end
-    # truncate to min(end_date, source_end) if start date is None. We use min
+    # use min(end_date, source_end) if start date is None. We use min
     # because we want to be smaller than the end date of the series
     elif start_date is None:
         temp_start = source_start
         temp_end = min(source_end, convert_dates(end_date))
-    # if both or known and start is smaller than end truncate in between
+    # if both are given and start is smaller
     elif convert_dates(start_date) < convert_dates(end_date):
         temp_start = max(source_start, convert_dates(start_date))
         temp_end = min(source_end, convert_dates(end_date))
@@ -99,12 +99,13 @@ def window_ts(pandas_df, start_date=None, end_date=None):
 
     Return value is a pandas dataframe
     '''
-    # import pdb; pdb.set_trace()
+    # get start and end date from the time series at hand
     source_start = pandas_df.index.min().date()
     source_end = pandas_df.index.max().date()
+    # create the args list that is parsed to the function call
     args = [source_start, source_end, start_date, end_date]
     temp_start, temp_end = set_truncation_dates(*args)
-    # NOTE: the word truncate does not mean include 
+    # NOTE: the word truncate does not mean include
     pandas_df = pandas_df.truncate(before=temp_start, after=temp_end)
     return(pandas_df)
 
@@ -195,10 +196,15 @@ def compute_gof(swim_setup, swim_objectives):
         # call the USER function to read the simulations
         sim_file = glob.glob(str(swim_setup.pp) + '/' + item['sim_fp'])[0]
         temp_sim = functions['read_sim']['exe'](sim_file)
+        # Try to apply the window function to the simulated time series
+        try:
+            temp_sim = window_ts(temp_sim, start_date=swim_objectives.start,
+                                 end_date=swim_objectives.end)
+        except AttributeError:
+            temp_sim = temp_sim
         # call the USER function to compute the performance
         result = functions['gof_func']['exe'](temp_obs, temp_sim)
-        # In case we have multiple  station, apply a function to aggregate them
-        # And append to the list that is returned
+        # append to the list that is returned
         result_list.append(result)
     return(result_list)
 
