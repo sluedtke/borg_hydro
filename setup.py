@@ -15,6 +15,5 @@ setup(
     license=license,
     include_package_data=True,
     tests_require=['pytest'],
-    install_requires=['pandas', 'numpy', 'jsonschema', 'json', 'pkg_resources',
-                      'glob']
+    install_requires=['pandas', 'numpy', 'jsonschema', 'json']
 )
