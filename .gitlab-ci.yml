@@ -2,4 +2,6 @@ test:
   script:
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
-  - python -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
+  - apt-get install -y python3-dev python3-pip
+  - pip3 install pytest --user
+  - python3 -m pytest --doctest-modules --ignore=setup.py -v ./borg_hydro/
