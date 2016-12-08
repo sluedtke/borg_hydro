@@ -27,7 +27,6 @@ config_file = "./borg_hydro/swimpy/tests/test_data_config/multi_station.json"
 a = config.swim_setup(config_file)
 b = config.swim_objectives(config_file)
 c = config.swim_parameter(config_file)
-t = utils.compute_gof(a, b)
 
 item = b.objectives[0]
 # call the function that makes concatenates the module and functions to
