@@ -43,7 +43,6 @@
         ], 
     "write_function": "write_para",
     "write_module": "config",
-    "parameter_file": "parameter.dat",
-    "parameter_region_id": 1
+    "parameter_file": "parameter.dat"
     }
 }

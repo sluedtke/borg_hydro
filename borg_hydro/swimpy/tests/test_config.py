@@ -65,31 +65,52 @@ def test_read_no_error(no_error_setup, no_error_para, no_error_obj):
 ######################################################################
 # Test whether we get the correct number of objectives and parameters
 def test_parse_parameter_names(config_mo_para, config_para,
-                               global_module_para):
+                               global_module_para, multi_station_para):
     '''test '''
     assert (len(config_mo_para.para_names) == 1),\
-            'Wrong number of parameter names'
+        'Wrong number of parameter names'
     assert (len(config_para.para_names) == 6),\
-            'Wrong number of parameter names'
+        'Wrong number of parameter names'
     assert (len(global_module_para.para_names) == 1),\
-            'Wrong number of parameter names'
+        'Wrong number of parameter names'
+    assert (len(multi_station_para.para_names) == 6),\
+        'Wrong number of parameter names'
 
 
-def test_parse_parameter_range(config_mo_para, config_para, global_module_para):
+def test_parse_parameter_range(config_mo_para, config_para,
+                               global_module_para, multi_station_para):
     '''test '''
-    assert (len(config_mo_para.para_range) == 1),\
-            'Wrong number in parameter range'
+    assert (len(config_mo_para.para_range) == 2),\
+        'Wrong number in parameter range'
     assert (len(config_para.para_range) == 6),\
-            'Wrong number in parameter range'
+        'Wrong number in parameter range'
     assert (len(global_module_para.para_range) == 1),\
-            'Wrong number in parameter range'
+        'Wrong number in parameter range'
+    assert (len(multi_station_para.para_range) == 24),\
+        'Wrong number in parameter range'
 
 
-def test_parse_objectives(config_mo_obj, config_obj, global_module_obj):
+def test_parse_parameter_values_mo(config_mo_para):
+    '''test '''
+    assert (config_mo_para.para_range == [[0.00001, 3], [0.00001, 3]])
+
+
+def test_parse_parameter_values_multi(multi_station_para):
+    # test the mmulti station setup
+    multi_station_para_hard_coded = [[0.00001, 3], [0.1, 1.2], [0.00001, 2],
+                                     [1, 60], [0.1, 200], [0.1, 4]] * 4
+    assert (multi_station_para.para_range == multi_station_para_hard_coded),\
+        'Parameters do not match'
+
+
+def test_parse_objectives(config_mo_obj, config_obj, global_module_obj,
+                          multi_station_obj):
     '''test '''
     assert (len(config_mo_obj.objectives) == 4),\
-            'Wrong number of objectives'
+        'Wrong number of objectives'
     assert (len(config_obj.objectives) == 2),\
-            'Wrong number of objectives'
+        'Wrong number of objectives'
     assert (len(global_module_obj.objectives) == 1),\
-            'Wrong number of objectives'
+        'Wrong number of objectives'
+    assert (len(multi_station_obj.objectives) == 1),\
+        'Wrong number of objectives'

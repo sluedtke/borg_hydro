@@ -98,6 +98,32 @@ def test_write_para(read_para_example, config_setup, config_para):
     assert (compare), 'Files do not match'
 
 
+# Writing parameter files with multiple regions
+
+def test_write_para_multi_region_a(read_para_example, config_mo_setup,
+                                   config_mo_para):
+    # write the parameters to a file
+    utils.write_parameter_file(read_para_example, config_mo_setup,
+                               config_mo_para)
+    # concat the strings and compare the files
+    para_file = config_mo_setup.pp + '/' + config_mo_para.parameter_file
+    compare = filecmp.cmp(para_file,
+                          './borg_hydro/swimpy/tests/test_data_gof/regpar0002.dat')
+    assert (compare), 'Files do not match'
+
+
+def test_write_para_multi_region_b(read_para_example, multi_station_setup,
+                                   multi_station_para):
+    # write the parameters to a file
+    utils.write_parameter_file(read_para_example, multi_station_setup,
+                               multi_station_para)
+    # concat the strings and compare the files
+    para_file = multi_station_setup.pp + '/' + multi_station_para.parameter_file
+    compare = filecmp.cmp(para_file,
+                          './borg_hydro/swimpy/tests/test_data_gof/regpar0003.dat')
+    assert (compare), 'Files do not match'
+
+
 ######################################################################
 # Test the window_ts function that cuts a dataframe to start and end dates
 

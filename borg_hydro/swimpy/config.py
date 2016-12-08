@@ -78,11 +78,21 @@ class swim_parameter():
         # get parameter min and max
         parameter_min = [para['min'] for para in parameter['list']]
         parameter_max = [para['max'] for para in parameter['list']]
-        self.para_range = list(map(list, zip(parameter_min, parameter_max)))
-        self.npreg = parameter['parameter_region_id']
+        # get parameter regions (subcatchments in SWIM language), if that is
+        # not provided, we set it to 1
+        try:
+            self.npreg = parameter['number_parameter_region']
+        except KeyError:
+            self.npreg = 1
+        # combine to list of min max values and repeat with the number of
+        # parameter regions
+        self.para_range = list(map(list, zip(parameter_min,
+                                             parameter_max))) * self.npreg
+        # get the name of the parameter file
         self.parameter_file = parameter['parameter_file']
 
 
+# --------------------------
 class swim_objectives():
     '''
     A class that holds all the properties of the objectives given by the json

@@ -217,8 +217,8 @@ def write_parameter_file(para_list, swim_config, swim_para):
     '''
     # Convert to numpy array
     regpar = np.asarray(para_list)
-    # reshape
-    regpar = np.ndarray.reshape(regpar, (-1, swim_para.npreg)).T
+    # format the list with respect to the number of parameter regions
+    regpar = np.tile(regpar, (swim_para.npreg, 1))
     # write fixed format style
     para_file = swim_config.pp + '/' + swim_para.parameter_file
     np.savetxt(para_file, regpar, fmt='%.4f')

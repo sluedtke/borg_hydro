@@ -1,7 +1,7 @@
 {   
   "general": {
     "project_name": "swim", 
-    "project_path": "./tests/test_data_gof/",
+    "project_path": "./borg_hydro/swimpy/tests/test_data_gof/",
     "model": "swim_exe"
   },
   "objectives": {
@@ -54,6 +54,6 @@
     "write_function": "write_para",
     "write_module": "config",
     "parameter_file": "parameter.dat",
-    "parameter_region_id": 1
+    "number_parameter_region": 4
   }
 }
