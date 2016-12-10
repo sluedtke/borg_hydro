@@ -16,9 +16,24 @@ import pkg_resources
 
 # --------------------------
 def read_json_file(json_file):
-    '''
-    Function to read a json file.
-    '''
+    """
+    Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    int
+        Description of return value
+
+    """
     with open(json_file) as json_file:
         json_data = json.load(json_file)
     return(json_data)
