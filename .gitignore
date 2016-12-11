@@ -1,14 +1,7 @@
 tests/__pycache__/
 tests/.cache/
 .cache/
-
-temp.py
 *.swp
 *.pyc
-
-config.json
-/baseflow.dat
-/fastflow.dat
-/interflow.dat
-/mc_results
-/runoff_gof.dat
+/borg_hydro/swimpy/tests/test_data_gof/parameter.dat
+/borg_hydro/swimpy/tests/test_data_gof/temp_para.dat
