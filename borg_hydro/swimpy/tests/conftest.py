@@ -211,6 +211,6 @@ def obs_sim_merge(obs_simple, sim_simple):
 def read_para_example():
     ''' Just a fixture to read the files for further testing'''
     temp = r'./borg_hydro/swimpy/tests/test_data_gof/regpar0001.dat'
-    para = pd.read_csv(temp, sep=" ")
+    para = pd.read_csv(temp, sep="\t")
     para_list = list(map(float, list(para)))
     return(para_list)
