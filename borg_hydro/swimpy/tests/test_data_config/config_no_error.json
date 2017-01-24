@@ -24,7 +24,7 @@
                 "sim_fp": "/mc_results/res_multi_2*",
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof_function": "nse"
             }
         ],
         "evaluation_period": {

@@ -112,5 +112,5 @@ def test_parse_objectives(config_mo_obj, config_obj, global_module_obj,
         'Wrong number of objectives'
     assert (len(global_module_obj.objectives) == 1),\
         'Wrong number of objectives'
-    assert (len(multi_station_obj.objectives) == 1),\
+    assert (len(multi_station_obj.objectives) == 2),\
         'Wrong number of objectives'

@@ -82,7 +82,16 @@ def test_compute_gof(config_setup, config_obj):
 
 def test_compute_no_error(no_error_setup, no_error_obj):
     temp = utils.compute_gof(no_error_setup, no_error_obj)
-    assert (temp == [0, 0])
+    # lrmse return 0 for no difference between the series
+    assert (temp[0] == [0])
+    assert (np.isnan(temp[1]))
+
+
+def test_compute_multi_station(multi_station_setup, multi_station_obj):
+    temp = utils.compute_gof(multi_station_setup, multi_station_obj)
+    # lrmse return 0 for no difference between the series
+    assert (pytest.approx(temp[0], 0.001) == 0.7245091)
+    assert (pytest.approx(temp[1], 0.001) == -109.1739)
 
 
 ######################################################################

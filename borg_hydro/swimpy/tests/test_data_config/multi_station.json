@@ -15,6 +15,16 @@
               "read_sim_function": "read_simulated",
               "gof_module": "gof_python",
               "gof_function": "log_rmse"
+          }, 
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "runoff*multi*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "/mc_results/stat_dis_out*multi*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "nse"
           }
       ]
   },
