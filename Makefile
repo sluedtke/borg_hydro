@@ -6,5 +6,6 @@ test_no_doctest:
 
 clean:
 	find . -type d -name '__pycache__' | xargs rm -r
+	find . -type d -name '.cache' | xargs rm -r
 
 .PHONY : test_no_doctest test_with_doctest clean
