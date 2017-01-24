@@ -155,7 +155,7 @@ def no_error_setup():
 
 @pytest.fixture(scope="session")
 def obs_simple():
-    ''' Creating 2 DataFrame with with the same entry at every timestep'''
+    ''' Creating a DataFrame with with the same entry at every timestep'''
     todays_date = datetime.datetime.now().date()
     date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
                          freq='D')
@@ -169,7 +169,7 @@ def obs_simple():
 
 @pytest.fixture(scope="session")
 def sim_simple():
-    ''' Creating 2 DataFrame with with the same entry at every timestep'''
+    ''' Creating a DataFrame with with the same entry at every timestep'''
     todays_date = datetime.datetime.now().date()
     date = pd.date_range(todays_date-datetime.timedelta(10), periods=14,
                          freq='D')
