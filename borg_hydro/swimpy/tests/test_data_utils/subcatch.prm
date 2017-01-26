@@ -1,0 +1,2 @@
+catchmentID	ecal	thc	roc2	roc4	cncor	sccor	tsnfall	tmelt	smrate	gmrate	bff	abf	delay	revapc	rchrgc	revapmn	stationID
+1	1.1	1.0	7.0	7.0	1.0	2.5	0.0	0.0	1.0	1.0	1.0	0.4	200.0	0.2	0.0	0.0	1

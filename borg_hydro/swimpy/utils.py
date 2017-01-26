@@ -220,8 +220,9 @@ def write_parameter_file(para_list, swim_config, swim_para):
     # format the list with respect to the number of parameter regions
     regpar = np.tile(regpar, (swim_para.npreg, 1))
     regpar = pd.DataFrame(regpar)
-    # write fixed format style
-    # import pdb; pdb.set_trace()
+    regpar.insert(0, 'a', 1)
+    regpar.insert(regpar.shape[1], 'b', 1)
+    regpar.columns = ['catchmentID'] + swim_para.para_names + ['stationID']
     para_file = swim_config.pp + '/' + swim_para.parameter_file
-    regpar.to_csv(para_file, sep='\t', encoding='utf-8', header=False,
+    regpar.to_csv(para_file, sep='\t', encoding='utf-8', header=True,
                   index=False)
