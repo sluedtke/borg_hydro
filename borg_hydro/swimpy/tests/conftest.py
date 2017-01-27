@@ -20,7 +20,7 @@ from borg_hydro.swimpy import config, utils
 @pytest.fixture(scope="session")
 def read_obs():
     ''' Just a fixture to read the files for further testing'''
-    obs_file = r'./borg_hydro/swimpy/tests/test_data_gof/runoff_gof.dat'
+    obs_file = r'./borg_hydro/swimpy/tests/test_input/runoff_gof.dat'
     obs = utils.read_observed(obs_file)
     return(obs)
 
@@ -28,7 +28,7 @@ def read_obs():
 @pytest.fixture(scope="session")
 def read_sim():
     ''' Just a fixture to read the files for further testing'''
-    sim_file = r'./borg_hydro/swimpy/tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
+    sim_file = r'./borg_hydro/swimpy/tests/test_output/Res/stat_dis_out_0001.csv'
     sim = utils.read_simulated(sim_file)
     return(sim)
 
@@ -36,7 +36,7 @@ def read_sim():
 @pytest.fixture(scope="session")
 def config_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/test_data_config/config.json'
+    config_file = './borg_hydro/swimpy/tests/config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -44,7 +44,7 @@ def config_setup():
 @pytest.fixture(scope="session")
 def config_mo_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/test_data_config/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/config_mo.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -52,7 +52,7 @@ def config_mo_setup():
 @pytest.fixture(scope="session")
 def global_module_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/test_data_config/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/global_module.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -60,7 +60,7 @@ def global_module_setup():
 @pytest.fixture(scope="session")
 def multi_station_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/test_data_config/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/multi_station.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -68,7 +68,7 @@ def multi_station_setup():
 @pytest.fixture(scope="session")
 def no_error_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/test_data_config/config_no_error.json'
+    config_file = './borg_hydro/swimpy/tests/config_no_error.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -130,7 +130,7 @@ def obs_sim_merge(obs_simple, sim_simple):
 @pytest.fixture(scope="session")
 def read_para_example():
     ''' Just a fixture to read the files for further testing'''
-    temp = r'./borg_hydro/swimpy/tests/test_data_utils/subcatch.prm'
+    temp = r'./borg_hydro/swimpy/tests/test_input/subcatch.prm'
     para = pd.read_csv(temp, sep="\t", squeeze=True)
     para.drop(['catchmentID', 'stationID'], axis=1, inplace=True)
     para_names = list(para)

@@ -1,7 +1,7 @@
 {   
   "general": {
     "project_name": "swim", 
-    "project_path": "./borg_hydro/swimpy/tests/test_data_gof/",
+    "project_path": "./borg_hydro/swimpy/tests/",
     "model": "swim_exe"
   },
   "objectives": {
@@ -9,9 +9,9 @@
           {
               "name": "total runoff",
               "read_module": "utils",
-              "obs_fp": "runoff*multi*",
+              "obs_fp": "test_input/runoff*multi*",
               "read_obs_function": "read_observed",
-              "sim_fp": "/mc_results/stat_dis_out*multi*",
+              "sim_fp": "test_output/Res/stat_dis_out*multi*",
               "read_sim_function": "read_simulated",
               "gof_module": "gof_python",
               "gof_function": "log_rmse"
@@ -19,9 +19,9 @@
           {
               "name": "total runoff",
               "read_module": "utils",
-              "obs_fp": "runoff*multi*",
+              "obs_fp": "test_input/runoff*multi*",
               "read_obs_function": "read_observed",
-              "sim_fp": "/mc_results/stat_dis_out*multi*",
+              "sim_fp": "test_output/Res/stat_dis_out*multi*",
               "read_sim_function": "read_simulated",
               "gof_module": "gof_python",
               "gof_function": "nse"
@@ -63,7 +63,7 @@
     ], 
     "write_function": "write_para",
     "write_module": "config",
-    "parameter_file": "parameter003.dat",
+    "parameter_file": "test_input/parameter003.dat",
     "number_parameter_region": 4
   }
 }

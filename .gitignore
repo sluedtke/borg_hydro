@@ -3,4 +3,4 @@ tests/.cache/
 .cache/
 *.swp
 *.pyc
-/borg_hydro/swimpy/tests/test_data_gof/parameter*.dat
+borg_hydro/swimpy/tests/test_input/parameter*

@@ -22,14 +22,14 @@ from borg_hydro.swimpy import utils
 # Testing the path for the observed file
 
 def test_obs():
-    obs_file = r'./borg_hydro/swimpy/tests/test_data_gof/runoff_gof.dat'
+    obs_file = r'./borg_hydro/swimpy/tests/test_input/runoff_gof.dat'
     obs = utils.read_observed(obs_file)
     assert isinstance(obs, pd.DataFrame), 'Wrong data type'
 
 
 # Testing the path for the simulated file
 def test_sim():
-    sim_file = r'./borg_hydro/swimpy/tests/test_data_gof/mc_results/stat_dis_out_0001.csv'
+    sim_file = r'./borg_hydro/swimpy/tests/test_output/Res/stat_dis_out_0001.csv'
     sim = utils.read_simulated(sim_file)
     assert isinstance(sim, pd.DataFrame), 'Wrong data type'
 
@@ -105,7 +105,7 @@ def test_write_para(read_para_example, config_setup):
     # concat the strings and compare the files
     para_file = config_setup.pp + '/' + config_setup.parameter_file
     compare = filecmp.cmp(para_file,
-                          './borg_hydro/swimpy/tests/test_data_utils/subcatch.prm')
+                          './borg_hydro/swimpy/tests/test_input/subcatch.prm')
     assert (compare), 'Files do not match'
 
 
@@ -119,7 +119,7 @@ def test_write_para_multi_region_a(read_para_example, config_mo_setup):
     # concat the strings and compare the files
     para_file = config_mo_setup.pp + '/' + config_mo_setup.parameter_file
     compare = filecmp.cmp(para_file,
-                          './borg_hydro/swimpy/tests/test_data_utils/subcatch_2.prm')
+                          './borg_hydro/swimpy/tests/test_input/subcatch_2.prm')
     assert (compare), 'Files do not match'
 
 
@@ -131,7 +131,7 @@ def test_write_para_multi_region_b(read_para_example, multi_station_setup):
     # concat the strings and compare the files
     para_file = multi_station_setup.pp + '/' + multi_station_setup.parameter_file
     compare = filecmp.cmp(para_file,
-                          './borg_hydro/swimpy/tests/test_data_utils/subcatch_4.prm')
+                          './borg_hydro/swimpy/tests/test_input/subcatch_4.prm')
     assert (compare), 'Files do not match'
 
 
