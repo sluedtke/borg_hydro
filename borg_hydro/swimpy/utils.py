@@ -178,7 +178,7 @@ def get_functions(item):
 
 
 # -----------------------------------
-def compute_gof(swim_setup, swim_objectives):
+def compute_gof(swim_config):
     '''
     For each objectives in the config the functions computes the performance as
     specified in the config.
@@ -186,20 +186,20 @@ def compute_gof(swim_setup, swim_objectives):
     Returns a list with one value for each objective.
     '''
     result_list = []
-    for item in swim_objectives.objectives:
+    for item in swim_config.objectives:
         # call the function that makes concatenates the module and functions to
         # something that can be applied
         functions = get_functions(item)
         # call the USER function to read the observations
-        obs_file = glob.glob(str(swim_setup.pp) + '/' + item['obs_fp'])[0]
+        obs_file = glob.glob(str(swim_config.pp) + '/' + item['obs_fp'])[0]
         temp_obs = functions['read_obs']['exe'](obs_file)
         # call the USER function to read the simulations
-        sim_file = glob.glob(str(swim_setup.pp) + '/' + item['sim_fp'])[0]
+        sim_file = glob.glob(str(swim_config.pp) + '/' + item['sim_fp'])[0]
         temp_sim = functions['read_sim']['exe'](sim_file)
         # Try to apply the window function to the simulated time series
         try:
-            temp_sim = window_ts(temp_sim, start_date=swim_objectives.start,
-                                 end_date=swim_objectives.end)
+            temp_sim = window_ts(temp_sim, start_date=swim_config.start,
+                                 end_date=swim_config.end)
         except AttributeError:
             temp_sim = temp_sim
         # call the USER function to compute the performance
@@ -210,7 +210,7 @@ def compute_gof(swim_setup, swim_objectives):
 
 
 # -----------------------------------
-def write_parameter_file(para_list, swim_config, swim_para):
+def write_parameter_file(para_list, swim_config):
     '''
     This function takes a list of parameters and writes them to a file given
     via the swim_parameter class.
@@ -218,11 +218,12 @@ def write_parameter_file(para_list, swim_config, swim_para):
     # Convert to numpy array
     regpar = np.asarray(para_list)
     # format the list with respect to the number of parameter regions
-    regpar = np.tile(regpar, (swim_para.npreg, 1))
+    regpar = np.tile(regpar, (swim_config.para_npreg, 1))
     regpar = pd.DataFrame(regpar)
     regpar.insert(0, 'a', 1)
     regpar.insert(regpar.shape[1], 'b', 1)
-    regpar.columns = ['catchmentID'] + swim_para.para_names + ['stationID']
-    para_file = swim_config.pp + '/' + swim_para.parameter_file
+    regpar.columns = ['catchmentID'] + swim_config.para_names + ['stationID']
+    para_file = swim_config.pp + '/'+ swim_config.parameter_file
+    print(para_file)
     regpar.to_csv(para_file, sep='\t', encoding='utf-8', header=True,
                   index=False)

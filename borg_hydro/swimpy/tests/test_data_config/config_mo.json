@@ -58,7 +58,7 @@
         ], 
     "write_function": "write_para",
     "write_module": "config",
-    "parameter_file": "parameter.dat",
+    "parameter_file": "parameter_2.dat",
     "number_parameter_region": 2
     }
 }

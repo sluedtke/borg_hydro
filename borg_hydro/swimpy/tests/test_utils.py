@@ -38,24 +38,24 @@ def test_sim():
 # test the get_functions function- that one is crucial and quite tricky because
 # we try to catch module and function name depending on the scope.
 
-def test_get_function(config_obj):
-    for item in config_obj.objectives:
+def test_get_function(config_setup):
+    for item in config_setup.objectives:
         temp = utils.get_functions(item)
         assert (len(temp) == 3)
         for func in list(temp.values()):
             assert callable(func['exe']), 'The function is not callable'
 
 
-def test_get_function_mo(config_mo_obj):
-    for item in config_mo_obj.objectives:
+def test_get_function_mo(config_mo_setup):
+    for item in config_mo_setup.objectives:
         temp = utils.get_functions(item)
         assert (len(temp) == 3)
         for func in list(temp.values()):
             assert callable(func['exe']), 'The function is not callable'
 
 
-def test_get_function_global(global_module_obj):
-    for item in global_module_obj.objectives:
+def test_get_function_global(global_module_setup):
+    for item in global_module_setup.objectives:
         print(item)
         temp = utils.get_functions(item)
         assert (len(temp) == 3)
@@ -63,8 +63,8 @@ def test_get_function_global(global_module_obj):
             assert callable(func['exe']), 'The function is not callable'
 
 
-def test_get_function_multi(multi_station_obj):
-    for item in multi_station_obj.objectives:
+def test_get_function_multi(multi_station_setup):
+    for item in multi_station_setup.objectives:
         print(item)
         temp = utils.get_functions(item)
         assert (len(temp) == 3)
@@ -75,20 +75,20 @@ def test_get_function_multi(multi_station_obj):
 ######################################################################
 # Test compute_gof function
 
-def test_compute_gof(config_setup, config_obj):
-    temp = utils.compute_gof(config_setup, config_obj)
+def test_compute_gof(config_setup):
+    temp = utils.compute_gof(config_setup)
     assert (temp == [0.72450915761519752, 1.2196478869306084])
 
 
-def test_compute_no_error(no_error_setup, no_error_obj):
-    temp = utils.compute_gof(no_error_setup, no_error_obj)
+def test_compute_no_error(no_error_setup):
+    temp = utils.compute_gof(no_error_setup)
     # lrmse return 0 for no difference between the series
     assert (temp[0] == [0])
     assert (np.isnan(temp[1]))
 
 
-def test_compute_multi_station(multi_station_setup, multi_station_obj):
-    temp = utils.compute_gof(multi_station_setup, multi_station_obj)
+def test_compute_multi_station(multi_station_setup):
+    temp = utils.compute_gof(multi_station_setup)
     # lrmse return 0 for no difference between the series
     assert (pytest.approx(temp[0], 0.001) == 0.7245091)
     assert (pytest.approx(temp[1], 0.001) == -109.1739)
@@ -97,13 +97,13 @@ def test_compute_multi_station(multi_station_setup, multi_station_obj):
 ######################################################################
 # Writing parameter files ...
 
-def test_write_para(read_para_example, config_setup, config_para):
+def test_write_para(read_para_example, config_setup):
     # write the parameters to a file
-    config_para.para_names = read_para_example['names']
+    config_setup.para_names = read_para_example['names']
     para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, config_setup, config_para)
+    utils.write_parameter_file(para_values, config_setup)
     # concat the strings and compare the files
-    para_file = config_setup.pp + '/' + config_para.parameter_file
+    para_file = config_setup.pp + '/' + config_setup.parameter_file
     compare = filecmp.cmp(para_file,
                           './borg_hydro/swimpy/tests/test_data_utils/subcatch.prm')
     assert (compare), 'Files do not match'
@@ -111,29 +111,25 @@ def test_write_para(read_para_example, config_setup, config_para):
 
 # Writing parameter files with multiple regions
 
-def test_write_para_multi_region_a(read_para_example, config_mo_setup,
-                                   config_mo_para):
+def test_write_para_multi_region_a(read_para_example, config_mo_setup):
     # write the parameters to a file
-    config_mo_para.para_names = read_para_example['names']
+    config_mo_setup.para_names = read_para_example['names']
     para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, config_mo_setup,
-                               config_mo_para)
+    utils.write_parameter_file(para_values, config_mo_setup)
     # concat the strings and compare the files
-    para_file = config_mo_setup.pp + '/' + config_mo_para.parameter_file
+    para_file = config_mo_setup.pp + '/' + config_mo_setup.parameter_file
     compare = filecmp.cmp(para_file,
                           './borg_hydro/swimpy/tests/test_data_utils/subcatch_2.prm')
     assert (compare), 'Files do not match'
 
 
-def test_write_para_multi_region_b(read_para_example, multi_station_setup,
-                                   multi_station_para):
+def test_write_para_multi_region_b(read_para_example, multi_station_setup):
     # write the parameters to a file
-    multi_station_para.para_names = read_para_example['names']
+    multi_station_setup.para_names = read_para_example['names']
     para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, multi_station_setup,
-                               multi_station_para)
+    utils.write_parameter_file(para_values, multi_station_setup)
     # concat the strings and compare the files
-    para_file = multi_station_setup.pp + '/' + multi_station_para.parameter_file
+    para_file = multi_station_setup.pp + '/' + multi_station_setup.parameter_file
     compare = filecmp.cmp(para_file,
                           './borg_hydro/swimpy/tests/test_data_utils/subcatch_4.prm')
     assert (compare), 'Files do not match'
@@ -151,9 +147,9 @@ def test_window_ts(sim_simple):
     assert(len(temp) == 3)
 
 
-def test_window_ts_no_overlap(no_error_setup, no_error_obj):
-    no_error_obj.end = '1990-01-11'
-    temp = utils.compute_gof(no_error_setup, no_error_obj)
+def test_window_ts_no_overlap(no_error_setup):
+    no_error_setup.end = '1990-01-11'
+    temp = utils.compute_gof(no_error_setup)
     assert (np.isnan(temp[1]))
 
 
