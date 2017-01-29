@@ -9,12 +9,9 @@
         },
         "project_path": {
           "type": "string"
-        },
-        "model": {
-          "type": "string"
         }
       },
-      "required": ["project_name", "project_path", "model"] 
+      "required": ["project_name", "project_path"] 
     },
     "objectives": {
       "type": "object",

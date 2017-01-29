@@ -1,8 +1,7 @@
 {
     "general": {
     "project_name": "swim", 
-    "project_path": "./tests/",
-    "model": "swim_exe"
+    "project_path": "./tests/"
     },
     "objectives": {
         "list": [

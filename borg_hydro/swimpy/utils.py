@@ -224,6 +224,5 @@ def write_parameter_file(para_list, swim_config):
     regpar.insert(regpar.shape[1], 'b', 1)
     regpar.columns = ['catchmentID'] + swim_config.para_names + ['stationID']
     para_file = swim_config.pp + '/'+ swim_config.parameter_file
-    print(para_file)
     regpar.to_csv(para_file, sep='\t', encoding='utf-8', header=True,
                   index=False)

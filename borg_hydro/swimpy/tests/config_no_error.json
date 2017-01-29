@@ -1,8 +1,7 @@
 {
     "general": {
         "project_name": "swim", 
-        "project_path": "./borg_hydro/swimpy/tests/",
-        "model": "swim_exe"
+        "project_path": "./borg_hydro/swimpy/tests/"
     },
     "objectives": {
         "list": [
