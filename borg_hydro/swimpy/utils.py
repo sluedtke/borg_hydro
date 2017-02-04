@@ -207,22 +207,3 @@ def compute_gof(swim_config):
         # append to the list that is returned
         result_list.append(result)
     return(result_list)
-
-
-# -----------------------------------
-def write_parameter_file(para_list, swim_config):
-    '''
-    This function takes a list of parameters and writes them to a file given
-    via the swim_parameter class.
-    '''
-    # Convert to numpy array
-    regpar = np.asarray(para_list)
-    # format the list with respect to the number of parameter regions
-    regpar = np.tile(regpar, (swim_config.para_npreg, 1))
-    regpar = pd.DataFrame(regpar)
-    regpar.insert(0, 'a', 1)
-    regpar.insert(regpar.shape[1], 'b', 1)
-    regpar.columns = ['catchmentID'] + swim_config.para_names + ['stationID']
-    para_file = swim_config.pp + '/'+ swim_config.parameter_file
-    regpar.to_csv(para_file, sep='\t', encoding='utf-8', header=True,
-                  index=False)

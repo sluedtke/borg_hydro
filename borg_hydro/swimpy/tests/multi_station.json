@@ -30,7 +30,7 @@
   "parameters": {
     "list": [
       {
-        "name": "abf0",
+        "name": "abf",
         "min": 0.00001,
         "max": 3
       },
@@ -45,12 +45,12 @@
         "max": 2
       },
       {
-        "name": "del0",
+        "name": "delay",
         "min": 1,
         "max": 60
       },
       {
-        "name": "roc",
+        "name": "roc4",
         "min": 0.1,
         "max": 200
       },
@@ -62,7 +62,7 @@
     ], 
     "write_function": "write_para",
     "write_module": "config",
-    "parameter_file": "test_input/parameter003.dat",
+    "parameter_file": "test_input/parameter_4.dat",
     "number_parameter_region": 4
   }
 }

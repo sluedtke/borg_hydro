@@ -96,12 +96,33 @@ def test_compute_multi_station(multi_station_setup):
 
 ######################################################################
 # Writing parameter files ...
+def create_random_draw(swim_config):
+    '''
+    Draws a set of random numbers according to the parameter settings and
+    parameter regions given in the swim class.
+    '''
+    random_draw = np.random.uniform(list(zip(*swim_config.para_limits))[0],
+                                    list(zip(*swim_config.para_limits))[1],
+                                    len(swim_config.para_limits)).tolist()
+    random_draw = np.array_split(random_draw, swim_config.para_npreg)
+    random_draw = [random_draw[i].tolist() for i in range(len(random_draw))]
+    return(random_draw)
 
-def test_write_para(read_para_example, config_setup):
+
+def write_parameter_template(swim_config):
+    '''
+    This function simply writes the parameter template of the swim config to a
+    file.
+    '''
+    para_file = swim_config.pp + '/' + swim_config.parameter_file
+    swim_config.para_template.to_csv(para_file, sep='\t', encoding='utf-8',
+                                     header=True, index=True)
+
+
+# -----------------------------------
+def test_write_para_template(config_setup):
     # write the parameters to a file
-    config_setup.para_names = read_para_example['names']
-    para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, config_setup)
+    write_parameter_template(config_setup)
     # concat the strings and compare the files
     para_file = config_setup.pp + '/' + config_setup.parameter_file
     compare = filecmp.cmp(para_file,
@@ -110,12 +131,9 @@ def test_write_para(read_para_example, config_setup):
 
 
 # Writing parameter files with multiple regions
-
-def test_write_para_multi_region_a(read_para_example, config_mo_setup):
+def test_write_para_template_multi_region_a(config_mo_setup):
     # write the parameters to a file
-    config_mo_setup.para_names = read_para_example['names']
-    para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, config_mo_setup)
+    write_parameter_template(config_mo_setup)
     # concat the strings and compare the files
     para_file = config_mo_setup.pp + '/' + config_mo_setup.parameter_file
     compare = filecmp.cmp(para_file,
@@ -123,21 +141,48 @@ def test_write_para_multi_region_a(read_para_example, config_mo_setup):
     assert (compare), 'Files do not match'
 
 
-def test_write_para_multi_region_b(read_para_example, multi_station_setup):
+def test_write_para_template_multi_region_b(multi_station_setup):
     # write the parameters to a file
-    multi_station_setup.para_names = read_para_example['names']
-    para_values = read_para_example['values']
-    utils.write_parameter_file(para_values, multi_station_setup)
+    write_parameter_template(multi_station_setup)
     # concat the strings and compare the files
-    para_file = multi_station_setup.pp + '/' + multi_station_setup.parameter_file
+    para_file = multi_station_setup.pp + '/' +\
+        multi_station_setup.parameter_file
     compare = filecmp.cmp(para_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_4.prm')
     assert (compare), 'Files do not match'
 
 
+# -----------------------------------
+@pytest.mark.xfail
+def test_write_para_template_false(config_mo_setup):
+    # create a random parameter set that is used to update the template
+    config_mo_setup.para_borg = create_random_draw(config_mo_setup)
+    # write the parameters to a file
+    equal = config_mo_setup.para_template.equals(config_mo_setup.para_borg)
+    assert (equal), 'DataFrames do not match'
+
+
+@pytest.mark.xfail
+def test_write_para_template_false_a(multi_station_setup):
+    # create a random parameter set that is used to update the template
+    multi_station_setup.para_borg = create_random_draw(multi_station_setup)
+    # write the parameters to a file
+    equal =\
+        multi_station_setup.para_template.equals(multi_station_setup.para_borg)
+    assert (equal), 'DataFrames do not match'
+
+
+@pytest.mark.xfail
+def test_write_para_template_false_b(config_setup):
+    # create a random parameter set that is used to update the template
+    config_setup.para_borg = create_random_draw(config_setup)
+    # write the parameters to a file
+    equal = config_setup.para_template.equals(config_setup.para_borg)
+    assert (equal), 'DataFrames do not match'
+
+
 ######################################################################
 # Test the window_ts function that cuts a dataframe to start and end dates
-
 def test_window_ts(sim_simple):
     todays_date = datetime.datetime.now().date()
     start_date = todays_date + datetime.timedelta(days=1)

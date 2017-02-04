@@ -10,7 +10,7 @@
 ######################################################################
 
 from borg_hydro.swimpy import config
-
+import pytest
 
 ######################################################################
 
@@ -44,18 +44,25 @@ def test_read_no_error(no_error_setup):
         'Wrong data type'
 
 
+def test_read_false_parameter():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/config_false_parameter.json'
+    with pytest.raises(KeyError):
+        config.swim_setup(config_file)
+
+
 ######################################################################
 # Test whether we get the correct number of objectives and parameters
 def test_parse_parameter_names(config_mo_setup, config_setup,
                                global_module_setup, multi_station_setup):
     '''test '''
-    assert (len(config_mo_setup.para_names) == 1),\
+    assert (len(config_mo_setup.para_names) == 2),\
         'Wrong number of parameter names'
     assert (len(config_setup.para_names) == 6),\
         'Wrong number of parameter names'
     assert (len(global_module_setup.para_names) == 1),\
         'Wrong number of parameter names'
-    assert (len(multi_station_setup.para_names) == 6),\
+    assert (len(multi_station_setup.para_names) == 24),\
         'Wrong number of parameter names'
 
 

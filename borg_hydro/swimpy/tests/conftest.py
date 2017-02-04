@@ -125,14 +125,3 @@ def sim_some_zeros(sim_simple):
 def obs_sim_merge(obs_simple, sim_simple):
     temp = utils.obs_sim_merge(obs_simple, sim_simple)
     return(temp)
-
-
-@pytest.fixture(scope="session")
-def read_para_example():
-    ''' Just a fixture to read the files for further testing'''
-    temp = r'./borg_hydro/swimpy/tests/test_input/subcatch.prm'
-    para = pd.read_csv(temp, sep="\t", squeeze=True)
-    para.drop(['catchmentID', 'stationID'], axis=1, inplace=True)
-    para_names = list(para)
-    para_values = [round(value, 1) for value in list(para.loc[0, :])]
-    return({'names': para_names, 'values': para_values})

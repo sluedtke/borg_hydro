@@ -20,7 +20,7 @@
     "parameters": {
         "list": [
             {
-                "name": "abf0",
+                "name": "abf",
                 "min": 0.00001,
                 "max": 3
             }
