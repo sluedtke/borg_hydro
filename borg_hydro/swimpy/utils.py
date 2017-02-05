@@ -207,3 +207,40 @@ def compute_gof(swim_config):
         # append to the list that is returned
         result_list.append(result)
     return(result_list)
+
+
+# -----------------------------------
+def create_para_borg(swim_config, parameter_list):
+    '''
+    That function will create a pandas data frame based on the parameter list.
+    It will use the class attribute 'para_names' as names and the attribute
+    'para_npreg' to create the data frame with the shape len(para_names) by
+    para_npreg (columns x rows).
+    A pandas data frame is parsed and used to update the parameter template of
+    the class.
+    '''
+    # split the list into equally sized chunks
+    temp_list = np.array_split(parameter_list, swim_config.para_npreg)
+    temp_list = [temp_list[i].tolist() for i in range(len(temp_list))]
+
+    # create the dataframe
+    para_pd = pd.DataFrame(temp_list, columns=set(swim_config.para_names))
+    # create column for the catchment id
+    para_pd['catchmentID'] = para_pd.index
+    para_pd.catchmentID = para_pd.catchmentID + 1
+    para_pd = para_pd.set_index('catchmentID')
+    para = swim_config.para_template
+    para.update(para_pd, join='left')
+    para_borg = para.reset_index(drop=False)
+    return(para_borg)
+
+
+# --------------------------
+def write_parameter_file(swim_config, parameter_borg):
+    '''
+    This method just writes the newly created parameter set to file. This
+    attribute is empty if not set before by parsing a list of parameters.
+    '''
+    para_file = swim_config.pp + '/' + swim_config.parameter_file
+    parameter_borg.to_csv(para_file, sep='\t', encoding='utf-8',
+                                 header=True, index=False)

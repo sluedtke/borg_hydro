@@ -76,43 +76,6 @@ class swim_setup(object):
             raise
     
     # --------------------------
-    @property
-    def para_borg(self):
-        return(self._para_borg)
-        
-    # --------------------------
-    @para_borg.setter
-    def para_borg(self, parameter_list):
-        '''
-        That function will create a pandas data frame based on the parameter list.
-        It will use the class attribute 'para_names' as names and the attribute
-        'para_npreg' to create the data frame with the shape len(para_names) by
-        para_npreg (columns x rows).
-        A pandas data frame is parsed and used to update the parameter template of
-        the class.
-        '''
-        # create the dataframe
-        para_pd = pd.DataFrame(parameter_list, columns=set(self.para_names))
-        # create column for the catchment id
-        para_pd['catchmentID'] = para_pd.index
-        para_pd.catchmentID = para_pd.catchmentID + 1
-        para_pd = para_pd.set_index('catchmentID')
-        para = self.para_template
-        para.update(para_pd, join='left')
-        para = para.reset_index(drop=False)
-        self._para_borg = para
-        
-    # --------------------------
-    def write_parameter_file(self):
-        '''
-        This method just writes the newly created parameter set to file. This 
-        attribute is empty if not set before by parsing a list of parameters.
-        '''
-        para_file = self.pp + '/' + self.parameter_file
-        self.para_borg.to_csv(para_file, sep='\t', encoding='utf-8',
-                                     header=True, index=False)
-
-    # --------------------------
     def __init__(self, config_file):
         ''' Initialization of the model components.'''
         # Read json file
@@ -145,7 +108,6 @@ class swim_setup(object):
                             'gmrate', 'bff', 'abf', 'delay', 'revapc',
                             'rchrgc', 'revapmn']
         self.check_para_names()
-
         # get parameter min and max
         parameter_min = [para['min'] for para in parameter['list']]
         parameter_max = [para['max'] for para in parameter['list']]
@@ -155,7 +117,6 @@ class swim_setup(object):
             * self.para_npreg
         # create the parameter template
         self.para_template = self.create_para_template()
-        self.para_borg = None
         # parameter filename
         self.parameter_file = parameter['parameter_file']
         # --------------------------

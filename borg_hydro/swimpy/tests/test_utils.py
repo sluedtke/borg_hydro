@@ -104,8 +104,6 @@ def create_random_draw(swim_config):
     random_draw = np.random.uniform(list(zip(*swim_config.para_limits))[0],
                                     list(zip(*swim_config.para_limits))[1],
                                     len(swim_config.para_limits)).tolist()
-    random_draw = np.array_split(random_draw, swim_config.para_npreg)
-    random_draw = [random_draw[i].tolist() for i in range(len(random_draw))]
     return(random_draw)
 
 
@@ -154,31 +152,30 @@ def test_write_para_template_multi_region_b(multi_station_setup):
 
 # -----------------------------------
 @pytest.mark.xfail
-def test_write_para_template_false(config_mo_setup):
+def test_create_para_borg_false_b(config_setup):
+    rdn_draw = create_random_draw(config_setup)
     # create a random parameter set that is used to update the template
-    config_mo_setup.para_borg = create_random_draw(config_mo_setup)
-    # write the parameters to a file
-    equal = config_mo_setup.para_template.equals(config_mo_setup.para_borg)
-    assert (equal), 'DataFrames do not match'
+    temp_para_borg = utils.create_para_borg(config_setup, rdn_draw)
+    pd.util.testing.assert_frame_equal(temp_para_borg,
+                                       config_setup.para_template)
 
 
 @pytest.mark.xfail
-def test_write_para_template_false_a(multi_station_setup):
+def test_create_para_borg_false(config_mo_setup):
     # create a random parameter set that is used to update the template
-    multi_station_setup.para_borg = create_random_draw(multi_station_setup)
-    # write the parameters to a file
-    equal =\
-        multi_station_setup.para_template.equals(multi_station_setup.para_borg)
-    assert (equal), 'DataFrames do not match'
+    rdn_draw = create_random_draw(config_mo_setup)
+    temp_para_borg = utils.create_para_borg(config_mo_setup, rdn_draw)
+    pd.util.testing.assert_frame_equal(temp_para_borg,
+                                       config_mo_setup.para_template)
 
 
 @pytest.mark.xfail
-def test_write_para_template_false_b(config_setup):
+def test_create_para_borg_false_a(multi_station_setup):
     # create a random parameter set that is used to update the template
-    config_setup.para_borg = create_random_draw(config_setup)
-    # write the parameters to a file
-    equal = config_setup.para_template.equals(config_setup.para_borg)
-    assert (equal), 'DataFrames do not match'
+    rdn_draw = create_random_draw(multi_station_setup)
+    temp_para_borg = utils.create_para_borg(multi_station_setup, rdn_draw)
+    pd.util.testing.assert_frame_equal(temp_para_borg,
+                                       multi_station_setup.para_template)
 
 
 ######################################################################
