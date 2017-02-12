@@ -224,7 +224,8 @@ def create_para_borg(swim_config, parameter_list):
     temp_list = [temp_list[i].tolist() for i in range(len(temp_list))]
 
     # create the dataframe
-    para_pd = pd.DataFrame(temp_list, columns=set(swim_config.para_names))
+    columns = sorted(set(swim_config.para_names), key=swim_config.para_names.index)
+    para_pd = pd.DataFrame(temp_list, columns=columns)
     # create column for the catchment id
     para_pd['catchmentID'] = para_pd.index
     para_pd.catchmentID = para_pd.catchmentID + 1
