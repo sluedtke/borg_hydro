@@ -77,21 +77,21 @@ def test_get_function_multi(multi_station_setup):
 
 def test_compute_gof(config_setup):
     temp = utils.compute_gof(config_setup)
-    assert (temp == [0.72450915761519752, 1.2196478869306084])
+    assert (temp == [[0.72450915761519752], [1.2196478869306084]])
 
 
 def test_compute_no_error(no_error_setup):
     temp = utils.compute_gof(no_error_setup)
     # lrmse return 0 for no difference between the series
-    assert (temp[0] == [0])
+    assert (temp[0] == [0.0, 0.0, 0.0])
     assert (np.isnan(temp[1]))
 
 
 def test_compute_multi_station(multi_station_setup):
     temp = utils.compute_gof(multi_station_setup)
     # lrmse return 0 for no difference between the series
-    assert (pytest.approx(temp[0], 0.001) == 0.7245091)
-    assert (pytest.approx(temp[1], 0.001) == -109.1739)
+    assert (pytest.approx(temp[0], 0.001) == [0.7245091576151975, 0.7254229337221346])
+    assert (pytest.approx(temp[1], 0.001) == [-109.64159579355754, -108.70622740963847])
 
 
 ######################################################################
@@ -190,9 +190,9 @@ def test_window_ts(sim_simple):
 
 
 def test_window_ts_no_overlap(no_error_setup):
-    no_error_setup.end = '1990-01-11'
-    temp = utils.compute_gof(no_error_setup)
-    assert (np.isnan(temp[1]))
+    no_error_setup.end = '1990-01-05'
+    with pytest.raises(SystemExit):
+        temp = utils.compute_gof(no_error_setup)
 
 
 def test_check_window_dates_format_start_date(sim_simple):

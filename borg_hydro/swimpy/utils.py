@@ -7,6 +7,7 @@
 
 ######################################################################
 
+import sys
 import pandas as pd
 import numpy as np
 import glob
@@ -110,6 +111,58 @@ def window_ts(pandas_df, start_date=None, end_date=None):
     return(pandas_df)
 
 
+def check_overlap(pandas_obs, pandas_sim):
+    '''
+    A function that checkt whether the simulation and observation  share common
+    ground in terms of time.
+    This function exits if it does not find any overlap.
+    '''
+    # find maximum date from the observation
+    obs_end = pandas_obs.index.max().date()
+    obs_start = pandas_obs.index.min().date()
+    # find minimum date from the simulation
+    sim_start = pandas_sim.index.min().date()
+    sim_end = pandas_sim.index.max().date()
+    if ((obs_end <= sim_start) | (sim_end <= obs_start)):
+        sys.exit("The time series do not overlap, exiting")
+    else:
+        return('overlap found')
+
+
+# -----------------------------------
+def compute_gof(swim_config):
+    '''
+    For each objectives in the config the functions computes the performance as
+    specified in the config.
+
+    Returns a list with one value for each objective.
+    '''
+    result_list = []
+    for item in swim_config.objectives:
+        # call the function that makes concatenates the module and functions to
+        # something that can be applied
+        functions = get_functions(item)
+        # call the USER function to read the observations
+        obs_file = glob.glob(str(swim_config.pp) + '/' + item['obs_fp'])[0]
+        temp_obs = functions['read_obs']['exe'](obs_file)
+        # call the USER function to read the simulations
+        sim_file = glob.glob(str(swim_config.pp) + '/' + item['sim_fp'])[0]
+        temp_sim = functions['read_sim']['exe'](sim_file)
+        # Try to apply the window function to the simulated time series
+        try:
+            temp_sim = window_ts(temp_sim, start_date=swim_config.start,
+                                 end_date=swim_config.end)
+        except AttributeError:
+            temp_sim = temp_sim
+        # check whether there is ov     import pdb; pdb.set_trace()erlap between both time series at all
+        test  = check_overlap(temp_obs, temp_sim)
+        # call the USER function to compute the performance
+        result = functions['gof_func']['exe'](temp_obs, temp_sim)
+        # append to the list that is returned
+        result_list.append(result)
+    return(result_list)
+
+
 # -----------------------------------
 def search_function(func, mod):
     '''
@@ -175,38 +228,6 @@ def get_functions(item):
     # TODO: we should call that during the initialization when we create the
     # 'swim_objectives' object
     return(input_dict)
-
-
-# -----------------------------------
-def compute_gof(swim_config):
-    '''
-    For each objectives in the config the functions computes the performance as
-    specified in the config.
-
-    Returns a list with one value for each objective.
-    '''
-    result_list = []
-    for item in swim_config.objectives:
-        # call the function that makes concatenates the module and functions to
-        # something that can be applied
-        functions = get_functions(item)
-        # call the USER function to read the observations
-        obs_file = glob.glob(str(swim_config.pp) + '/' + item['obs_fp'])[0]
-        temp_obs = functions['read_obs']['exe'](obs_file)
-        # call the USER function to read the simulations
-        sim_file = glob.glob(str(swim_config.pp) + '/' + item['sim_fp'])[0]
-        temp_sim = functions['read_sim']['exe'](sim_file)
-        # Try to apply the window function to the simulated time series
-        try:
-            temp_sim = window_ts(temp_sim, start_date=swim_config.start,
-                                 end_date=swim_config.end)
-        except AttributeError:
-            temp_sim = temp_sim
-        # call the USER function to compute the performance
-        result = functions['gof_func']['exe'](temp_obs, temp_sim)
-        # append to the list that is returned
-        result_list.append(result)
-    return(result_list)
 
 
 # -----------------------------------
