@@ -182,6 +182,21 @@ def compute_gof(swim_config):
     specified in the config.
 
     Returns a list with one value for each objective.
+    NOTE: If a single objective has multiple stations, a performance measure
+    for each station is returned.
+    Examples with dummy values:
+    1) one objective with a single station:
+    [[gof_value_1]]
+
+    2) one objective with a three station:
+    [[gof_value_1, gof_value_2, gof_value_3]]
+
+    3) two objectives with a one station:
+    [[gof_value_1], [gof_value_2]]
+
+    4) two objectives with a two and three stations respectively 
+    [[gof_value_1, gof_value_2], [gof_value_3, gof_value_4, gof_value_5]]
+
     '''
     result_list = []
     for item in swim_config.objectives:
