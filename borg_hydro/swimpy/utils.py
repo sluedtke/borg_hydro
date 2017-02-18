@@ -130,6 +130,52 @@ def check_overlap(pandas_obs, pandas_sim):
 
 
 # -----------------------------------
+def only_numbers(python_list):
+    '''
+    A function that takes a python list and returns a list that contains only numbers. 
+    All strings are silently dropped.
+    Examples:
+    >>> # numbers and string
+    >>> only_numbers([1, 2, 'kfdsajk'])
+    [1.0, 2.0]
+    >>> # numbers (as strings)  and string
+    >>> only_numbers(['1', '2', 'kfdsajk'])
+    [1.0, 2.0]
+    >>> # numbers (as strings)
+    >>> only_numbers(['1', '2', '3'])
+    [1, 2, 3]
+    >>> # only numbers
+    >>> only_numbers([1, 2, 3])
+    [1, 2, 3]
+    >>> # numbers and NaN
+    >>> only_numbers(['1', '2', np.nan])
+    [1.0, 2.0]
+    '''
+    temp = np.array(python_list)
+    temp = pd.to_numeric(temp, errors='coerce')
+    temp = temp[~np.isnan(temp)].tolist()
+    return(temp)
+
+
+# -----------------------------------
+def aggregator_function(numeric_list):
+    '''
+    A function that computes the median of a list of numeric value.
+    >>> aggregator_function([2, 3])
+    2.5
+    >>> aggregator_function([3, 3])
+    3.0
+    >>> aggregator_function([3, 3, 3])
+    3.0
+    >>> aggregator_function([1, 2, 3])
+    2.0
+    '''
+    temp = np.array(numeric_list)
+    temp = np.median(temp)
+    return(temp)
+
+
+# -----------------------------------
 def compute_gof(swim_config):
     '''
     For each objectives in the config the functions computes the performance as
