@@ -125,3 +125,31 @@ def sim_some_zeros(sim_simple):
 def obs_sim_merge(obs_simple, sim_simple):
     temp = utils.obs_sim_merge(obs_simple, sim_simple)
     return(temp)
+
+
+@pytest.fixture(scope="session")
+def obs_simple_1():
+    ''' Creating a DataFrame with with the same entry at every timestep'''
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=9,
+                         freq='D')
+    columns = ['X10']
+    obs_simple = pd.DataFrame(columns=columns)
+    obs_simple['date'] = date
+    obs_simple['X10'] = range(1, 9 + 1, 1)
+    obs_simple = obs_simple.set_index(['date'])
+    return(obs_simple)
+
+
+@pytest.fixture(scope="session")
+def sim_simple_1():
+    ''' Creating a DataFrame with with the same entry at every timestep'''
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=12,
+                         freq='D')
+    columns = ['X10']
+    sim_simple = pd.DataFrame(columns=columns)
+    sim_simple['date'] = date
+    sim_simple = sim_simple.fillna(5)
+    sim_simple = sim_simple.set_index(['date'])
+    return(sim_simple)

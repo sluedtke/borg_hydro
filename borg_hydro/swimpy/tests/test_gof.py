@@ -46,3 +46,10 @@ def test_nse(obs_simple, sim_simple):
     ''' Use the DataFrame with only ones to test'''
     nse = gof_python.nse(obs_simple, sim_simple)
     assert np.isnan(nse)
+
+
+def test_nse_mean(obs_simple_1, sim_simple_1):
+    ''' Check whether the we get zero if the simulation is exactly the mean of
+    the observation.'''
+    nse = gof_python.nse(obs_simple_1, sim_simple_1)
+    assert nse == [0]
