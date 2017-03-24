@@ -153,3 +153,32 @@ def sim_simple_1():
     sim_simple = sim_simple.fillna(5)
     sim_simple = sim_simple.set_index(['date'])
     return(sim_simple)
+
+
+@pytest.fixture(scope="session")
+def obs_simple_2():
+    ''' Creating a DataFrame with with the same entry at every timestep'''
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=9,
+                         freq='D')
+    columns = ['X10']
+    obs_simple = pd.DataFrame(columns=columns)
+    obs_simple['date'] = date
+    obs_simple['X10'] = range(1, 9 + 1, 1)
+    obs_simple = obs_simple.set_index(['date'])
+    return(obs_simple)
+
+
+@pytest.fixture(scope="session")
+def sim_simple_2():
+    ''' Creating a DataFrame with with the same entry at every timestep'''
+    todays_date = datetime.datetime.now().date()
+    date = pd.date_range(todays_date-datetime.timedelta(10), periods=9,
+                         freq='D')
+    columns = ['X10']
+    sim_simple = pd.DataFrame(columns=columns)
+    sim_simple['date'] = date
+    sim_simple['X10'] = range(1, 9 + 1, 1)
+    sim_simple['X10'] = sim_simple['X10'] * 2
+    sim_simple = sim_simple.set_index(['date'])
+    return(sim_simple)

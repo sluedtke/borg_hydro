@@ -53,3 +53,23 @@ def test_nse_mean(obs_simple_1, sim_simple_1):
     the observation.'''
     nse = gof_python.nse(obs_simple_1, sim_simple_1)
     assert nse == [0]
+
+
+def test_pbias(obs_simple, sim_simple):
+    ''' Use the DataFrame with only ones to test'''
+    pbias = gof_python.pbias(obs_simple, sim_simple)
+    assert pbias == [0.0]
+
+
+def test_pbias_mean(obs_simple_1, sim_simple_1):
+    ''' Check whether the we get zero if the simulation is exactly the mean of
+    the observation.'''
+    pbias = gof_python.pbias(obs_simple_1, sim_simple_1)
+    assert pbias == [0.0]
+
+
+def test_pbias_double(obs_simple_2, sim_simple_2):
+    ''' Check whether the we get 100% if the simulation is double of
+    the observation.'''
+    pbias = gof_python.pbias(obs_simple_2, sim_simple_2)
+    assert pbias == [100.0]

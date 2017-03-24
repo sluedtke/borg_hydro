@@ -82,8 +82,8 @@ def nse(temp_obs, temp_sim):
 # -----------------------------------
 def log_rmse(temp_obs, temp_sim):
     '''
-    This function computes the log-Root-Means-Square-Error (rmse) between the
-    log of the simulated and  the log of the observed time series. That is
+    This function computes the log-Root-Mean-Square-Error (rmse) between the
+    log of the simulated and the log of the observed time series. That is
     defined as:
 
     rmse = sqrt( mean( (sim - obs)^2)
@@ -107,5 +107,32 @@ def log_rmse(temp_obs, temp_sim):
     temp = mp.groupby(['station']).aggregate({'obj': np.mean})
     # Square root of the mean of differences
     temp = pd.DataFrame(np.sqrt(temp['obj'])).reset_index(drop=True)
+    result = temp['obj'].values.flatten().tolist()
+    return(result)
+
+
+# -----------------------------------
+def pbias(temp_obs, temp_sim):
+    ''' * 100
+    This function computes ther per cent bias (pbias) between the the simulated
+    and the observed time series. That is defined as:
+
+    pbias = 100 * [ sum(sim - obs) / sum(obs) ]
+
+    Return value is a float.
+    '''
+    # Join the dataframes to get rid of NA values
+    mp = obs_sim_merge(temp_obs, temp_sim)
+    mp = mp.set_index(['date'])
+    
+    # compute the difference between simulation and observation 
+    mp['numerator'] = mp['sim'] - mp['obs'] 
+
+    numerator = mp.groupby(['station']).aggregate({'numerator': np.sum})
+    denominator = mp.groupby(['station']).aggregate({'obs': np.sum})
+
+    temp = pd.merge(numerator.reset_index(), denominator.reset_index())
+
+    temp['obj'] = temp['numerator'] / temp['obs'] * 100
     result = temp['obj'].values.flatten().tolist()
     return(result)
