@@ -29,7 +29,7 @@ def read_observed(obs_file):
 
     temp = pd.read_csv(obs_file, sep='\t', index_col='date',
                        parse_dates=['date'],
-                       na_values=[-9999, -999, -99])
+                       na_values=[-9999, -999, -99, 'NaN', -999.000])
     return(temp)
 
 
@@ -49,7 +49,7 @@ def read_simulated(simu_file):
                        delim_whitespace=True,
                        parse_dates={'date': ['YEAR', 'DAY']},
                        date_parser=dateparse,
-                       na_values=[-9999, -999, -99])
+                       na_values=[-9999, -999, -99, 'NaN', -999.000])
     return(temp)
 
 

@@ -40,10 +40,11 @@ def nse(temp_obs, temp_sim):
     '''
     This function computes the  Nash-Sutcliffe-Efficiency between the observed
     and simulated discharge.
-    nse = 1 - ( ( sum ( obs(t) - sim(t))^2) / ( sum ( obs(t) - mean(obs)) ^2)
-                        -------- A --------                   ---- C ---
-                 ----- B ------------------  -- E -- --------- D -----------
-        ------------------------------ F ------------------------------------
+    nse = 1 - ( ( sum ( obs(t) - sim(t)) ^2) / ( sum ( obs(t) - mean(obs)) ^2)
+                        -------- A ---------                    ---- C ---
+                 --- B ---------------------         --------- D -------------
+                                               -- E --------------------------
+        ----F ----------------------------------------------------------------
     Return value is a float.
 
     '''
@@ -64,10 +65,11 @@ def nse(temp_obs, temp_sim):
     obs_mean = temp_mp.groupby(['station']).aggregate({'obs':
                                                   np.mean}).reset_index()
     obs_mean.columns = ['station', 'obs_mean']
+    # combine the mean observation with the input data frame
     temp_denom = pd.merge(temp_mp.reset_index()[['station', 'obs']],
                           obs_mean)
     # - D
-    temp_denom['denominator'] = np.square(temp_denom['obs']-temp_denom['obs_mean'])
+    temp_denom['denominator'] = np.square(temp_denom['obs'] - temp_denom['obs_mean'])
     denominator = temp_denom.groupby(['station']).aggregate({'denominator':
                                                              np.sum}).copy()
     # - E

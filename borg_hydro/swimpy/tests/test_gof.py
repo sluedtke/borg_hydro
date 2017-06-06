@@ -42,10 +42,18 @@ def test_nse_some_zeros(obs_some_zeros, sim_some_zeros):
     assert pytest.approx(nse, 0.001) == [-3.307692]
 
 
-def test_nse(obs_simple, sim_simple):
+def test_nse_is_nan(obs_simple, sim_simple):
     ''' Use the DataFrame with only ones to test'''
     nse = gof_python.nse(obs_simple, sim_simple)
     assert np.isnan(nse)
+
+
+def test_nse(obs_simple, sim_simple):
+    ''' Use the DataFrame with only ones to test'''
+    obs_simple[:4] = 100
+    sim_simple[:4] = 100
+    nse = gof_python.nse(obs_simple, sim_simple)
+    assert nse == [1.0]
 
 
 def test_nse_mean(obs_simple_1, sim_simple_1):
