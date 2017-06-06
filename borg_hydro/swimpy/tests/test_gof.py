@@ -63,6 +63,12 @@ def test_nse_mean(obs_simple_1, sim_simple_1):
     assert nse == [0]
 
 
+def test_nse_some_q_ts(read_obs, read_sim):
+    ''' Use the DataFrame with only ones to test and a single 0'''
+    nse = gof_python.nse(read_obs, read_sim)
+    assert pytest.approx(nse, 0.001) == -109.64
+
+
 def test_pbias(obs_simple, sim_simple):
     ''' Use the DataFrame with only ones to test'''
     pbias = gof_python.pbias(obs_simple, sim_simple)
