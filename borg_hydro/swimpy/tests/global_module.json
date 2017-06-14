@@ -12,8 +12,10 @@
                 "read_obs_function": "read_csv",
                 "sim_fp": "test_output/Res/sim_csv*",
                 "read_sim_function": "read_csv",
-                "gof_module": "pd.DataFrame",
-                "gof_function": "equals"
+                "gof": {
+                    "module": "pd.DataFrame",
+                    "function": "equals"
+                }
             }
         ]
     },

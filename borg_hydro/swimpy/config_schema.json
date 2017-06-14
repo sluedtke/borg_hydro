@@ -39,14 +39,21 @@
               "read_sim_function": {
                 "type": "string"
               },
-              "gof_module": {
-                "type": "string"
-              },
-              "gof_function": {
-                "type": "string"
-              } 
+              "gof": {
+                  "type": "object",
+                  "properties": {
+                      "module": {
+                          "type": "string"
+                      }, 
+                      "function": {
+                          "type": "string"
+                      }
+                  },
+              "required": ["module", "function"],
+              "additionalProperties": true
+              }
             },
-            "required": ["name", "read_module", "obs_fp", "read_obs_function", "sim_fp", "read_sim_function", "gof_module", "gof_function"], 
+            "required": ["name", "read_module", "obs_fp", "read_obs_function", "sim_fp", "read_sim_function", "gof"], 
             "additionalProperties": false
           },
           "minItems": 1

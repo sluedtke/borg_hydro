@@ -12,8 +12,11 @@
                 "read_obs_function": "read_observed",
                 "sim_fp": "test_output/Res/stat_dis_out_0001*",
                 "read_sim_function": "read_simulated",
-                "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+
+                "gof": {
+                    "module": "gof_python",
+                    "function": "log_rmse"
+                }
             },
             {
                 "name": "base flow",
@@ -22,8 +25,10 @@
                 "read_obs_function": "read_observed",
                 "sim_fp": "test_output/Res/tat_bf_out*",
                 "read_sim_function": "read_simulated",
-                "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof": {
+                    "module": "gof_python",
+                    "function": "log_rmse"
+                }
             },
             {
                 "name": "inter floe",
@@ -32,8 +37,10 @@
                 "read_obs_function": "read_observed",
                 "sim_fp": "test_output/Res/stat_if_out*",
                 "read_sim_function": "read_simulated",
-                "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof": {
+                    "module": "gof_python",
+                    "function": "log_rmse"
+                }
             },
             {
                 "name": "fast flow",
@@ -42,8 +49,11 @@
                 "read_obs_function": "read_observed",
                 "sim_fp": "test_output/Res/stat_ff_out*",
                 "read_sim_function": "read_simulated",
-                "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+
+                "gof": {
+                    "module": "gof_python",
+                    "function": "log_rmse"
+                }
             }
         ]
     },
