@@ -261,7 +261,7 @@ def get_functions(item):
 
     Return value is a list of three functions.
     '''
-    # Create a dictionary that is later extended by the callable ojbect
+    # Create a dictionary that is later extended by the callable object
     input_dict = {'read_obs':
                       {'mod': item['read_module'],
                       'func': item['read_obs_function']}, 
@@ -269,9 +269,9 @@ def get_functions(item):
                       {'mod': item['read_module'],
                       'func': item['read_sim_function']},
                   'gof_func':
-                      {'mod': item['gof_module'],
-                      'func': item['gof_function']}}
-
+                      {'mod': item['gof']['module'],
+                      'func': item['gof']['function']}
+                      }
     for i in input_dict.keys():
         func = input_dict[i]['func']
         mod = input_dict[i]['mod']
