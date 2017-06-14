@@ -116,12 +116,18 @@ def log_rmse(temp_obs, temp_sim):
 # -----------------------------------
 def pbias(temp_obs, temp_sim):
     ''' * 100
-    This function computes ther per cent bias (pbias) between the the simulated
+    This function computes the per cent bias (pbias) between the simulated
     and the observed time series. That is defined as:
 
     pbias = 100 * [ sum(sim - obs) / sum(obs) ]
 
     Return value is a float.
+
+    The optimal value of pbias is 0.0, with low-magnitude values
+    indicating accurate model simulation. Positive values indicate
+    overestimation bias, whereas negative values indicate model
+    underestimation bias
+
     '''
     # Join the dataframes to get rid of NA values
     mp = obs_sim_merge(temp_obs, temp_sim)
