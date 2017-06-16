@@ -216,7 +216,7 @@ def compute_gof(swim_config):
         except AttributeError:
             temp_sim = temp_sim
         # check whether there is overlap between both time series at all
-        test  = check_overlap(temp_obs, temp_sim)
+        check_overlap(temp_obs, temp_sim)
         # call the USER function to compute the performance
         result = functions['gof_func']['exe'](temp_obs, temp_sim)
         # append to the list that is returned
