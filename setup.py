@@ -8,7 +8,7 @@ with open('LICENSE') as f:
 
 setup(
     name='borg_hydro',
-    version='0.0.1',
+    version='0.1.0',
     author='Stefan Lüdtke',
     url='https://git.gfz-potsdam.de:sluedtke/borg_hydro.git',
     packages=find_packages(),
