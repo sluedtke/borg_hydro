@@ -25,7 +25,10 @@
         "gof_module": "gof_python",
         "gof_function": "log_rmse"
       }
-    ]
+    ], 
+    "evaluation_period": {
+      "start_date": "1990-01-05"
+    }
   },
   "parameters": {
     "list": [

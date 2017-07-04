@@ -125,10 +125,24 @@ class swim_setup(object):
                                self.config_data['objectives']['list'])
         # --------------------------
         # get the evaluation period if provided
+        # that are the keys we want to have from the slot evaluation_period
+        key_list = ["start_date", "end_date", "format"]
         try:
             temp = self.config_data['objectives']['evaluation_period']
-            self.start = temp['start_date']
-            self.end = temp['end_date']
-            self.format = temp['format']
         except KeyError:
-            pass
+            # if evaluation_period is not present at all, set all values for 
+            # that slot to None
+            temp = dict(zip(key_list,  [None, None, None]))
+        ev = []
+        # Check whether the single elements are set or not 
+        for k in key_list:
+            if k in temp:
+                ev.append(temp[k])
+            else:
+                ev.append(None)
+        # create a dict with the keys defined above
+        ev = dict(zip(key_list, ev))
+        # assign them to our configuration object
+        self.start = ev['start_date']
+        self.end = ev['end_date']
+        self.format = ev['format']

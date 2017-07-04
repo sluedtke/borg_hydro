@@ -75,9 +75,44 @@ def test_get_function_multi(multi_station_setup):
 ######################################################################
 # Test compute_gof function
 
-def test_compute_gof(config_setup):
+# That one fails, but only for the second item, the first itmen has an star date 
+# for the observation date and since we use only values existent at both time 
+# series, the new start data does not matter
+@pytest.mark.xfail
+def test_compute_gof_fail(config_setup):
     temp = utils.compute_gof(config_setup)
     assert (temp == [[0.72450915761519752], [1.2196478869306084]])
+
+
+def test_compute_gof(config_setup):
+    # overwrite the start date from the configuration file
+    config_setup.start = '1990-01-01'
+    temp = utils.compute_gof(config_setup)
+    assert (temp == [[0.72450915761519752], [1.2196478869306084]])
+
+
+def test_compute_gof_mo_modify_start(config_mo_setup):
+    # overwrite the start date from the configuration file
+    config_mo_setup.start = '1990-01-11'
+    temp = utils.compute_gof(config_mo_setup)
+    assert (pytest.approx(temp[0], 0.001) == [0.7343])
+    assert (pytest.approx(temp[1], 0.001) == [1.1576])
+
+
+def test_compute_gof_mo_modify_end(config_mo_setup):
+    # overwrite the start date from the configuration file
+    config_mo_setup.end = '1990-01-09'
+    temp = utils.compute_gof(config_mo_setup)
+    assert (pytest.approx(temp[0], 0.001) == [0.7052])
+    assert (pytest.approx(temp[1], 0.001) == [1.246])
+
+
+def test_compute_gof_mo(config_mo_setup):
+    temp = utils.compute_gof(config_mo_setup)
+    assert (pytest.approx(temp[0], 0.001) == [0.7245])
+    assert (pytest.approx(temp[1], 0.001) == [1.2196])
+    assert (pytest.approx(temp[2], 0.001) == [1.6799])
+    assert (pytest.approx(temp[3], 0.001) == [13.17])
 
 
 def test_compute_no_error(no_error_setup):

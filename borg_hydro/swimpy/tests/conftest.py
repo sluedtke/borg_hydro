@@ -33,7 +33,9 @@ def read_sim():
     return(sim)
 
 
-@pytest.fixture(scope="session")
+# That one is modified during a test, to get the original one for all the 
+# others, we use function scope
+@pytest.fixture(scope="function")
 def config_setup():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/config.json'
@@ -41,7 +43,7 @@ def config_setup():
     return(temp)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def config_mo_setup():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/config_mo.json'
