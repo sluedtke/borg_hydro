@@ -324,6 +324,5 @@ def write_parameter_file(swim_config, parameter_borg):
     This method just writes the newly created parameter set to file. This
     attribute is empty if not set before by parsing a list of parameters.
     '''
-    para_file = swim_config.pp + '/' + swim_config.parameter_file
-    parameter_borg.to_csv(para_file, sep='\t', encoding='utf-8',
+    parameter_borg.to_csv(swim_config.parameter_file, sep='\t', encoding='utf-8',
                                  header=True, index=False)

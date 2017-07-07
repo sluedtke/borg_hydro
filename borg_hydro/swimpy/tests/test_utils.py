@@ -147,8 +147,8 @@ def write_parameter_template(swim_config):
     This function simply writes the parameter template of the swim config to a
     file.
     '''
-    para_file = swim_config.pp + '/' + swim_config.parameter_file
-    swim_config.para_template.to_csv(para_file, sep='\t', encoding='utf-8',
+    swim_config.para_template.to_csv(swim_config.parameter_file,
+                                     sep='\t', encoding='utf-8',
                                      header=True, index=True)
 
 
@@ -157,8 +157,7 @@ def test_write_para_template(config_setup):
     # write the parameters to a file
     write_parameter_template(config_setup)
     # concat the strings and compare the files
-    para_file = config_setup.pp + '/' + config_setup.parameter_file
-    compare = filecmp.cmp(para_file,
+    compare = filecmp.cmp(config_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch.prm')
     assert (compare), 'Files do not match'
 
@@ -168,8 +167,7 @@ def test_write_para_template_multi_region_a(config_mo_setup):
     # write the parameters to a file
     write_parameter_template(config_mo_setup)
     # concat the strings and compare the files
-    para_file = config_mo_setup.pp + '/' + config_mo_setup.parameter_file
-    compare = filecmp.cmp(para_file,
+    compare = filecmp.cmp(config_mo_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_2.prm')
     assert (compare), 'Files do not match'
 
@@ -178,9 +176,7 @@ def test_write_para_template_multi_region_b(multi_station_setup):
     # write the parameters to a file
     write_parameter_template(multi_station_setup)
     # concat the strings and compare the files
-    para_file = multi_station_setup.pp + '/' +\
-        multi_station_setup.parameter_file
-    compare = filecmp.cmp(para_file,
+    compare = filecmp.cmp(multi_station_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_4.prm')
     assert (compare), 'Files do not match'
 
@@ -227,7 +223,7 @@ def test_window_ts(sim_simple):
 def test_window_ts_no_overlap(no_error_setup):
     no_error_setup.end = '1990-01-05'
     with pytest.raises(SystemExit):
-        temp = utils.compute_gof(no_error_setup)
+        utils.compute_gof(no_error_setup)
 
 
 def test_check_window_dates_format_start_date(sim_simple):

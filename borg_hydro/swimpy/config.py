@@ -92,6 +92,8 @@ class swim_setup(object):
         # --------------------------
         parameter = self.config_data['parameters']
         # --------------------------
+        # set the paramater file path to self
+        self.parameter_file = self.pp + '/' + parameter['parameter_file']
         # get parameter regions (subcatchments in SWIM language), if that is
         # not provided, we set it to 1
         try:
@@ -117,8 +119,6 @@ class swim_setup(object):
             * self.para_npreg
         # create the parameter template
         self.para_template = self.create_para_template()
-        # parameter filename
-        self.parameter_file = parameter['parameter_file']
         # --------------------------
         # get the objectives as a list of dicts
         self.objectives = list(objs for objs in
