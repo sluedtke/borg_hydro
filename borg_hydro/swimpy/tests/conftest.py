@@ -75,7 +75,7 @@ def no_error_setup():
     return(temp)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def para_region_setup():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/para_region.json'

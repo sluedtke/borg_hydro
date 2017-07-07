@@ -313,11 +313,11 @@ def create_para_borg(swim_config, parameter_list):
     # set the index to catchmentID
     para_pd = para_pd.set_index('catchmentID')
     # get the default parameter file from this project
-    para = swim_config.para_template
+    para = swim_config.para_template.copy()
     # update based on row index and column names
     para.update(para_pd, join='left')
-    para_borg = para.reset_index(drop=False)
-    return(para_borg)
+    para = para.reset_index(drop=False)
+    return(para)
 
 
 # --------------------------

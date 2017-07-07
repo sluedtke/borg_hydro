@@ -229,12 +229,46 @@ def test_create_para_borg_false_a(multi_station_setup):
 
 
 @pytest.mark.xfail
-def test_create_para_borg_para_region_setup(para_region_setup):
+def test_create_para_borg_para_region_setup_fail(para_region_setup):
     # create a random parameter set that is used to update the template
     rdn_draw = create_random_draw(para_region_setup)
     temp_para_borg = utils.create_para_borg(para_region_setup, rdn_draw)
     pd.util.testing.assert_frame_equal(temp_para_borg,
                                        para_region_setup.para_template)
+
+
+# The following two tests (a and b) show that the selective parameter regions
+# work in both cases:
+# a: if we select only the rows that were not chosen by the config
+def test_create_para_borg_para_region_setup_a(para_region_setup):
+    # create a random parameter set that is used to update the template
+    rdn_draw = create_random_draw(para_region_setup)
+    para_borg = utils.create_para_borg(para_region_setup, rdn_draw)
+    # get the list of catchmentIDs we changed
+    catch_ids = para_region_setup.para_preg_ids
+    # subset to the rows we did __NOT__ changed
+    para_borg_true = para_borg[-para_borg['catchmentID'].isin(catch_ids)]
+    # subset to the rows we did __NOT__ changed
+    para_template = para_region_setup.para_template.reset_index(drop=False)
+    para_template_true = para_template[-para_template['catchmentID'].isin(catch_ids)]
+    # assert for equality
+    pd.util.testing.assert_frame_equal(para_borg_true, para_template_true)
+
+
+# b: if we select only the columns that were not chosen
+def test_create_para_borg_para_region_setup_b(para_region_setup):
+    # create a random parameter set that is used to update the template
+    rdn_draw = create_random_draw(para_region_setup)
+    para_borg = utils.create_para_borg(para_region_setup, rdn_draw)
+    # get the list of parameters we are working on
+    para_names = list(set(para_region_setup.para_names))
+    # subset to the column we did __NOT__ changed
+    para_borg.drop(para_names, axis = 1, inplace = True)
+    # subset to the rows we did __NOT__ changed
+    para_template = para_region_setup.para_template.reset_index(drop=False)
+    para_template.drop(para_names, axis = 1, inplace = True)
+    # assert for equality
+    pd.util.testing.assert_frame_equal(para_borg, para_template)
 
 
 ######################################################################
