@@ -7,7 +7,7 @@ test_no_doctest:
 	python2 -m pytest  -v --ignore=setup.py ./borg_hydro/
 
 clean:
-	find . -type d -name '__pycache__' | xargs rm -r
-	find . -type d -name '.cache' | xargs rm -r
+	find . -type d -name '__pycache__' | xargs -r rm -r
+	find . -type d -name '.cache' | xargs -r rm -r
 
 .PHONY : test_no_doctest test_with_doctest clean
