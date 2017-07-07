@@ -142,23 +142,13 @@ def create_random_draw(swim_config):
     return(random_draw)
 
 
-def write_parameter_template(swim_config):
-    '''
-    This function simply writes the parameter template of the swim config to a
-    file.
-    '''
-    swim_config.para_template.to_csv(swim_config.parameter_file,
-                                     sep='\t', encoding='utf-8',
-                                     header=True, index=True)
-
-
 # -----------------------------------
 def test_write_para_template(config_setup, tmpdir):
     # create a temporary dir to write into
     p = str(tmpdir.mkdir("test_input").join("para.prm"))
     config_setup.parameter_file = p
     # write the parameters to a file
-    write_parameter_template(config_setup)
+    utils.write_parameter_file(config_setup, config_setup.para_template)
     # concat the strings and compare the files
     compare = filecmp.cmp(config_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch.prm')
@@ -170,7 +160,7 @@ def test_write_para_template_multi_region_a(config_mo_setup, tmpdir):
     p = str(tmpdir.mkdir("test_input").join("para.prm"))
     config_mo_setup.parameter_file = p
     # write the parameters to a file
-    write_parameter_template(config_mo_setup)
+    utils.write_parameter_file(config_mo_setup, config_mo_setup.para_template)
     # concat the strings and compare the files
     compare = filecmp.cmp(config_mo_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_2.prm')
@@ -181,7 +171,7 @@ def test_write_para_template_multi_region_b(multi_station_setup, tmpdir):
     p = str(tmpdir.mkdir("test_input").join("para.prm"))
     multi_station_setup.parameter_file = p
     # write the parameters to a file
-    write_parameter_template(multi_station_setup)
+    utils.write_parameter_file(multi_station_setup, multi_station_setup.para_template)
     # concat the strings and compare the files
     compare = filecmp.cmp(multi_station_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_4.prm')
@@ -193,7 +183,7 @@ def test_write_para_template_para_region(para_region_setup, tmpdir):
     para_region_setup.parameter_file = p
     # write the parameters to a file
     # import pdb; pdb.set_trace()
-    write_parameter_template(para_region_setup)
+    utils.write_parameter_file(para_region_setup, para_region_setup.para_template)
     # concat the strings and compare the files
     compare = filecmp.cmp(para_region_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_5.prm')

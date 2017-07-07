@@ -327,4 +327,4 @@ def write_parameter_file(swim_config, parameter_borg):
     attribute is empty if not set before by parsing a list of parameters.
     '''
     parameter_borg.to_csv(swim_config.parameter_file, sep='\t', encoding='utf-8',
-                                 header=True, index=False)
+                                 header=True, index=True)
