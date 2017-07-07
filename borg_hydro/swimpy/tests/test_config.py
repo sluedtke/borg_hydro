@@ -54,7 +54,8 @@ def test_read_false_parameter():
 ######################################################################
 # Test whether we get the correct number of objectives and parameters
 def test_parse_parameter_names(config_mo_setup, config_setup,
-                               global_module_setup, multi_station_setup):
+                               global_module_setup, multi_station_setup,
+                               para_region_setup):
     '''test '''
     assert (len(config_mo_setup.para_names) == 2),\
         'Wrong number of parameter names'
@@ -64,10 +65,13 @@ def test_parse_parameter_names(config_mo_setup, config_setup,
         'Wrong number of parameter names'
     assert (len(multi_station_setup.para_names) == 24),\
         'Wrong number of parameter names'
+    assert (len(para_region_setup.para_names) == 6),\
+        'Wrong number of parameter names'
 
 
 def test_parse_parameter_range(config_mo_setup, config_setup,
-                               global_module_setup, multi_station_setup):
+                               global_module_setup, multi_station_setup,
+                               para_region_setup):
     '''test '''
     assert (len(config_mo_setup.para_limits) == 2),\
         'Wrong number in parameter range'
@@ -76,6 +80,8 @@ def test_parse_parameter_range(config_mo_setup, config_setup,
     assert (len(global_module_setup.para_limits) == 1),\
         'Wrong number in parameter range'
     assert (len(multi_station_setup.para_limits) == 24),\
+        'Wrong number in parameter range'
+    assert (len(para_region_setup.para_limits) == 6),\
         'Wrong number in parameter range'
 
 
@@ -92,8 +98,15 @@ def test_parse_parameter_values_multi(multi_station_setup):
         'Parameters do not match'
 
 
+def test_parse_parameter_values_para_region_setup(para_region_setup):
+    # test the mmulti station setup
+    multi_station_para_hard_coded = [[0.00001, 3], [0.1, 1.2]] * 3
+    assert (para_region_setup.para_limits == multi_station_para_hard_coded),\
+        'Parameters do not match'
+
+
 def test_parse_objectives(config_mo_setup, config_setup, global_module_setup,
-                          multi_station_setup):
+                          multi_station_setup, para_region_setup):
     '''test '''
     assert (len(config_mo_setup.objectives) == 4),\
         'Wrong number of objectives'
@@ -102,4 +115,6 @@ def test_parse_objectives(config_mo_setup, config_setup, global_module_setup,
     assert (len(global_module_setup.objectives) == 1),\
         'Wrong number of objectives'
     assert (len(multi_station_setup.objectives) == 2),\
+        'Wrong number of objectives'
+    assert (len(para_region_setup.objectives) == 1),\
         'Wrong number of objectives'

@@ -1,7 +1,7 @@
 {
     "general": {
     "project_name": "swim", 
-    "project_path": "./tests/"
+    "project_path": "./borg_hydro/swimpy/tests/"
     },
     "objectives": {
         "list": [
@@ -26,6 +26,6 @@
             }
         ], 
     "parameter_file": "test_input/parameter.dat",
-    "parameter_region_id": [1]
+    "parameter_region_ids": [1]
     }
 }

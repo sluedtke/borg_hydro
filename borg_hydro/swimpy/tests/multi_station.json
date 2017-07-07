@@ -61,6 +61,6 @@
       }
     ], 
     "parameter_file": "test_input/parameter_4.dat",
-    "parameter_region_id": [4]
+    "parameter_region_ids": [1, 2, 3, 4]
   }
 }

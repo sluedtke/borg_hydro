@@ -1,0 +1,36 @@
+{   
+  "general": {
+    "project_name": "swim", 
+    "project_path": "./borg_hydro/swimpy/tests/"
+  },
+  "objectives": {
+      "list": [
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "test_input/runoff*multi*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "test_output/Res/stat_dis_out*multi*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "log_rmse"
+          }
+      ]
+  },
+  "parameters": {
+    "list": [
+      {
+        "name": "abf",
+        "min": 0.00001,
+        "max": 3
+      },
+      {
+        "name": "thc",
+        "min": 0.1,
+        "max": 1.2
+      }
+    ], 
+    "parameter_file": "test_input/parameter_5.dat",
+    "parameter_region_ids": [1, 2, 5]
+  }
+}

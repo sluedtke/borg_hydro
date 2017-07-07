@@ -153,7 +153,10 @@ def write_parameter_template(swim_config):
 
 
 # -----------------------------------
-def test_write_para_template(config_setup):
+def test_write_para_template(config_setup, tmpdir):
+    # create a temporary dir to write into
+    p = str(tmpdir.mkdir("test_input").join("para.prm"))
+    config_setup.parameter_file = p
     # write the parameters to a file
     write_parameter_template(config_setup)
     # concat the strings and compare the files
@@ -163,7 +166,9 @@ def test_write_para_template(config_setup):
 
 
 # Writing parameter files with multiple regions
-def test_write_para_template_multi_region_a(config_mo_setup):
+def test_write_para_template_multi_region_a(config_mo_setup, tmpdir):
+    p = str(tmpdir.mkdir("test_input").join("para.prm"))
+    config_mo_setup.parameter_file = p
     # write the parameters to a file
     write_parameter_template(config_mo_setup)
     # concat the strings and compare the files
@@ -172,12 +177,26 @@ def test_write_para_template_multi_region_a(config_mo_setup):
     assert (compare), 'Files do not match'
 
 
-def test_write_para_template_multi_region_b(multi_station_setup):
+def test_write_para_template_multi_region_b(multi_station_setup, tmpdir):
+    p = str(tmpdir.mkdir("test_input").join("para.prm"))
+    multi_station_setup.parameter_file = p
     # write the parameters to a file
     write_parameter_template(multi_station_setup)
     # concat the strings and compare the files
     compare = filecmp.cmp(multi_station_setup.parameter_file,
                           './borg_hydro/swimpy/tests/test_input/subcatch_4.prm')
+    assert (compare), 'Files do not match'
+
+
+def test_write_para_template_para_region(para_region_setup, tmpdir):
+    p = str(tmpdir.mkdir("test_input").join("para.prm"))
+    para_region_setup.parameter_file = p
+    # write the parameters to a file
+    # import pdb; pdb.set_trace()
+    write_parameter_template(para_region_setup)
+    # concat the strings and compare the files
+    compare = filecmp.cmp(para_region_setup.parameter_file,
+                          './borg_hydro/swimpy/tests/test_input/subcatch_5.prm')
     assert (compare), 'Files do not match'
 
 
@@ -207,6 +226,15 @@ def test_create_para_borg_false_a(multi_station_setup):
     temp_para_borg = utils.create_para_borg(multi_station_setup, rdn_draw)
     pd.util.testing.assert_frame_equal(temp_para_borg,
                                        multi_station_setup.para_template)
+
+
+@pytest.mark.xfail
+def test_create_para_borg_para_region_setup(para_region_setup):
+    # create a random parameter set that is used to update the template
+    rdn_draw = create_random_draw(para_region_setup)
+    temp_para_borg = utils.create_para_borg(para_region_setup, rdn_draw)
+    pd.util.testing.assert_frame_equal(temp_para_borg,
+                                       para_region_setup.para_template)
 
 
 ######################################################################

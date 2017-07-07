@@ -76,6 +76,14 @@ def no_error_setup():
 
 
 @pytest.fixture(scope="session")
+def para_region_setup():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/para_region.json'
+    temp = config.swim_setup(config_file)
+    return(temp)
+
+
+@pytest.fixture(scope="session")
 def obs_simple():
     ''' Creating a DataFrame with with the same entry at every timestep'''
     todays_date = datetime.datetime.now().date()

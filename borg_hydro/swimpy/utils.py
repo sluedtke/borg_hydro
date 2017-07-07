@@ -308,11 +308,13 @@ def create_para_borg(swim_config, parameter_list):
     # create the dataframe
     columns = sorted(set(swim_config.para_names), key=swim_config.para_names.index)
     para_pd = pd.DataFrame(temp_list, columns=columns)
-    # create column for the catchment id
-    para_pd['catchmentID'] = para_pd.index
-    para_pd.catchmentID = para_pd.catchmentID + 1
+    # create column for the catchment id and use the values provided by the config
+    para_pd['catchmentID'] = swim_config.para_preg_ids
+    # set the index to catchmentID
     para_pd = para_pd.set_index('catchmentID')
+    # get the default parameter file from this project
     para = swim_config.para_template
+    # update based on row index and column names
     para.update(para_pd, join='left')
     para_borg = para.reset_index(drop=False)
     return(para_borg)

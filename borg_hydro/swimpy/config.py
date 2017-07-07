@@ -10,7 +10,6 @@
 import os
 import json
 import jsonschema
-import numpy as np
 import pandas as pd
 import pkg_resources
 
@@ -37,22 +36,11 @@ class swim_setup(object):
             pass
 
     # --------------------------
-    def create_para_template(self):
+    def read_para_file(self):
         '''
-        Function that creates a pandas dataframe that is used as a parameter
-        template.
+        That function reads the parameter file from project.
         '''
-        para_values = [1.15, 1.0, 7.0, 7.0, 1, 2.500, 0.0, 0.0, 1.0, 1.0, 1.0,
-                       0.04800, 200, 0.2000, 0.0500, 0.0]
-
-        template = np.asarray(para_values)
-        # format the list with respect to the number of parameter regions
-        template = np.tile(template, (self.para_npreg, 1))
-        template = pd.DataFrame(template)
-        template.insert(0, 'a', [x+1 for x in range(self.para_npreg)])
-        template.insert(template.shape[1], 'b', 'stationName')
-        template.columns = ['catchmentID'] + self._para_names + ['stationID']
-        para_template = template.set_index('catchmentID')
+        para_template = pd.read_csv(self.parameter_file, sep='\t', index_col=0)
         return(para_template)
 
     # --------------------------
@@ -94,13 +82,12 @@ class swim_setup(object):
         # --------------------------
         # set the paramater file path to self
         self.parameter_file = self.pp + '/' + parameter['parameter_file']
+        # create the parameter template from the project parameter file
+        self.para_template = self.read_para_file()
         # get parameter regions (subcatchments in SWIM language), if that is
         # not provided, we set it to 1
-        try:
-            npreg = parameter['parameter_region_id'][0]
-        except KeyError:
-            npreg = 1
-        self.para_npreg = npreg
+        self.para_npreg = len(parameter['parameter_region_ids'])
+        self.para_preg_ids = parameter['parameter_region_ids']
         # get the parameter list and format it for borg
         self.para_names = [para['name'] for para in parameter['list']] *\
             self.para_npreg
@@ -117,8 +104,6 @@ class swim_setup(object):
         # parameter regions
         self.para_limits = list(map(list, zip(parameter_min, parameter_max)))\
             * self.para_npreg
-        # create the parameter template
-        self.para_template = self.create_para_template()
         # --------------------------
         # get the objectives as a list of dicts
         self.objectives = list(objs for objs in

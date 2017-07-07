@@ -86,7 +86,7 @@
         "parameter_file": {
           "type": "string"
         },
-        "parameter_region_id": {
+        "parameter_region_ids": {
             "type": "array",
             "items": {
               "type": "number"
@@ -94,7 +94,7 @@
           "minItems": 1
         }
       },
-      "required": ["list", "parameter_file", "parameter_region_id"],
+      "required": ["list", "parameter_file", "parameter_region_ids"],
       "additionalProperties": false
     }
   },
