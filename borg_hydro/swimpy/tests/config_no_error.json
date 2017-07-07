@@ -40,8 +40,7 @@
                 "max": 3
             }
         ], 
-    "write_function": "write_para",
-    "write_module": "config",
-    "parameter_file": "test_input/parameter.dat"
+    "parameter_file": "test_input/parameter.dat",
+    "parameter_region_id": 1
     }
 }

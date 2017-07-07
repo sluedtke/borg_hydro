@@ -95,7 +95,7 @@ class swim_setup(object):
         # get parameter regions (subcatchments in SWIM language), if that is
         # not provided, we set it to 1
         try:
-            npreg = parameter['number_parameter_region']
+            npreg = parameter['parameter_region_id']
         except KeyError:
             npreg = 1
         self.para_npreg = npreg

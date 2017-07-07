@@ -84,12 +84,6 @@
           },
           "minItems": 1
         },
-        "write_module": {
-          "type": "string"
-        },
-        "write_function": {
-          "type": "string"
-        },
         "parameter_file": {
           "type": "string"
         },
@@ -97,8 +91,8 @@
           "type": "number"
         }
       },
-      "required": ["list", "write_function", "parameter_file"],
-      "additionalProperties": true
+      "required": ["list", "parameter_file", "parameter_region_id"],
+      "additionalProperties": false
     }
   },
   "required": ["general", "objectives", "parameters"], 

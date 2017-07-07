@@ -55,9 +55,7 @@
                 "max": 3
             }
         ], 
-    "write_function": "write_para",
-    "write_module": "config",
     "parameter_file": "test_input/parameter_2.dat",
-    "number_parameter_region": 2
+    "parameter_region_id": 2
     }
 }
