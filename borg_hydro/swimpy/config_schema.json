@@ -48,8 +48,7 @@
             },
             "required": ["name", "read_module", "obs_fp", "read_obs_function", "sim_fp", "read_sim_function", "gof_module", "gof_function"], 
             "additionalProperties": false
-          },
-          "minItems": 1
+          }
         }
       },
       "evaluation_period": {
@@ -88,7 +87,11 @@
           "type": "string"
         },
         "parameter_region_id": {
-          "type": "number"
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+          "minItems": 1
         }
       },
       "required": ["list", "parameter_file", "parameter_region_id"],
