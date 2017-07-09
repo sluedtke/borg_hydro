@@ -71,12 +71,12 @@ class swim_setup(object):
             self.config_data = json.load(json_file)
         # Validate the configuration
         self.validate_config()
+        # --------------------------
         # address project name
         self.pn = self.config_data['general']['project_name']
         # address project path
         self.pp = os.getcwd() + '/' +\
             self.config_data['general']['project_path']
-
         # --------------------------
         parameter = self.config_data['parameters']
         # --------------------------
@@ -131,3 +131,7 @@ class swim_setup(object):
         self.start = ev['start_date']
         self.end = ev['end_date']
         self.format = ev['format']
+        # --------------------------
+        # get the epsilon as a list of numbers
+        self.epsilons = list(objs['epsilon'] for objs in
+                               self.objectives)

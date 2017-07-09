@@ -13,7 +13,8 @@
               "sim_fp": "test_output/Res/stat_dis_out*multi*",
               "read_sim_function": "read_simulated",
               "gof_module": "gof_python",
-              "gof_function": "log_rmse"
+              "gof_function": "log_rmse", 
+              "epsilon": 0.2
           }, 
           {
               "name": "total runoff",
@@ -23,7 +24,8 @@
               "sim_fp": "test_output/Res/stat_dis_out*multi*",
               "read_sim_function": "read_simulated",
               "gof_module": "gof_python",
-              "gof_function": "nse"
+              "gof_function": "nse", 
+              "epsilon": 0.2
           }
       ]
   },

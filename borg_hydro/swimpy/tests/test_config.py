@@ -118,3 +118,24 @@ def test_parse_objectives(config_mo_setup, config_setup, global_module_setup,
         'Wrong number of objectives'
     assert (len(para_region_setup.objectives) == 1),\
         'Wrong number of objectives'
+
+
+def test_parse_epsilons(config_mo_setup, config_setup, global_module_setup,
+                          multi_station_setup, para_region_setup):
+    '''test '''
+    assert (len(config_mo_setup.epsilons) == 4),\
+        'Wrong number of epsilons'
+    assert (len(config_setup.epsilons) == 2),\
+        'Wrong number of epsilons'
+    assert (len(global_module_setup.epsilons) == 1),\
+        'Wrong number of epsilons'
+    assert (len(multi_station_setup.epsilons) == 2),\
+        'Wrong number of epsilons'
+    assert (len(para_region_setup.epsilons) == 1),\
+        'Wrong number of epsilons'
+
+
+def test_epsilons_values_para_region_setup(para_region_setup):
+    # test the mmulti station setup
+    assert para_region_setup.epsilons == [0.2],\
+        'Parameters do not match'

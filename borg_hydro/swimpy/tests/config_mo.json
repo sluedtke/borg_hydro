@@ -13,7 +13,8 @@
                 "sim_fp": "test_output/Res/stat_dis_out_0001*",
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof_function": "log_rmse", 
+                "epsilon": 0.2
             },
             {
                 "name": "base flow",
@@ -23,7 +24,8 @@
                 "sim_fp": "test_output/Res/stat_bf_out*",
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof_function": "log_rmse", 
+                "epsilon": 0.2
             },
             {
                 "name": "inter floe",
@@ -33,7 +35,8 @@
                 "sim_fp": "test_output/Res/stat_if_out*",
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof_function": "log_rmse", 
+                "epsilon": 0.2
             },
             {
                 "name": "fast flow",
@@ -43,7 +46,8 @@
                 "sim_fp": "test_output/Res/stat_ff_out*",
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
-                "gof_function": "log_rmse"
+                "gof_function": "log_rmse", 
+                "epsilon": 0.2
             }
         ]
     },
