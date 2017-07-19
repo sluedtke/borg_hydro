@@ -237,10 +237,10 @@ def test_create_para_borg_para_region_setup_a(para_region_setup):
     # get the list of catchmentIDs we changed
     catch_ids = para_region_setup.para_preg_ids
     # subset to the rows we did __NOT__ changed
-    para_borg_true = para_borg[-para_borg['catchmentID'].isin(catch_ids)]
+    para_borg_true = para_borg.loc[~para_borg.index.isin(catch_ids)]
     # subset to the rows we did __NOT__ changed
-    para_template = para_region_setup.para_template.reset_index(drop=False)
-    para_template_true = para_template[-para_template['catchmentID'].isin(catch_ids)]
+    para_template = para_region_setup.para_template
+    para_template_true = para_template[~para_template.index.isin(catch_ids)]
     # assert for equality
     pd.util.testing.assert_frame_equal(para_borg_true, para_template_true)
 
@@ -255,7 +255,7 @@ def test_create_para_borg_para_region_setup_b(para_region_setup):
     # subset to the column we did __NOT__ changed
     para_borg.drop(para_names, axis = 1, inplace = True)
     # subset to the rows we did __NOT__ changed
-    para_template = para_region_setup.para_template.reset_index(drop=False)
+    para_template = para_region_setup.para_template
     para_template.drop(para_names, axis = 1, inplace = True)
     # assert for equality
     pd.util.testing.assert_frame_equal(para_borg, para_template)

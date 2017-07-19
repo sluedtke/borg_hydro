@@ -316,7 +316,6 @@ def create_para_borg(swim_config, parameter_list):
     para = swim_config.para_template.copy()
     # update based on row index and column names
     para.update(para_pd, join='left')
-    para = para.reset_index(drop=False)
     return(para)
 
 
