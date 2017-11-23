@@ -1,2 +1,2 @@
 ## Installation 
-pip install git+ssh://git@git.gfz-potsdam.de/sluedtke/borg_hydro.git
+pip install git+ssh://git@github.com/sluedtke/borg_hydro.git
