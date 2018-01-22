@@ -4,3 +4,4 @@ tests/.cache/
 *.swp
 *.pyc
 borg_hydro/swimpy/tests/test_input/parameter*
+.ropeproject/
