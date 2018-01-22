@@ -47,12 +47,14 @@
               },
               "epsilon": {
                 "type": "number"
+              },
+              "nested": {
+                "type": "boolean"
               } 
             },
             "required": ["name", "read_module", "obs_fp", "read_obs_function",
                         "sim_fp", "read_sim_function", "gof_module", "gof_function",
-                        "epsilon"], 
-            "additionalProperties": false
+                        "epsilon"]
           }
         }
       },

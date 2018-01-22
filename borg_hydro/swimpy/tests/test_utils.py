@@ -86,14 +86,14 @@ def test_compute_gof_fail(config_setup):
 
 def test_compute_gof(config_setup):
     # overwrite the start date from the configuration file
-    config_setup.start = '1990-01-01'
+    config_setup.evp['start_date'] = '1990-01-01'
     temp = utils.compute_gof(config_setup)
     assert (temp == [[0.72450915761519752], [1.2196478869306084]])
 
 
 def test_compute_gof_mo_modify_start(config_mo_setup):
     # overwrite the start date from the configuration file
-    config_mo_setup.start = '1990-01-11'
+    config_mo_setup.evp['start_date'] = '1990-01-11'
     temp = utils.compute_gof(config_mo_setup)
     assert (pytest.approx(temp[0], 0.001) == [0.7343])
     assert (pytest.approx(temp[1], 0.001) == [1.1576])
@@ -101,7 +101,7 @@ def test_compute_gof_mo_modify_start(config_mo_setup):
 
 def test_compute_gof_mo_modify_end(config_mo_setup):
     # overwrite the start date from the configuration file
-    config_mo_setup.end = '1990-01-09'
+    config_mo_setup.evp['end_date'] = '1990-01-09'
     temp = utils.compute_gof(config_mo_setup)
     assert (pytest.approx(temp[0], 0.001) == [0.7052])
     assert (pytest.approx(temp[1], 0.001) == [1.246])
@@ -273,7 +273,7 @@ def test_window_ts(sim_simple):
 
 
 def test_window_ts_no_overlap(no_error_setup):
-    no_error_setup.end = '1990-01-05'
+    no_error_setup.evp['end_date'] = '1990-01-05'
     with pytest.raises(SystemExit):
         utils.compute_gof(no_error_setup)
 

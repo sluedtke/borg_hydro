@@ -24,12 +24,12 @@ class swim_setup(object):
 
     def check_para_names(self):
         '''
-        Function that  checkes whether the supplied paramter names from the
+        Function that  checks whether the supplied parameter names from the
         config exist in the template.
         '''
         unique_names = set(self.para_names)
         # intersection
-        temp = set(self.para_names).intersection(self._para_names)
+        temp = set(self.para_names).intersection(self.__para_names)
         if len(temp) != len(unique_names):
             raise KeyError("Configuration parameters not found.")
         else:
@@ -41,7 +41,7 @@ class swim_setup(object):
         That function reads the parameter file from project.
         '''
         para_template = pd.read_csv(self.parameter_file, sep='\t', index_col=0)
-        return(para_template)
+        return para_template
 
     # --------------------------
     def validate_config(self):
@@ -60,9 +60,36 @@ class swim_setup(object):
         try:
             jsonschema.validate(self.config_data, config_schema)
         except jsonschema.ValidationError:
-            print("The configuratioin is not valid")
+            print("The configuration is not valid")
             raise
-    
+
+    # --------------------------
+    def set_evaluation_period(self):
+        '''
+
+        Dictionary with start and end dates and format to self.
+        '''
+        # --------------------------
+        # get the evaluation period if provided
+        # that are the keys we want to have from the slot evaluation_period
+        key_list = ["start_date", "end_date", "format"]
+        try:
+            temp = self.config_data['objectives']['evaluation_period']
+        except KeyError:
+            # if evaluation_period is not present at all, set all values for
+            # that slot to None
+            temp = dict(zip(key_list, [None, None, None]))
+        evp = []
+        # Check whether the single elements are set or not
+        for k in key_list:
+            if k in temp:
+                evp.append(temp[k])
+            else:
+                evp.append(None)
+        # create a dict with the keys defined above
+        # assign them to our configuration object
+        return dict(zip(key_list, evp))
+
     # --------------------------
     def __init__(self, config_file):
         ''' Initialization of the model components.'''
@@ -89,14 +116,16 @@ class swim_setup(object):
         self.para_npreg = len(parameter['parameter_region_ids'])
         self.para_preg_ids = parameter['parameter_region_ids']
         # get the parameter list and format it for borg
+        # --------------------------
         self.para_names = [para['name'] for para in parameter['list']] *\
             self.para_npreg
-        # create a list of variable names that is used only internaly
-        self._para_names = ['ecal', 'thc', 'roc2', 'roc4', 'cncor',
-                            'sccor', 'tsnfall', 'tmelt', 'smrate',
-                            'gmrate', 'bff', 'abf', 'delay', 'revapc',
-                            'rchrgc', 'revapmn']
+        # create a list of variable names that is used only internally
+        self.__para_names = ['ecal', 'thc', 'roc2', 'roc4', 'cncor',
+                             'sccor', 'tsnfall', 'tmelt', 'smrate',
+                             'gmrate', 'bff', 'abf', 'delay', 'revapc',
+                             'rchrgc', 'revapmn']
         self.check_para_names()
+        # --------------------------
         # get parameter min and max
         parameter_min = [para['min'] for para in parameter['list']]
         parameter_max = [para['max'] for para in parameter['list']]
@@ -109,28 +138,8 @@ class swim_setup(object):
         self.objectives = list(objs for objs in
                                self.config_data['objectives']['list'])
         # --------------------------
-        # get the evaluation period if provided
-        # that are the keys we want to have from the slot evaluation_period
-        key_list = ["start_date", "end_date", "format"]
-        try:
-            temp = self.config_data['objectives']['evaluation_period']
-        except KeyError:
-            # if evaluation_period is not present at all, set all values for 
-            # that slot to None
-            temp = dict(zip(key_list,  [None, None, None]))
-        ev = []
-        # Check whether the single elements are set or not 
-        for k in key_list:
-            if k in temp:
-                ev.append(temp[k])
-            else:
-                ev.append(None)
-        # create a dict with the keys defined above
-        ev = dict(zip(key_list, ev))
-        # assign them to our configuration object
-        self.start = ev['start_date']
-        self.end = ev['end_date']
-        self.format = ev['format']
+        # call method to set evaluation if available
+        self.evp = self.set_evaluation_period()
         # --------------------------
         # get the epsilon as a list of numbers
         self.epsilons = list(objs['epsilon'] for objs in

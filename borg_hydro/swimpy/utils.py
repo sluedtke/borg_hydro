@@ -8,10 +8,10 @@
 ######################################################################
 
 import sys
-import pandas as pd
-import numpy as np
 import glob
 import datetime
+import pandas as pd
+import numpy as np
 from . import gof_python
 
 ######################################################################
@@ -194,7 +194,7 @@ def compute_gof(swim_config):
     3) two objectives with a one station:
     [[gof_value_1], [gof_value_2]]
 
-    4) two objectives with a two and three stations respectively 
+    4) two objectives with a two and three stations respectively
     [[gof_value_1, gof_value_2], [gof_value_3, gof_value_4, gof_value_5]]
 
     '''
@@ -211,10 +211,11 @@ def compute_gof(swim_config):
         temp_sim = functions['read_sim']['exe'](sim_file)
         # Try to apply the window function to the simulated time series
         try:
-            temp_sim = window_ts(temp_sim, start_date=swim_config.start,
-                                 end_date=swim_config.end)
+            temp_sim = window_ts(temp_sim,
+                                 start_date=swim_config.evp['start_date'],
+                                 end_date=swim_config.evp['end_date'])
         except AttributeError:
-            temp_sim = temp_sim
+            temp_sim = temp_simp
         # check whether there is overlap between both time series at all
         check_overlap(temp_obs, temp_sim)
         # call the USER function to compute the performance
@@ -326,4 +327,4 @@ def write_parameter_file(swim_config, parameter_borg):
     attribute is empty if not set before by parsing a list of parameters.
     '''
     parameter_borg.to_csv(swim_config.parameter_file, sep='\t', encoding='utf-8',
-                                 header=True, index=True)
+                          header=True, index=True)
