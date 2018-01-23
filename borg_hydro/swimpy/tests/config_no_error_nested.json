@@ -14,18 +14,8 @@
                 "read_sim_function": "read_simulated",
                 "gof_module": "gof_python",
                 "gof_function": "log_rmse",
-                "epsilon": 0.2
-            },
-            {
-                "name": "fast flow",
-                "read_module": "utils",
-                "obs_fp": "test_input/obs_multi_2*",
-                "read_obs_function": "read_observed",
-                "sim_fp": "test_output/Res/res_multi_2*",
-                "read_sim_function": "read_simulated",
-                "gof_module": "gof_python",
-                "gof_function": "nse",
-                "epsilon": 0.2
+                "epsilon": 0.2,
+                "nested": ["50201", "50208", "40208"]
             }
         ],
         "evaluation_period": {

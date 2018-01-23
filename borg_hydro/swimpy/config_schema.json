@@ -11,7 +11,7 @@
           "type": "string"
         }
       },
-      "required": ["project_name", "project_path"] 
+      "required": ["project_name", "project_path"]
     },
     "objectives": {
       "type": "object",
@@ -23,10 +23,10 @@
             "properties": {
               "name": {
                 "type": "string"
-              }, 
+              },
               "read_module": {
                 "type": "string"
-              }, 
+              },
               "obs_fp": {
                 "type": "string"
               },
@@ -49,8 +49,11 @@
                 "type": "number"
               },
               "nested": {
-                "type": "boolean"
-              } 
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string" },
+                "uniqueItems": true
+              }
             },
             "required": ["name", "read_module", "obs_fp", "read_obs_function",
                         "sim_fp", "read_sim_function", "gof_module", "gof_function",
@@ -61,8 +64,8 @@
       "evaluation_period": {
         "type": "object",
         "properties": {
-          "start_date": "string", 
-          "end_date": "string", 
+          "start_date": "string",
+          "end_date": "string",
           "date_format": "string"
         }
       }
@@ -105,7 +108,7 @@
       "additionalProperties": false
     }
   },
-  "required": ["general", "objectives", "parameters"], 
-  "additionalProperties": false, 
+  "required": ["general", "objectives", "parameters"],
+  "additionalProperties": false,
   "uniqueItems": true
 }

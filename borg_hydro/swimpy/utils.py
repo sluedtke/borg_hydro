@@ -132,7 +132,7 @@ def check_overlap(pandas_obs, pandas_sim):
 # -----------------------------------
 def only_numbers(python_list):
     '''
-    A function that takes a python list and returns a list that contains only numbers. 
+    A function that takes a python list and returns a list that contains only numbers.
     All strings are silently dropped.
     Examples:
     >>> # numbers and string
@@ -215,7 +215,14 @@ def compute_gof(swim_config):
                                  start_date=swim_config.evp['start_date'],
                                  end_date=swim_config.evp['end_date'])
         except AttributeError:
-            temp_sim = temp_simp
+            temp_sim = temp_sim
+        # Check whether we have filter the stations because we have given nested
+        # objectives in the config file
+        # __import__('pdb').set_trace()
+        try:
+            temp_obs = temp_obs.loc[:, [item['pattern']]]
+        except KeyError:
+            temp_obs = temp_obs
         # check whether there is overlap between both time series at all
         check_overlap(temp_obs, temp_sim)
         # call the USER function to compute the performance
@@ -232,7 +239,7 @@ def search_function(func, mod):
     string and build and callable object. If the module is given in several
     parts, e.g. "part1.part2", we need to call *getattr* several times and
     using the output from the previous evaluation. I am missing the correct
-    word right now. 
+    word right now.
 
     >>> a = search_function(func='equals', mod='pd.DataFrame')
     >>> a.__module__ + '.' + a.__name__
@@ -265,7 +272,7 @@ def get_functions(item):
     # Create a dictionary that is later extended by the callable ojbect
     input_dict = {'read_obs':
                       {'mod': item['read_module'],
-                      'func': item['read_obs_function']}, 
+                      'func': item['read_obs_function']},
                   'read_sim':
                       {'mod': item['read_module'],
                       'func': item['read_sim_function']},

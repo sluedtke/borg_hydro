@@ -75,8 +75,8 @@ def test_get_function_multi(multi_station_setup):
 ######################################################################
 # Test compute_gof function
 
-# That one fails, but only for the second item, the first itmen has an star date 
-# for the observation date and since we use only values existent at both time 
+# That one fails, but only for the second item, the first itmen has an star date
+# for the observation date and since we use only values existent at both time
 # series, the new start data does not matter
 @pytest.mark.xfail
 def test_compute_gof_fail(config_setup):
@@ -122,12 +122,29 @@ def test_compute_no_error(no_error_setup):
     assert (np.isnan(temp[1]))
 
 
+def test_compute_no_error_nested(no_error_nested_setup):
+    temp = utils.compute_gof(no_error_nested_setup)
+    # lrmse return 0 for no difference between the series
+    assert (temp[0] == [0.0])
+    assert (temp[1] == [0.0])
+    assert (temp[2] == [0.0])
+
+
 def test_compute_multi_station(multi_station_setup):
     temp = utils.compute_gof(multi_station_setup)
     # lrmse return 0 for no difference between the series
-    assert (pytest.approx(temp[0], 0.001) == [0.7245091576151975, 0.7254229337221346])
-    assert (pytest.approx(temp[1], 0.001) == [-109.64159579355754, -108.70622740963847])
+    assert (pytest.approx(temp[0], 0.001) == [0.72450915761, 0.72542293372])
+    assert (pytest.approx(temp[1], 0.001) == [-109.64159579, -108.70622740])
 
+
+def test_compute_multi_station_nested(multi_station_nested_setup):
+    temp = utils.compute_gof(multi_station_nested_setup)
+    # lrmse return 0 for no difference between the series
+    # __import__('pdb').set_trace()
+    assert (pytest.approx(temp[0], 0.001) == [0.72450915761])
+    assert (pytest.approx(temp[1], 0.001) == [0.72542293372])
+    assert (pytest.approx(temp[2], 0.001) == [-109.64159579])
+    assert (pytest.approx(temp[3], 0.001) == [-108.70622740])
 
 ######################################################################
 # Writing parameter files ...

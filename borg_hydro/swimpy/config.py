@@ -8,6 +8,7 @@
 ######################################################################
 
 import os
+import itertools
 import json
 import jsonschema
 import pandas as pd
@@ -22,6 +23,38 @@ class swim_setup(object):
     A class that holds all the general configs given by the json file.
     '''
 
+    # --------------------------
+    @staticmethod
+    def try_split_nested_objectives(objs):
+        '''
+        We check whether one objective function is given via an array of strings
+        in the nested slot of our configuration.
+        '''
+        try:
+            temp_list = objs['nested']
+            new_objs_list = []
+            for pattern in temp_list:
+                temp_objs = objs.copy()
+                temp_objs['pattern'] = pattern
+                new_objs_list.append(temp_objs)
+        except KeyError:
+            # an ugly workaround to get the un-nesting after the function call
+            # working
+            new_objs_list = [objs]
+        return new_objs_list
+
+    # --------------------------
+    def get_objectives(self):
+        objs_list = [objs for objs in self.config_data['objectives']['list']]
+        # try to split if we encounter nested objectives
+        objs_list = [self.try_split_nested_objectives(objs) for objs in
+                     objs_list]
+        # flatten the list before we return it
+        objs_list = list(itertools.chain.from_iterable(objs_list))
+        # __import__('pdb').set_trace()
+        return objs_list
+
+    # --------------------------
     def check_para_names(self):
         '''
         Function that  checks whether the supplied parameter names from the
@@ -135,12 +168,10 @@ class swim_setup(object):
             * self.para_npreg
         # --------------------------
         # get the objectives as a list of dicts
-        self.objectives = list(objs for objs in
-                               self.config_data['objectives']['list'])
+        self.objectives = self.get_objectives()
         # --------------------------
         # call method to set evaluation if available
         self.evp = self.set_evaluation_period()
         # --------------------------
         # get the epsilon as a list of numbers
-        self.epsilons = list(objs['epsilon'] for objs in
-                               self.objectives)
+        self.epsilons = [objs['epsilon'] for objs in self.objectives]

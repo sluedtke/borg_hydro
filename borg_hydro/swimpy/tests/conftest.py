@@ -33,7 +33,7 @@ def read_sim():
     return(sim)
 
 
-# That one is modified during a test, to get the original one for all the 
+# That one is modified during a test, to get the original one for all the
 # others, we use function scope
 @pytest.fixture(scope="function")
 def config_setup():
@@ -68,9 +68,25 @@ def multi_station_setup():
 
 
 @pytest.fixture(scope="session")
+def multi_station_nested_setup():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/multi_station_nested.json'
+    temp = config.swim_setup(config_file)
+    return(temp)
+
+
+@pytest.fixture(scope="session")
 def no_error_setup():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/config_no_error.json'
+    temp = config.swim_setup(config_file)
+    return(temp)
+
+
+@pytest.fixture(scope="session")
+def no_error_nested_setup():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/config_no_error_nested.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
