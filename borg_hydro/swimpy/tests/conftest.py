@@ -36,7 +36,7 @@ def read_sim():
 # That one is modified during a test, to get the original one for all the
 # others, we use function scope
 @pytest.fixture(scope="function")
-def config_setup():
+def config_01():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/01-config.json'
     temp = config.swim_setup(config_file)
@@ -44,7 +44,7 @@ def config_setup():
 
 
 @pytest.fixture(scope="function")
-def config_mo_setup():
+def config_02():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/02-config.json'
     temp = config.swim_setup(config_file)
@@ -52,7 +52,7 @@ def config_mo_setup():
 
 
 @pytest.fixture(scope="session")
-def global_module_setup():
+def config_08():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/08-config.json'
     temp = config.swim_setup(config_file)
@@ -60,7 +60,7 @@ def global_module_setup():
 
 
 @pytest.fixture(scope="session")
-def multi_station_setup():
+def config_06():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/06-config.json'
     temp = config.swim_setup(config_file)
@@ -68,7 +68,7 @@ def multi_station_setup():
 
 
 @pytest.fixture(scope="session")
-def multi_station_nested_setup():
+def config_07():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/07-config.json'
     temp = config.swim_setup(config_file)
@@ -76,7 +76,7 @@ def multi_station_nested_setup():
 
 
 @pytest.fixture(scope="session")
-def no_error_setup():
+def config_03():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/03-config.json'
     temp = config.swim_setup(config_file)
@@ -84,7 +84,7 @@ def no_error_setup():
 
 
 @pytest.fixture(scope="session")
-def no_error_nested_setup():
+def config_04():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/04-config.json'
     temp = config.swim_setup(config_file)
@@ -92,7 +92,7 @@ def no_error_nested_setup():
 
 
 @pytest.fixture(scope="function")
-def para_region_setup():
+def config_09():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/09-config.json'
     temp = config.swim_setup(config_file)
