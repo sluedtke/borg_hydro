@@ -38,7 +38,7 @@ def read_sim():
 @pytest.fixture(scope="function")
 def config_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/config.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/01-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -46,7 +46,7 @@ def config_setup():
 @pytest.fixture(scope="function")
 def config_mo_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/config_mo.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/02-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -54,7 +54,7 @@ def config_mo_setup():
 @pytest.fixture(scope="session")
 def global_module_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/global_module.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/08-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -62,7 +62,7 @@ def global_module_setup():
 @pytest.fixture(scope="session")
 def multi_station_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/multi_station.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/06-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -70,7 +70,7 @@ def multi_station_setup():
 @pytest.fixture(scope="session")
 def multi_station_nested_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/multi_station_nested.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/07-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -78,7 +78,7 @@ def multi_station_nested_setup():
 @pytest.fixture(scope="session")
 def no_error_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/config_no_error.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/03-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -86,7 +86,7 @@ def no_error_setup():
 @pytest.fixture(scope="session")
 def no_error_nested_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/config_no_error_nested.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/04-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 
@@ -94,7 +94,7 @@ def no_error_nested_setup():
 @pytest.fixture(scope="function")
 def para_region_setup():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/para_region.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/09-config.json'
     temp = config.swim_setup(config_file)
     return(temp)
 

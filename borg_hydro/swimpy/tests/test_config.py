@@ -58,7 +58,7 @@ def test_read_no_error_nested(no_error_nested_setup):
 
 def test_read_false_parameter():
     '''test '''
-    config_file = './borg_hydro/swimpy/tests/config_false_parameter.json'
+    config_file = './borg_hydro/swimpy/tests/test_configs/05-config.json'
     with pytest.raises(KeyError):
         config.swim_setup(config_file)
 
