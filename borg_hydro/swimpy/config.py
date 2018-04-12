@@ -51,7 +51,6 @@ class swim_setup(object):
                      objs_list]
         # flatten the list before we return it
         objs_list = list(itertools.chain.from_iterable(objs_list))
-        # __import__('pdb').set_trace()
         return objs_list
 
     # --------------------------
@@ -156,7 +155,8 @@ class swim_setup(object):
         self.__para_names = ['ecal', 'thc', 'roc2', 'roc4', 'cncor',
                              'sccor', 'tsnfall', 'tmelt', 'smrate',
                              'gmrate', 'bff', 'abf', 'delay', 'revapc',
-                             'rchrgc', 'revapmn']
+                             'rchrgc', 'revapmn', 'ekc0', 'prf', 'spcon',
+                             'spexp']
         self.check_para_names()
         # --------------------------
         # get parameter min and max
