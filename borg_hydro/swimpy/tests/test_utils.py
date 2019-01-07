@@ -137,14 +137,20 @@ def test_compute_multi_station(config_06):
     assert (pytest.approx(temp[1], 0.001) == [-109.64159579, -108.70622740])
 
 
-def test_compute_multi_station_nested(config_07):
-    temp = utils.compute_gof(config_07)
+def test_compute_multi_station_nested(config_dict):
+    temp = utils.compute_gof(config_dict['config_07'])
     # lrmse return 0 for no difference between the series
-    # __import__('pdb').set_trace()
     assert (pytest.approx(temp[0], 0.001) == [0.72450915761])
     assert (pytest.approx(temp[1], 0.001) == [0.72542293372])
     assert (pytest.approx(temp[2], 0.001) == [-109.64159579])
     assert (pytest.approx(temp[3], 0.001) == [-108.70622740])
+    temp = utils.compute_gof(config_dict['config_10'])
+    # lrmse return 0 for no difference between the series
+    assert (pytest.approx(temp[0], 0.001) == [-108.70622740])
+    assert (pytest.approx(temp[1], 0.001) == [-108.70622740])
+    assert (pytest.approx(temp[2], 0.001) == [-109.64159579])
+    assert (pytest.approx(temp[3], 0.001) == [-109.64159579])
+
 
 ######################################################################
 # Writing parameter files ...
@@ -279,6 +285,30 @@ def test_create_para_borg_config_09_b(config_09):
 
 
 ######################################################################
+# Test the function to convert strings given a specific format
+def test_check_convert_dates():
+    # no Exceptiosn
+    # daily values
+    utils.convert_dates(date_var='2001-10-30')
+    utils.convert_dates(date_var='2001-10-30', d_format='%Y-%m-%d')
+    utils.convert_dates(date_var='2001-30-10', d_format='%Y-%d-%m')
+    utils.convert_dates(date_var='2001-30-oct', d_format='%Y-%d-%b')
+    utils.convert_dates(date_var='2001-oct-30', d_format='%Y-%b-%d')
+    # monthly
+    utils.convert_dates(date_var='2001-10', d_format='%Y-%m')
+    utils.convert_dates(date_var='2001-oct', d_format='%Y-%b')
+    utils.convert_dates(date_var='2001-October', d_format='%Y-%B')
+    # julian day
+    utils.convert_dates(date_var='2001-200', d_format='%Y-%j')
+    # throws an exception
+    with pytest.raises(Exception):
+        # nonsense
+        utils.convert_dates("lkdfsjklfj")
+        utils.convert_dates(date_var='2001-400', d_format='%Y-%j')
+        utils.convert_dates(date_var='2001-month', d_format='%Y-%b')
+
+
+######################################################################
 # Test the window_ts function that cuts a dataframe to start and end dates
 def test_window_ts(sim_simple):
     todays_date = datetime.datetime.now().date()
@@ -293,16 +323,6 @@ def test_window_ts_no_overlap(config_03):
     config_03.evp['end_date'] = '1990-01-05'
     with pytest.raises(SystemExit):
         utils.compute_gof(config_03)
-
-
-def test_check_window_dates_format_start_date(sim_simple):
-    with pytest.raises(Exception):
-        utils.convert_dates(sim_simple, start_date=4)
-
-
-def test_check_window_dates_format_end_date(sim_simple):
-    with pytest.raises(Exception):
-        utils.convert_dates(sim_simple, end_date=4)
 
 
 def test_check_window_dates_equal_nothing(sim_simple):
