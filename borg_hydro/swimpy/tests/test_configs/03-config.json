@@ -30,8 +30,8 @@
         ],
         "evaluation_period": {
           "start_date": "1990-01-01",
-          "end_date": "1990-01-14",
-          "date_format": "%y-%m-%d"
+          "end_date": "1990-14-01",
+          "date_format": "%y-%d-%m"
         }
     },
     "parameters": {
