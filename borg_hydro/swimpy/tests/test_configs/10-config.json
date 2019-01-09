@@ -1,0 +1,110 @@
+{
+  "general": {
+    "project_name": "swim",
+    "project_path": "./borg_hydro/swimpy/tests/"
+  },
+  "objectives": {
+      "list": [
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "test_input/runoff*multi_agg*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "test_output/Res/stat_dis_out*multi_agg*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "pbias",
+              "epsilon": 0.2,
+              "nested": ["50208"],
+              "aggregation": {
+                  "function": "mean",
+                  "period": "W"
+              }
+          },
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "test_input/runoff*multi_agg*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "test_output/Res/stat_dis_out*multi_agg*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "nse",
+              "epsilon": 0.2,
+              "nested": ["50208"],
+              "aggregation": {
+                  "function": "mean",
+                  "period": "W"
+              }
+          },
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "test_input/runoff*multi_agg*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "test_output/Res/stat_dis_out*multi_agg*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "pbias",
+              "epsilon": 0.2,
+              "nested": ["50201"],
+              "aggregation": {
+                  "period": "M",
+                  "function": "sum"
+              }
+          },
+          {
+              "name": "total runoff",
+              "read_module": "utils",
+              "obs_fp": "test_input/runoff*multi_agg*",
+              "read_obs_function": "read_observed",
+              "sim_fp": "test_output/Res/stat_dis_out*multi_agg*",
+              "read_sim_function": "read_simulated",
+              "gof_module": "gof_python",
+              "gof_function": "nse",
+              "epsilon": 0.2,
+              "nested": ["50201"],
+              "aggregation": {
+                  "period": "M",
+                  "function": "sum"
+              }
+          }
+      ]
+  },
+  "parameters": {
+    "list": [
+      {
+        "name": "abf",
+        "min": 0.00001,
+        "max": 3
+      },
+      {
+        "name": "thc",
+        "min": 0.1,
+        "max": 1.2
+      },
+      {
+        "name": "bff",
+        "min": 0.00001,
+        "max": 2
+      },
+      {
+        "name": "delay",
+        "min": 1,
+        "max": 60
+      },
+      {
+        "name": "roc4",
+        "min": 0.1,
+        "max": 200
+      },
+      {
+        "name": "sccor",
+        "min": 0.1,
+        "max": 4
+      }
+    ],
+    "parameter_file": "test_input/parameter_4.dat",
+    "parameter_region_ids": [1, 2, 3, 4]
+  }
+}

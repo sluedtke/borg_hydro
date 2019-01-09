@@ -22,7 +22,6 @@ class swim_setup(object):
     '''
     A class that holds all the general configs given by the json file.
     '''
-
     # --------------------------
     @staticmethod
     def try_split_nested_objectives(objs):
@@ -98,13 +97,12 @@ class swim_setup(object):
     # --------------------------
     def set_evaluation_period(self):
         '''
-
         Dictionary with start and end dates and format to self.
         '''
         # --------------------------
         # get the evaluation period if provided
         # that are the keys we want to have from the slot evaluation_period
-        key_list = ["start_date", "end_date", "format"]
+        key_list = ["start_date", "end_date", "d_format"]
         try:
             temp = self.config_data['objectives']['evaluation_period']
         except KeyError:

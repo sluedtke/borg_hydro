@@ -144,12 +144,16 @@ def test_compute_multi_station_nested(config_dict):
     assert (pytest.approx(temp[1], 0.001) == [0.72542293372])
     assert (pytest.approx(temp[2], 0.001) == [-109.64159579])
     assert (pytest.approx(temp[3], 0.001) == [-108.70622740])
+
+
+def test_compute_multi_station_aggregation(config_dict):
+    # test the aggregation results
     temp = utils.compute_gof(config_dict['config_10'])
     # lrmse return 0 for no difference between the series
-    assert (pytest.approx(temp[0], 0.001) == [-108.70622740])
-    assert (pytest.approx(temp[1], 0.001) == [-108.70622740])
-    assert (pytest.approx(temp[2], 0.001) == [-109.64159579])
-    assert (pytest.approx(temp[3], 0.001) == [-109.64159579])
+    assert (pytest.approx(temp[0], 0.001) == [69.3])
+    assert (pytest.approx(temp[1], 0.001) == [-15.027036744])
+    assert (pytest.approx(temp[2], 0.001) == [115.5])
+    assert (pytest.approx(temp[3], 0.001) == [-14.069738052])
 
 
 ######################################################################

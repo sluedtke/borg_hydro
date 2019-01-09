@@ -87,10 +87,18 @@ def config_09():
     return temp
 
 
+@pytest.fixture(scope="function")
+def config_10():
+    '''test '''
+    config_file = './borg_hydro/swimpy/tests/test_configs/10-config.json'
+    temp = config.swim_setup(config_file)
+    return temp
+
+
 # collect all of them into a dict .. I hope thats easier to use later on
 @pytest.fixture(scope="function")
 def config_dict(config_01, config_02, config_03, config_04, config_06,
-                config_07, config_08, config_09):
+                config_07, config_08, config_09, config_10):
     '''test '''
     temp = dict()
     temp["config_01"] = config_01
@@ -101,6 +109,7 @@ def config_dict(config_01, config_02, config_03, config_04, config_06,
     temp["config_07"] = config_07
     temp["config_08"] = config_08
     temp["config_09"] = config_09
+    temp["config_10"] = config_10
     return temp
 
 
