@@ -21,9 +21,7 @@ from borg_hydro.swimpy import config, utils
 
 
 # --------------------------------------------------------------------------
-# That one is modified during a test, to get the original one for all the
-# others, we use function scope
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def config_01():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/01-config.json'
@@ -31,7 +29,7 @@ def config_01():
     return temp
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def config_02():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/02-config.json'
@@ -79,7 +77,7 @@ def config_08():
     return temp
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def config_09():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/09-config.json'
@@ -87,7 +85,7 @@ def config_09():
     return temp
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def config_10():
     '''test '''
     config_file = './borg_hydro/swimpy/tests/test_configs/10-config.json'
@@ -96,7 +94,7 @@ def config_10():
 
 
 # collect all of them into a dict .. I hope thats easier to use later on
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def config_dict(config_01, config_02, config_03, config_04, config_06,
                 config_07, config_08, config_09, config_10):
     '''test '''

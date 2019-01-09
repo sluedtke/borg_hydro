@@ -14,6 +14,7 @@ import filecmp
 import pandas as pd
 import numpy as np
 import datetime
+import copy
 from borg_hydro.swimpy import utils
 
 ######################################################################
@@ -93,16 +94,18 @@ def test_compute_gof(config_01):
 
 def test_compute_gof_mo_modify_start(config_02):
     # overwrite the start date from the configuration file
-    config_02.evp['start_date'] = '1990-01-11'
-    temp = utils.compute_gof(config_02)
+    temp_config = copy.deepcopy(config_02)
+    temp_config.evp['start_date'] = '1990-01-11'
+    temp = utils.compute_gof(temp_config)
     assert (pytest.approx(temp[0], 0.001) == [0.7343])
     assert (pytest.approx(temp[1], 0.001) == [1.1576])
 
 
 def test_compute_gof_mo_modify_end(config_02):
     # overwrite the start date from the configuration file
-    config_02.evp['end_date'] = '1990-01-09'
-    temp = utils.compute_gof(config_02)
+    temp_config = copy.deepcopy(config_02)
+    temp_config.evp['end_date'] = '1990-01-09'
+    temp = utils.compute_gof(temp_config)
     assert (pytest.approx(temp[0], 0.001) == [0.7052])
     assert (pytest.approx(temp[1], 0.001) == [1.246])
 
